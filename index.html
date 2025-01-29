@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>yuukii - 17 y/o, INTP-A</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ADD THIS NEW CSS */
+        #backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    background: #0a0a0a;
+    pointer-events: none;
+}
+
+        body {
+            background: transparent !important; /* Remove body background */
+        }
+
+        .content-section {
+            background: transparent; /* Ensure sections are transparent */
+        }
+    </style>
+    <style>
+        /* Social Icons in Header */
+        .header-socials {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 3;
+        }
+    
+        .header-socials ul {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+    
+        .header-socials a {
+            color: #ffffff;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+    
+        .header-socials a:hover {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+    
+        /* Adjust main content position */
+        .content-section:first-child {
+            padding-top: 60px;
+        }
+    </style>
+    <style>
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+            max-width: 800px;
+        }
+    
+        .badge-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .badge-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+    
+        .badge-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
+            animation: float 3s ease-in-out infinite;
+        }
+    
+        .badge-text {
+            font-size: 1.2rem;
+            line-height: 1.4;
+        }
+    
+        .badge-text span {
+            display: block;
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 0.8rem;
+        }
+    
+        @media (max-width: 768px) {
+            .badge-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .badge-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+    <style>
+        /* Social Icons Styles */
+        .social-icons {
+            margin-top: 2rem;
+        }
+
+        .social-icons ul {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            justify-content: center;
+        }
+
+        .social-icons a {
+            color: #ffffff;
+            font-size: 2rem;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .social-icons a:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+
+        /* Keep existing styles below */
+        /* ... (previous styles remain unchanged) ... */
+    </style>
+    <style>
+        .about-content {
+            position: relative;
+            perspective: 1000px;
+        }
+    
+        .badge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+    
+        .badge-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+            cursor: default;
+        }
+    
+        .badge-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+    
+        .badge-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: linear-gradient(45deg, #00ff88, #61dafb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
+        }
+    
+        .badge-text {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            position: relative;
+        }
+    
+        .badge-text span {
+            display: block;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+    
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+    
+        .floating-emoji {
+            animation: float 3s ease-in-out infinite;
+            display: inline-block;
+        }
+    </style>
+    <style>
+          /* Add smooth scroll behavior */
+          html {
+            scroll-behavior: smooth;
+        }
+
+        /* Add down arrow styles */
+        .down-arrow {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            animation: bounce 2s infinite;
+        }
+
+        .down-arrow::after {
+            content: '';
+            display: block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid white;
+            border-left: none;
+            border-top: none;
+            transform: rotate(45deg);
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .down-arrow:hover::after {
+            opacity: 1;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0) translateX(-50%); }
+            50% { transform: translateY(-10px) translateX(-50%); }
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+       
+
+        .content-section {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .name {
+            font-size: 3.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            text-shadow: 0 0 15px rgba(0,0,0,0.7);
+        }
+
+        .title {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
+            opacity: 0.8;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        .about-content {
+            max-width: 600px;
+            line-height: 1.6;
+            font-size: 1.1rem;
+            text-shadow: 0 0 8px rgba(0,0,0,0.4);
+        }
+
+        .about-content p {
+        text-align: justify;
+    }
+
+
+        .about-content h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .name {
+                font-size: 2.5rem;
+            }
+            .about-content {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+    <!-- Add social icons here -->
+    <div class="header-socials">
+        <ul>
+            <li>
+                <a href="mailto:adwaithkrishnakallingal@gmail.com" target="_blank" aria-label="Email">
+                    <i class="fas fa-envelope"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.instagram.com/cozyyuukii/" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://sptfy.com/yuuk3i" target="_blank" aria-label="Spotify">
+                    <i class="fab fa-spotify"></i>
+                </a>
+            </li>
+            <li>
+                <a href="https://discord.com/users/935827821329256459/" target="_blank" aria-label="Discord">
+                    <i class="fab fa-discord"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <section class="content-section">
+        <h1 class="name">yuukii</h1>
+        <h2 class="title">17 y/o, INTP-A</h2>
+        <a href="#about" class="down-arrow"></a>
+    </section>
+
+    
+
+    <section class="content-section" id="about">
+        <div class="about-content">
+            <h2>About Me</h2>
+            <div class="badge-grid">
+                <div class="badge-card">
+                    <div class="badge-icon floating-emoji">🎵</div>
+                    <div class="badge-text">
+                        Rhythm Architect
+                        <span>RSL Certified Beat Smith</span>
+                    </div>
+                </div>
+        
+                <div class="badge-card">
+                    <div class="badge-icon floating-emoji">💻</div>
+                    <div class="badge-text">
+                        Code Alchemist
+                        <span>Full-Stack Reality Shaper</span>
+                    </div>
+                </div>
+        
+                <div class="badge-card">
+                    <div class="badge-icon floating-emoji">🎨</div>
+                    <div class="badge-text">
+                        Visual Storyteller
+                        <span>Digital Experience Sculptor</span>
+                    </div>
+                </div>
+        
+                <div class="badge-card">
+                    <div class="badge-icon floating-emoji">🌍</div>
+                    <div class="badge-text">
+                        Community Forge
+                        <span>70k+ Digital Nation Builder</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        </div>
+    </section>
+        
+    </section>
+    
+
+    <script>
+        // Add smooth scroll behavior for the arrow
+        document.querySelector('.down-arrow').addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.getElementById('about');
+            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+            const startPosition = window.pageYOffset;
+            const distance = targetPosition - startPosition;
+            const duration = 800; // Adjust duration as needed
+            let startTime = null;
+    
+            function animation(currentTime) {
+                if (startTime === null) startTime = currentTime;
+                const timeElapsed = currentTime - startTime;
+                const run = ease(timeElapsed, startPosition, distance, duration);
+                window.scrollTo(0, run);
+                if (timeElapsed < duration) requestAnimationFrame(animation);
+            }
+    
+            // Easing function for smooth animation
+            function ease(t, b, c, d) {
+                t /= d/2;
+                if (t < 1) return c/2*t*t*t + b;
+                t -= 2;
+                return c/2*(t*t*t + 2) + b;
+            }
+    
+            requestAnimationFrame(animation);
+        });
+    
+        // ... (keep existing physics simulation code)
+    </script>
+    
+
+    <script>
+        // Bubble Animation Script (FIXED VERSION)
+        const canvas = document.getElementById('backgroundCanvas');
+        const ctx = canvas.getContext('2d');
+    
+        // Canvas Setup
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+    
+        // Bubble Class
+        class Bubble {
+            constructor() {
+                this.reset();
+                this.radius = 20 + Math.random() * 30; // Larger bubbles
+                this.baseHue = 180 + Math.random() * 20; // Cyan-blue color range
+                this.opacity = 0.4 + Math.random() * 0.4; // Adjusted opacity
+            }
+    
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + this.radius * 2;
+                this.vy = - (2 + Math.random() * 3); // Faster movement
+                this.vx = (Math.random() - 0.5) * 1.5;
+            }
+    
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.y < -this.radius * 2) this.reset();
+            }
+    
+            draw() {
+                // Glow Effect
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
+                const gradient = ctx.createRadialGradient(
+                    this.x, this.y, 0,
+                    this.x, this.y, this.radius * 2
+                );
+                gradient.addColorStop(0, `hsla(${this.baseHue}, 70%, 60%, ${this.opacity * 0.4})`);
+                gradient.addColorStop(1, `hsla(${this.baseHue}, 70%, 60%, 0)`);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+    
+                // Main Bubble
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.baseHue}, 70%, 60%, ${this.opacity})`;
+                ctx.fill();
+    
+                // Highlight
+                ctx.beginPath();
+                ctx.arc(
+                    this.x - this.radius/3,
+                    this.y - this.radius/3,
+                    this.radius/2.5,
+                    0,
+                    Math.PI * 2
+                );
+                ctx.fillStyle = `hsla(0, 0%, 100%, ${this.opacity * 0.7})`;
+                ctx.fill();
+            }
+        }
+    
+        // Create Bubbles
+        const bubbles = Array.from({ length: 60 }, () => new Bubble());
+    
+        // Animation Loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            bubbles.forEach(bubble => {
+                bubble.update();
+                bubble.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+    
+        // Start Animation
+        animate();
+    </script>
+</body>
+</html>
+</body>
+</html>
