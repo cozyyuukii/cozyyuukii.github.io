@@ -3,520 +3,343 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>yuukii - 17 y/o, INTP-A</title>
+    <title>Yuukii's Retro Terminal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
-        /* ADD THIS NEW CSS */
-        #backgroundCanvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 0;
-    background: #0a0a0a;
-    pointer-events: none;
-}
-
-        body {
-            background: transparent !important; /* Remove body background */
-        }
-
-        .content-section {
-            background: transparent; /* Ensure sections are transparent */
-        }
-    </style>
-    <style>
-        /* Social Icons in Header */
-        .header-socials {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            z-index: 3;
-        }
-    
-        .header-socials ul {
-            display: flex;
-            gap: 1.5rem;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-    
-        .header-socials a {
-            color: #ffffff;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
-            opacity: 0.8;
-        }
-    
-        .header-socials a:hover {
-            opacity: 1;
-            transform: scale(1.2);
-        }
-    
-        /* Adjust main content position */
-        .content-section:first-child {
-            padding-top: 60px;
-        }
-    </style>
-    <style>
-        .badge-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-top: 2rem;
-            max-width: 800px;
-        }
-    
-        .badge-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-align: center;
-            aspect-ratio: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-    
-        .badge-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-    
-        .badge-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
-            animation: float 3s ease-in-out infinite;
-        }
-    
-        .badge-text {
-            font-size: 1.2rem;
-            line-height: 1.4;
-        }
-    
-        .badge-text span {
-            display: block;
-            font-size: 1rem;
-            opacity: 0.8;
-            margin-top: 0.8rem;
-        }
-    
-        @media (max-width: 768px) {
-            .badge-grid {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-            }
-            
-            .badge-card {
-                padding: 1.5rem;
-            }
-        }
-    </style>
-    <style>
-        /* Social Icons Styles */
-        .social-icons {
-            margin-top: 2rem;
-        }
-
-        .social-icons ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-            padding: 0;
-            margin: 0;
-            justify-content: center;
-        }
-
-        .social-icons a {
-            color: #ffffff;
-            font-size: 2rem;
-            transition: all 0.3s ease;
-            opacity: 0.8;
-        }
-
-        .social-icons a:hover {
-            opacity: 1;
-            transform: translateY(-3px);
-        }
-
-        /* Keep existing styles below */
-        /* ... (previous styles remain unchanged) ... */
-    </style>
-    <style>
-        .about-content {
-            position: relative;
-            perspective: 1000px;
-        }
-    
-        .badge-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-    
-        .badge-card {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 15px;
-            padding: 1.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            transform-style: preserve-3d;
-            cursor: default;
-        }
-    
-        .badge-card:hover {
-            background: rgba(255, 255, 255, 0.08);
-            transform: translateY(-5px) rotateX(5deg) rotateY(5deg);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-        }
-    
-        .badge-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-            display: inline-block;
-            background: linear-gradient(45deg, #00ff88, #61dafb);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.3));
-        }
-    
-        .badge-text {
-            font-size: 1.1rem;
-            line-height: 1.4;
-            position: relative;
-        }
-    
-        .badge-text span {
-            display: block;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 0.5rem;
-        }
-    
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-    
-        .floating-emoji {
-            animation: float 3s ease-in-out infinite;
-            display: inline-block;
-        }
-    </style>
-    <style>
-          /* Add smooth scroll behavior */
-          html {
-            scroll-behavior: smooth;
-        }
-
-        /* Add down arrow styles */
-        .down-arrow {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            cursor: pointer;
-            animation: bounce 2s infinite;
-        }
-
-        .down-arrow::after {
-            content: '';
-            display: block;
-            width: 20px;
-            height: 20px;
-            border: 2px solid white;
-            border-left: none;
-            border-top: none;
-            transform: rotate(45deg);
-            opacity: 0.8;
-            transition: opacity 0.3s;
-        }
-
-        .down-arrow:hover::after {
-            opacity: 1;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0) translateX(-50%); }
-            50% { transform: translateY(-10px) translateX(-50%); }
+        :root {
+            --crt-green: #00ff00;
+            --retro-pink: #ff69b4;
+            --amber: #ffb000;
+            --scanline: rgba(0, 0, 0, 0.3);
+            --terminal-bg: #1a1a1a;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'VT323', monospace;
         }
 
         body {
-            background-color: #0a0a0a;
-            color: #ffffff;
-            overflow-x: hidden;
+            background: #0d0d0d;
+            color: var(--crt-green);
+            min-height: 100vh;
+            overflow-x: auto;
         }
 
-       
+        .crt::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                var(--scanline) 0px,
+                var(--scanline) 2px,
+                transparent 2px,
+                transparent 4px
+            );
+            pointer-events: none;
+            z-index: 999;
+        }
 
-        .content-section {
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
+        .crt::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                rgba(0, 255, 0, 0.05),
+                rgba(0, 0, 0, 0) 3px,
+                rgba(0, 0, 0, 0.1) 6px,
+                rgba(0, 0, 0, 0) 9px
+            );
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        /* Header Styling */
+        .terminal-header {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 1000;
+            background: var(--terminal-bg);
+            border: 3px solid var(--crt-green);
+            padding: 0.5rem 1rem;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
+        }
+
+        .terminal-header ul {
+            display: flex;
+            gap: 1rem;
+            list-style: none;
+        }
+
+        .terminal-header a {
+            color: var(--crt-green);
+            font-size: 1.5rem;
+            text-decoration: none;
+            position: relative;
+        }
+
+        .terminal-header a:hover {
+            color: var(--retro-pink);
+            text-shadow: 0 0 10px var(--retro-pink);
+        }
+
+        /* Main Content */
+        .main-frame {
+            max-width: 1200px;
+            margin: 4rem auto;
             padding: 2rem;
+            border: 3px solid var(--crt-green);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
+            background: var(--terminal-bg);
+        }
+
+        .title-card {
             text-align: center;
-        }
-
-        .name {
-            font-size: 3.5rem;
-            letter-spacing: 4px;
-            margin-bottom: 1rem;
-            font-weight: 300;
-            text-shadow: 0 0 15px rgba(0,0,0,0.7);
-        }
-
-        .title {
-            font-size: 1.2rem;
-            letter-spacing: 2px;
-            opacity: 0.8;
             margin-bottom: 3rem;
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            position: relative;
         }
 
-        .about-content {
-            max-width: 600px;
-            line-height: 1.6;
-            font-size: 1.1rem;
-            text-shadow: 0 0 8px rgba(0,0,0,0.4);
+        .username {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 4rem;
+            color: var(--retro-pink);
+            text-shadow: 3px 3px 0 var(--crt-green);
+            margin-bottom: 1rem;
+            animation: glitch 2s infinite;
         }
 
-        .about-content p {
-        text-align: justify;
-    }
-
-
-        .about-content h2 {
-            font-size: 1.8rem;
-            margin-bottom: 1.5rem;
-            letter-spacing: 2px;
+        .tagline {
+            font-size: 2rem;
+            color: var(--amber);
+            border-bottom: 2px solid var(--crt-green);
+            padding-bottom: 1rem;
         }
 
+        .info-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--terminal-bg);
+            border: 2px dashed var(--crt-green);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            color: var(--amber);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+        }
+
+        .pixel-list {
+            list-style: none;
+            padding-left: 1rem;
+        }
+
+        .pixel-list li {
+            margin: 1rem 0;
+            padding-left: 2rem;
+            position: relative;
+            font-size: 1.2rem;
+        }
+
+        .pixel-list li::before {
+            content: ">";
+            position: absolute;
+            left: 0;
+            color: var(--retro-pink);
+        }
+
+        /* Skill Grid */
+        .skill-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background: var(--terminal-bg);
+            padding: 1rem;
+            border: 2px solid var(--crt-green);
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translate(-3px, -3px);
+            box-shadow: 5px 5px 0 var(--retro-pink);
+        }
+
+        .skill-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--amber);
+        }
+
+        /* Retro Animations */
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Mobile Adjustments */
         @media (max-width: 768px) {
-            .name {
-                font-size: 2.5rem;
+            .username {
+                font-size: 3rem;
             }
-            .about-content {
-                padding: 0 1rem;
+
+            .tagline {
+                font-size: 1.5rem;
+            }
+
+            .main-frame {
+                margin: 2rem 1rem;
+            }
+
+            .terminal-header {
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.3rem 0.7rem;
+            }
+
+            .terminal-header ul {
+                gap: 0.5rem;
+            }
+
+            .terminal-header a {
+                font-size: 1.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .username {
+                font-size: 2rem;
+            }
+
+            .tagline {
+                font-size: 1.2rem;
+            }
+
+            .terminal-header {
+                top: 0.5rem;
+                right: 0.5rem;
+                padding: 0.3rem 0.5rem;
+            }
+
+            .terminal-header ul {
+                gap: 0.2rem;
+            }
+
+            .terminal-header a {
+                font-size: 1rem;
+            }
+
+            .skill-card {
+                padding: 0.8rem;
+            }
+
+            .skill-icon {
+                font-size: 1.5rem;
             }
         }
     </style>
 </head>
-<body>
-    <canvas id="backgroundCanvas"></canvas>
-    <!-- Add social icons here -->
-    <div class="header-socials">
+<body class="crt">
+    <nav class="terminal-header">
         <ul>
-            <li>
-                <a href="mailto:adwaithkrishnakallingal@gmail.com" target="_blank" aria-label="Email">
-                    <i class="fas fa-envelope"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://www.instagram.com/cozyyuukii/" target="_blank" aria-label="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://sptfy.com/yuuk3i" target="_blank" aria-label="Spotify">
-                    <i class="fab fa-spotify"></i>
-                </a>
-            </li>
-            <li>
-                <a href="https://discord.com/users/935827821329256459/" target="_blank" aria-label="Discord">
-                    <i class="fab fa-discord"></i>
-                </a>
-            </li>
+            <li><a href="#about"><i class="fas fa-user"></i></a></li>
+            <li><a href="#skills"><i class="fas fa-code"></i></a></li>
+            <li><a href="#music"><i class="fas fa-music"></i></a></li>
+            <li><a href="#contact"><i class="fas fa-terminal"></i></a></li>
         </ul>
-    </div>
+    </nav>
 
-    <section class="content-section">
-        <h1 class="name">yuukii</h1>
-        <h2 class="title">17 y/o, INTP-A</h2>
-        <a href="#about" class="down-arrow"></a>
-    </section>
+    <main class="main-frame">
+        <section class="title-card">
+            <h1 class="username">YUU<span style="color: var(--crt-green)">KII</span></h1>
+            <div class="tagline">Interdimensional Learner •  Drummer from C-137 • Web Designer </div>
+        </section>
 
-    
+        <section class="info-section" id="about">
+            <h2 class="section-title">[ ABOUT_ME.TXT ]</h2>
+            <ul class="pixel-list">
+                <li>👾 Full-time student & part-time rhythm machine (Pickle Rick, but with drums)</li>
+                <li>☕ Powered by coffee and synthwave (Probably a multiverse thing)</li>
+                <li>🎮 Level 99 anime/gaming enthusiast (You gotta get schwifty to level up)</li>
+                <li>💤 Certified sleep optimizer (Catching Z's across dimensions)</li>
+            </ul>
+        </section>
 
-    <section class="content-section" id="about">
-        <div class="about-content">
-            <h2>About Me</h2>
-            <div class="badge-grid">
-                <div class="badge-card">
-                    <div class="badge-icon floating-emoji">🎵</div>
-                    <div class="badge-text">
-                        Rhythm Architect
-                        <span>RSL Certified Beat Smith</span>
-                    </div>
+        <section class="info-section" id="skills">
+            <h2 class="section-title">[ SKILLS.EXE ]</h2>
+            <div class="skill-grid">
+                <div class="skill-card">
+                    <div class="skill-icon">💻</div>
+                    <h3>Reality-Bending Specialist</h3>
+                    <p>Python | JavaScript | Wix | Canva | DaVinci Resolve</p>
                 </div>
-        
-                <div class="badge-card">
-                    <div class="badge-icon floating-emoji">💻</div>
-                    <div class="badge-text">
-                        Code Alchemist
-                        <span>Full-Stack Reality Shaper</span>
-                    </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🥁</div>
+                    <h3>Beat Maestro</h3>
+                    <p>RSL Grade 5 Drummer </p>
                 </div>
-        
-                <div class="badge-card">
-                    <div class="badge-icon floating-emoji">🎨</div>
-                    <div class="badge-text">
-                        Visual Storyteller
-                        <span>Digital Experience Sculptor</span>
-                    </div>
-                </div>
-        
-                <div class="badge-card">
-                    <div class="badge-icon floating-emoji">🌍</div>
-                    <div class="badge-text">
-                        Community Forge
-                        <span>70k+ Digital Nation Builder</span>
-                    </div>
+                <div class="skill-card">
+                    <div class="skill-icon">🌐</div>
+                    <h3>Interdimensional Community Mastermind</h3>
+                    <p>70k+ Community Members Managed</p>
                 </div>
             </div>
-        </div>
-            
-        </div>
-    </section>
-        
-    </section>
-    
+        </section>
 
-    <script>
-        // Add smooth scroll behavior for the arrow
-        document.querySelector('.down-arrow').addEventListener('click', function(e) {
-            e.preventDefault();
-            const target = document.getElementById('about');
-            const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-            const startPosition = window.pageYOffset;
-            const distance = targetPosition - startPosition;
-            const duration = 800; // Adjust duration as needed
-            let startTime = null;
-    
-            function animation(currentTime) {
-                if (startTime === null) startTime = currentTime;
-                const timeElapsed = currentTime - startTime;
-                const run = ease(timeElapsed, startPosition, distance, duration);
-                window.scrollTo(0, run);
-                if (timeElapsed < duration) requestAnimationFrame(animation);
-            }
-    
-            // Easing function for smooth animation
-            function ease(t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
-                t -= 2;
-                return c/2*(t*t*t + 2) + b;
-            }
-    
-            requestAnimationFrame(animation);
-        });
-    
-        // ... (keep existing physics simulation code)
-    </script>
-    
+        <section class="info-section" id="music">
+            <h2 class="section-title">[ SOUNDTRACK.WAV ]</h2>
+            <div class="skill-grid">
+                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="skill-card" target="_blank" rel="noopener noreferrer">
+                    <div class="skill-icon">🎧</div>
+                    <h3>Current Jam</h3>
+                    <p>Synthwave Remixes</p>
+                </a>
+                <a href="https://music.apple.com/in/playlist/cyan-generative/pl.u-76oNkmetqve8R7R" class="skill-card" target="_blank" rel="noopener noreferrer">
+                    <div class="skill-icon">📼</div>
+                    <h3>Mixtape</h3>
+                    <p>Apple Music Playlist</p>
+                </a>
+            </div>
+        </section>
 
-    <script>
-        // Bubble Animation Script (FIXED VERSION)
-        const canvas = document.getElementById('backgroundCanvas');
-        const ctx = canvas.getContext('2d');
-    
-        // Canvas Setup
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-        window.addEventListener('resize', resizeCanvas);
-    
-        // Bubble Class
-        class Bubble {
-            constructor() {
-                this.reset();
-                this.radius = 20 + Math.random() * 30; // Larger bubbles
-                this.baseHue = 180 + Math.random() * 20; // Cyan-blue color range
-                this.opacity = 0.4 + Math.random() * 0.4; // Adjusted opacity
-            }
-    
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = canvas.height + this.radius * 2;
-                this.vy = - (2 + Math.random() * 3); // Faster movement
-                this.vx = (Math.random() - 0.5) * 1.5;
-            }
-    
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                if (this.y < -this.radius * 2) this.reset();
-            }
-    
-            draw() {
-                // Glow Effect
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius * 2, 0, Math.PI * 2);
-                const gradient = ctx.createRadialGradient(
-                    this.x, this.y, 0,
-                    this.x, this.y, this.radius * 2
-                );
-                gradient.addColorStop(0, `hsla(${this.baseHue}, 70%, 60%, ${this.opacity * 0.4})`);
-                gradient.addColorStop(1, `hsla(${this.baseHue}, 70%, 60%, 0)`);
-                ctx.fillStyle = gradient;
-                ctx.fill();
-    
-                // Main Bubble
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = `hsla(${this.baseHue}, 70%, 60%, ${this.opacity})`;
-                ctx.fill();
-    
-                // Highlight
-                ctx.beginPath();
-                ctx.arc(
-                    this.x - this.radius/3,
-                    this.y - this.radius/3,
-                    this.radius/2.5,
-                    0,
-                    Math.PI * 2
-                );
-                ctx.fillStyle = `hsla(0, 0%, 100%, ${this.opacity * 0.7})`;
-                ctx.fill();
-            }
-        }
-    
-        // Create Bubbles
-        const bubbles = Array.from({ length: 60 }, () => new Bubble());
-    
-        // Animation Loop
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            bubbles.forEach(bubble => {
-                bubble.update();
-                bubble.draw();
-            });
-            requestAnimationFrame(animate);
-        }
-    
-        // Start Animation
-        animate();
-    </script>
-</body>
-</html>
+        <section class="info-section" id="contact">
+            <h2 class="section-title">[ CONNECT.COM ]</h2>
+            <div class="skill-grid">
+                <a href="https://discord.com/users/935827821329256459/" class="skill-card" target="_blank" rel="noopener noreferrer">
+                    <div class="skill-icon"><i class="fab fa-discord"></i></div>
+                    <h3>Discord</h3>
+                </a>
+                <a href="mailto:adwaithkrishnakallingal@gmail.com" class="skill-card">
+                    <div class="skill-icon"><i class="fas fa-envelope"></i></div>
+                    <h3>Email</h3>
+                </a>
+                <a href="https://www.instagram.com/cozyyuukii/" class="skill-card" target="_blank" rel="noopener noreferrer">
+                    <div class="skill-icon"><i class="fab fa-instagram"></i></div>
+                    <h3>Insta</h3>
+                </a>
+            </div>
+        </section>
+    </main>
 </body>
 </html>
