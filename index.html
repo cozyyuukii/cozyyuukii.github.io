@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
     <title>Yuukii's Retro Terminal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
@@ -27,55 +27,26 @@
             color: var(--crt-green);
             min-height: 100vh;
             overflow-x: auto;
+            
         }
 
-        .crt::after {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                var(--scanline) 0px,
-                var(--scanline) 2px,
-                transparent 2px,
-                transparent 4px
-            );
-            pointer-events: none;
-            z-index: 999;
-        }
+        /* CRT Effects */
+     
 
-        .crt::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                rgba(0, 255, 0, 0.05),
-                rgba(0, 0, 0, 0) 3px,
-                rgba(0, 0, 0, 0.1) 6px,
-                rgba(0, 0, 0, 0) 9px
-            );
-            pointer-events: none;
-            z-index: 999;
-        }
+        
 
-        /* Header Styling */
+        /* Terminal Header */
         .terminal-header {
             position: fixed;
-            top: 1rem;
+            bottom: 1rem;
             right: 1rem;
             z-index: 1000;
             background: var(--terminal-bg);
             border: 3px solid var(--crt-green);
             padding: 0.5rem 1rem;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            border-radius: 5px;
+            backdrop-filter: blur(3px);
         }
 
         .terminal-header ul {
@@ -89,27 +60,45 @@
             font-size: 1.5rem;
             text-decoration: none;
             position: relative;
+            transition: all 0.3s;
         }
 
         .terminal-header a:hover {
             color: var(--retro-pink);
-            text-shadow: 0 0 10px var(--retro-pink);
+            transform: translateY(-3px);
+            filter: drop-shadow(0 0 5px var(--retro-pink));
         }
 
         /* Main Content */
         .main-frame {
             max-width: 1200px;
-            margin: 4rem auto;
+            margin: 2rem auto;
             padding: 2rem;
             border: 3px solid var(--crt-green);
             box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
             background: var(--terminal-bg);
+            position: relative;
         }
 
+        .pixel-border::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--crt-green);
+            bottom: -8px;
+            right: -8px;
+            z-index: -1;
+            background: repeating-conic-gradient(#000 0% 25%, var(--crt-green) 0% 50%) 
+                        0 0/4px 4px;
+        }
+
+        /* Title Section */
         .title-card {
             text-align: center;
             margin-bottom: 3rem;
             position: relative;
+            padding: 2rem;
         }
 
         .username {
@@ -124,15 +113,23 @@
         .tagline {
             font-size: 2rem;
             color: var(--amber);
-            border-bottom: 2px solid var(--crt-green);
+            border-right: 3px solid var(--crt-green);
             padding-bottom: 1rem;
+            overflow: hidden;
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: 
+                typing 3.5s steps(40, end),
+                blink-caret 0.75s step-end infinite;
         }
 
+        /* Content Sections */
         .info-section {
             margin: 2rem 0;
             padding: 1.5rem;
             background: var(--terminal-bg);
             border: 2px dashed var(--crt-green);
+            position: relative;
         }
 
         .section-title {
@@ -140,6 +137,7 @@
             color: var(--amber);
             margin-bottom: 1rem;
             text-transform: uppercase;
+            text-shadow: 2px 2px var(--retro-pink);
         }
 
         .pixel-list {
@@ -175,11 +173,28 @@
             border: 2px solid var(--crt-green);
             position: relative;
             transition: all 0.3s;
+            overflow: hidden;
         }
 
         .skill-card:hover {
             transform: translate(-3px, -3px);
             box-shadow: 5px 5px 0 var(--retro-pink);
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(0,255,0,0.1) 50%,
+                transparent 55%
+            );
+            animation: glimmer 3s infinite;
         }
 
         .skill-icon {
@@ -188,7 +203,7 @@
             color: var(--amber);
         }
 
-        /* Retro Animations */
+        /* Animations */
         @keyframes glitch {
             0% { transform: translate(0); }
             20% { transform: translate(-2px, 2px); }
@@ -198,32 +213,76 @@
             100% { transform: translate(0); }
         }
 
-        /* Mobile Adjustments */
+        @keyframes glimmer {
+            0% { transform: rotate(45deg) translate(-30%); }
+            100% { transform: rotate(45deg) translate(30%); }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--crt-green) }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
+        }
+
+        @keyframes crtFlicker {
+            0% { opacity: 0.9; }
+            50% { opacity: 1; }
+            100% { opacity: 0.9; }
+        }
+
+        @keyframes vhsShift {
+            0% { transform: translate(0); }
+            20% { transform: translate(2px, 1px); }
+            40% { transform: translate(-1px, 3px); }
+            60% { transform: translate(3px, -2px); }
+            80% { transform: translate(-2px, 1px); }
+            100% { transform: translate(0); }
+        }
+
+        /* Mobile Optimization */
         @media (max-width: 768px) {
+            .main-frame {
+                margin: 1rem;
+                padding: 1rem;
+            }
+
             .username {
-                font-size: 3rem;
+                font-size: 2.5rem;
             }
 
             .tagline {
                 font-size: 1.5rem;
+                white-space: normal;
+                animation: none;
+                border-right: 0;
             }
 
-            .main-frame {
-                margin: 2rem 1rem;
+            .skill-grid {
+                grid-template-columns: 1fr;
             }
 
             .terminal-header {
-                top: 0.5rem;
+                bottom: 0.5rem;
                 right: 0.5rem;
-                padding: 0.3rem 0.7rem;
-            }
-
-            .terminal-header ul {
-                gap: 0.5rem;
+                padding: 0.3rem;
             }
 
             .terminal-header a {
-                font-size: 1.2rem;
+                font-size: 1.8rem;
+                padding: 0.5rem;
+            }
+
+            .pixel-list li {
+                font-size: 1rem;
             }
         }
 
@@ -236,26 +295,26 @@
                 font-size: 1.2rem;
             }
 
-            .terminal-header {
-                top: 0.5rem;
-                right: 0.5rem;
-                padding: 0.3rem 0.5rem;
-            }
-
-            .terminal-header ul {
-                gap: 0.2rem;
-            }
-
-            .terminal-header a {
-                font-size: 1rem;
-            }
-
-            .skill-card {
-                padding: 0.8rem;
-            }
-
-            .skill-icon {
+            .section-title {
                 font-size: 1.5rem;
+            }
+        }
+
+        /* Touch Optimization */
+        @media (pointer: coarse) {
+            .skill-card {
+                min-height: 120px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            a {
+                min-width: 44px;
+                min-height: 44px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
             }
         }
     </style>
@@ -263,17 +322,17 @@
 <body class="crt">
     <nav class="terminal-header">
         <ul>
-            <li><a href="#about"><i class="fas fa-user"></i></a></li>
-            <li><a href="#skills"><i class="fas fa-code"></i></a></li>
-            <li><a href="#music"><i class="fas fa-music"></i></a></li>
-            <li><a href="#contact"><i class="fas fa-terminal"></i></a></li>
+            <li><a href="#about" aria-label="About"><i class="fas fa-user"></i></a></li>
+            <li><a href="#skills" aria-label="Skills"><i class="fas fa-code"></i></a></li>
+            <li><a href="#music" aria-label="Music"><i class="fas fa-music"></i></a></li>
+            <li><a href="#contact" aria-label="Contact"><i class="fas fa-terminal"></i></a></li>
         </ul>
     </nav>
 
-    <main class="main-frame">
+    <main class="main-frame pixel-border">
         <section class="title-card">
             <h1 class="username">YUU<span style="color: var(--crt-green)">KII</span></h1>
-            <div class="tagline">Interdimensional Learner •  Drummer from C-137 • Web Designer </div>
+            <div class="tagline">Interdimensional Learner • Drummer from C-137 • Web Designer</div>
         </section>
 
         <section class="info-section" id="about">
@@ -297,7 +356,7 @@
                 <div class="skill-card">
                     <div class="skill-icon">🥁</div>
                     <h3>Beat Maestro</h3>
-                    <p>RSL Grade 5 Drummer </p>
+                    <p>RSL Grade 5 Drummer</p>
                 </div>
                 <div class="skill-card">
                     <div class="skill-icon">🌐</div>
