@@ -1,414 +1,971 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="citadel-v4">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
-    <title>Yuukii's Retro Terminal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>YUUKII | Omniverse Architect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Quantum Design System */
         :root {
-            --crt-green: #00ff00;
-            --retro-pink: #ff69b4;
-            --amber: #ffb000;
-            --scanline: rgba(0, 0, 0, 0.3);
-            --terminal-bg: #1a1a1a;
+            --quantum-teal: #00F7D6;
+            --plasma-pink: #FF2D9E;
+            --void-purple: #6B1FFF;
+            --neutron-blue: #00C8FF;
+            --dark-energy: #0A0F1A;
+            --singularity-gray: #1A1E2C;
+            --hyper-border: 2px solid rgba(0,247,214,0.4);
+            --quantum-radius: 1.5rem;
+            --font-multiverse: 'Rubik Mono One', monospace;
+            --font-stars: 'Space Grotesk', sans-serif;
+            --portal-glow: radial-gradient(circle at center, 
+                rgba(0,247,214,0.4) 0%,
+                rgba(0,200,255,0.2) 50%,
+                transparent 100%
+            );
+            --section-spacing: clamp(4rem, 8vw, 8rem);
         }
 
+        @font-face {
+            font-family: 'Citadel Glyphs';
+            src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/3089507/get-schwifty.woff') format('woff');
+        }
+        
+        /* Overflow Prevention */
+        html {
+            overflow-x: hidden;
+        }
+
+        /* Quantum Reset */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'VT323', monospace;
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="8" fill="%2300F7D6" opacity="0.8"/><path d="M16 2a14 14 0 1 0 0 28 14 14 0 0 0 0-28zm0 24a10 10 0 1 1 0-20 10 10 0 0 1 0 20z" fill="%2300C8FF"/></svg>') 16 16, auto;
         }
 
         body {
-            background: #0d0d0d;
-            color: var(--crt-green);
+            background: var(--dark-energy);
+            color: white;
+            font-family: var(--font-stars);
+            line-height: 1.7;
+            overflow-x: hidden;
             min-height: 100vh;
-            overflow-x: auto;
-            
+            position: relative;
         }
 
-        /* CRT Effects */
-     
-
-        
-
-        /* Terminal Header */
-        .terminal-header {
+        /* HyperLoader */
+        .quantum-loader {
             position: fixed;
-            bottom: 1rem;
-            right: 1rem;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-energy);
+            display: grid;
+            place-items: center;
+            z-index: 9999;
+            animation: quantum-dissolve 2.8s forwards;
+        }
+
+        .hyper-sphere {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(
+                var(--quantum-teal),
+                var(--neutron-blue),
+                var(--void-purple),
+                var(--plasma-pink)
+            );
+            animation: hyper-spin 2s linear infinite;
+            position: relative;
+            filter: blur(25px) brightness(1.4);
+            mask: radial-gradient(circle at center, black 45%, transparent 60%);
+        }
+
+        /* Neural Nav */
+        .multiverse-nav {
+            position: fixed;
+            top: -100px;
+            width: 100%;
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(180deg, 
+                rgba(10,15,26,0.98) 0%,
+                rgba(26,30,44,0.95) 100%
+            );
+            backdrop-filter: blur(20px);
             z-index: 1000;
-            background: var(--terminal-bg);
-            border: 3px solid var(--crt-green);
-            padding: 0.5rem 1rem;
-            display: flex;
-            border-radius: 5px;
-            backdrop-filter: blur(3px);
+            transition: top 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            border-bottom: var(--hyper-border);
         }
 
-        .terminal-header ul {
-            display: flex;
-            gap: 1rem;
-            list-style: none;
-        }
-
-        .terminal-header a {
-            color: var(--crt-green);
-            font-size: 1.5rem;
-            text-decoration: none;
+        .nav-logo {
+            font-family: 'Citadel Glyphs', cursive;
+            font-size: clamp(2rem, 5vw, 2.4rem);
+            color: var(--quantum-teal);
+            text-shadow: 0 0 30px var(--neutron-blue);
             position: relative;
-            transition: all 0.3s;
+            animation: logo-float 4s ease-in-out infinite;
         }
 
-        .terminal-header a:hover {
-            color: var(--retro-pink);
-            transform: translateY(-3px);
-            filter: drop-shadow(0 0 5px var(--retro-pink));
+        /* Reality Portal */
+        .quantum-hero {
+            height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(225deg, 
+                var(--dark-energy) 40%,
+                var(--void-purple) 160%
+            );
+            margin-bottom: var(--section-spacing);
         }
 
-        /* Main Content */
-        .main-frame {
-            max-width: 1200px;
-            margin: 2rem auto;
+        .hyper-portal {
+            position: absolute;
+            width: min(90vw, 700px);
+            height: min(90vw, 700px);
+            background: radial-gradient(
+                circle at center,
+                var(--quantum-teal) 0%,
+                var(--neutron-blue) 30%,
+                transparent 70%
+            );
+            animation: portal-pulse 8s ease-in-out infinite;
+            filter: blur(80px);
+            opacity: 0.4;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
             padding: 2rem;
-            border: 3px solid var(--crt-green);
-            box-shadow: 0 0 20px rgba(0, 255, 0, 0.2);
-            background: var(--terminal-bg);
-            position: relative;
+            animation: hero-entrance 1.5s ease-out;
         }
 
-        .pixel-border::before {
+        .hero-title {
+            font-family: 'Citadel Glyphs', cursive;
+            font-size: clamp(4rem, 15vw, 10rem);
+            color: var(--quantum-teal);
+            line-height: 0.85;
+            margin-bottom: 1rem;
+            text-shadow: 
+                0 0 50px var(--neutron-blue),
+                0 0 30px var(--void-purple);
+            position: relative;
+            padding: 1rem;
+        }
+
+        .hero-title::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, 
+                transparent 49%,
+                var(--plasma-pink) 50%,
+                transparent 51%
+            );
+            background-size: 0.5rem 0.5rem;
+            animation: matrix-scan 20s linear infinite;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--neutron-blue);
+            letter-spacing: 2px;
+            margin: 2rem 0;
+            animation: subtitle-float 6s ease-in-out infinite;
+        }
+
+        /* Reality Fragments */
+        .reality-section {
+            padding: var(--section-spacing) 5%;
+            position: relative;
+            scroll-margin-top: 100px;
+        }
+
+        .section-header {
+            font-family: var(--font-multiverse);
+            font-size: clamp(2rem, 5vw, 3rem);
+            color: var(--quantum-teal);
+            margin-bottom: 3rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .section-header::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 80%;
+            width: 4px;
+            background: linear-gradient(
+                to bottom,
+                var(--quantum-teal),
+                var(--neutron-blue)
+            );
+        }
+
+        .quantum-card {
+            background: linear-gradient(145deg,
+                rgba(26,30,44,0.95) 0%,
+                rgba(107,31,255,0.3) 100%
+            );
+            border: var(--hyper-border);
+            border-radius: var(--quantum-radius);
+            padding: 2.5rem;
+            margin: 2rem 0;
+            position: relative;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 1;
+            transform: translateY(30px);
+        }
+
+        .quantum-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: var(--quantum-radius);
+            background: linear-gradient(45deg, 
+                var(--quantum-teal),
+                var(--neutron-blue),
+                var(--void-purple)
+            );
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .quantum-card:hover {
+            transform: translateY(-10px) rotate(1deg) scale(1.02);
+        }
+
+        .quantum-card:hover::before {
+            opacity: 0.3;
+        }
+
+        /* Skill Matrix */
+        .skills-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 0;
+        }
+
+        .skill-node {
+            padding: 2rem;
+            border: var(--hyper-border);
+            border-radius: var(--quantum-radius);
+            background: rgba(26,30,44,0.9);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .skill-node i {
+            animation: icon-float 3s ease-in-out infinite;
+            font-size: 2.5rem;
+            color: var(--quantum-teal);
+        }
+
+        .skill-node h3 {
+            font-family: var(--font-multiverse);
+            font-size: 1.5rem;
+            line-height: 1.3;
+        }
+
+        .skill-node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(0,199,255,0.2);
+        }
+
+        /* Chrono Stream */
+        .chrono-flow {
+            position: relative;
+            padding: var(--section-spacing) 0;
+        }
+
+        .timeline-beam {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            height: 100%;
+            width: 4px;
+            background: linear-gradient(
+                to bottom,
+                var(--quantum-teal),
+                var(--neutron-blue),
+                var(--void-purple)
+            );
+            transform: translateX(-50%);
+            animation: beam-glow 2s infinite alternate;
+        }
+
+        .reality-marker {
+            width: 45%;
+            padding: 2rem;
+            margin: 4rem 0;
+            background: rgba(26,30,44,0.9);
+            border: var(--hyper-border);
+            border-radius: var(--quantum-radius);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .reality-marker:nth-child(even) {
+            margin-left: auto;
+        }
+
+        .timeline-date {
+            font-family: var(--font-multiverse);
+            color: var(--plasma-pink);
+            margin-top: 1rem;
+        }
+
+        /* Communication Relay */
+        .comm-portal {
+            max-width: 600px;
+            margin: var(--section-spacing) auto;
+            padding: 3rem;
+            background: rgba(26,30,44,0.95);
+            border-radius: var(--quantum-radius);
+            border: var(--hyper-border);
+            position: relative;
+            overflow: hidden;
+            animation: portal-glow 4s infinite alternate;
+        }
+
+        .portal-input {
+            width: 100%;
+            padding: 1.2rem;
+            margin: 1rem 0;
+            background: rgba(10,15,26,0.7);
+            border: 1px solid var(--neutron-blue);
+            color: white;
+            border-radius: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .portal-input:focus {
+            outline: none;
+            box-shadow: 0 0 25px var(--neutron-blue);
+            border-color: var(--quantum-teal);
+        }
+
+        /* Social Nexus */
+        .social-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 1.5rem;
+            max-width: 600px;
+            margin: 3rem auto;
+        }
+
+        .matrix-node {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            background: rgba(26,30,44,0.9);
+            border: 2px solid var(--quantum-teal);
+            display: grid;
+            place-items: center;
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .matrix-node::before {
             content: '';
             position: absolute;
             width: 100%;
             height: 100%;
-            border: 3px solid var(--crt-green);
-            bottom: -8px;
-            right: -8px;
-            z-index: -1;
-            background: repeating-conic-gradient(#000 0% 25%, var(--crt-green) 0% 50%) 
-                        0 0/4px 4px;
+            background: linear-gradient(45deg,
+                transparent 49%,
+                var(--neutron-blue) 50%,
+                transparent 51%
+            );
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        /* Title Section */
-        .title-card {
-            text-align: center;
-            margin-bottom: 3rem;
-            position: relative;
-            padding: 2rem;
+        .matrix-node:hover {
+            transform: rotate(45deg) scale(1.2);
+            background: var(--quantum-teal);
+            border-color: transparent;
         }
 
-        .username {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 4rem;
-            color: var(--retro-pink);
-            text-shadow: 3px 3px 0 var(--crt-green);
-            margin-bottom: 1rem;
-            animation: glitch 2s infinite;
+        .matrix-node:hover::before {
+            opacity: 0.2;
         }
 
-        .tagline {
-            font-size: 2rem;
-            color: var(--amber);
-            border-right: 3px solid var(--crt-green);
-            padding-bottom: 1rem;
-            overflow: hidden;
-            white-space: nowrap;
-            margin: 0 auto;
-            animation: 
-                typing 3.5s steps(40, end),
-                blink-caret 0.75s step-end infinite;
+        /* Animation Matrix */
+        @keyframes hyper-spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        /* Content Sections */
-        .info-section {
-            margin: 2rem 0;
-            padding: 1.5rem;
-            background: var(--terminal-bg);
-            border: 2px dashed var(--crt-green);
-            position: relative;
+        @keyframes quantum-dissolve {
+            0% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; visibility: hidden; }
         }
 
-        .section-title {
-            font-size: 2rem;
-            color: var(--amber);
-            margin-bottom: 1rem;
-            text-transform: uppercase;
-            text-shadow: 2px 2px var(--retro-pink);
+        @keyframes portal-pulse {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.1); opacity: 0.6; }
         }
 
-        .pixel-list {
-            list-style: none;
-            padding-left: 1rem;
+        @keyframes logo-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        .pixel-list li {
-            margin: 1rem 0;
-            padding-left: 2rem;
-            position: relative;
-            font-size: 1.2rem;
+        @keyframes hero-entrance {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        .pixel-list li::before {
-            content: ">";
-            position: absolute;
-            left: 0;
-            color: var(--retro-pink);
+        @keyframes subtitle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
         }
 
-        /* Skill Grid */
-        .skill-grid {
+        @keyframes beam-glow {
+            0% { opacity: 0.8; }
+            100% { opacity: 1; box-shadow: 0 0 40px var(--quantum-teal); }
+        }
+
+        @keyframes portal-glow {
+            0% { box-shadow: 0 0 30px rgba(0,199,255,0.2); }
+            100% { box-shadow: 0 0 60px rgba(0,199,255,0.4); }
+        }
+
+        @keyframes matrix-scan {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100%; }
+        }
+
+        @keyframes icon-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Quantum Enhancements */
+        .quantum-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--void-purple);
+            border-radius: 50%;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            place-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            animation: float 3s ease-in-out infinite;
+            border: 2px solid var(--quantum-teal);
+        }
+
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                var(--quantum-teal),
+                var(--neutron-blue)
+            );
+            z-index: 1001;
+            transition: width 0.3s ease-out;
+        }
+
+        /* Bio Fragment */
+        .bio-matrix { 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 1.5rem;
-            margin-top: 2rem;
+            margin: 3rem 0;
+            padding: 0 5%;
+            width: 100%;
         }
 
-        .skill-card {
-            background: var(--terminal-bg);
-            padding: 1rem;
-            border: 2px solid var(--crt-green);
+        .bio-line {
+            width: 100%;
+            min-height: 80px;
+            padding: 1.2rem;
+            background: linear-gradient(
+                95deg,
+                rgba(26,30,44,0.95) 0%,
+                rgba(107,31,255,0.2) 100%
+            );
+            border-left: 3px solid var(--quantum-teal);
             position: relative;
-            transition: all 0.3s;
-            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 0 10px rgba(0,247,214,0.15));
+            display: flex;
+            align-items: center;
         }
 
-        .skill-card:hover {
-            transform: translate(-3px, -3px);
-            box-shadow: 5px 5px 0 var(--retro-pink);
-        }
-
-        .skill-card::before {
+        .bio-line::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
+            top: 0;
+            left: -20%;
+            width: 140%;
+            height: 100%;
             background: linear-gradient(
-                45deg,
-                transparent 45%,
-                rgba(0,255,0,0.1) 50%,
-                transparent 55%
+                90deg,
+                transparent 0%,
+                rgba(0,247,214,0.15) 50%,
+                transparent 100%
             );
-            animation: glimmer 3s infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
         }
 
-        .skill-icon {
-            font-size: 2rem;
-            margin-bottom: 1rem;
-            color: var(--amber);
+        .bio-line::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--quantum-teal);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
         }
 
-        /* Animations */
-        @keyframes glitch {
-            0% { transform: translate(0); }
-            20% { transform: translate(-2px, 2px); }
-            40% { transform: translate(-2px, -2px); }
-            60% { transform: translate(2px, 2px); }
-            80% { transform: translate(2px, -2px); }
-            100% { transform: translate(0); }
+        .bio-line:hover {
+            transform: translateX(10px);
+            box-shadow: -15px 0 30px -5px rgba(0,247,214,0.3);
         }
 
-        @keyframes glimmer {
-            0% { transform: rotate(45deg) translate(-30%); }
-            100% { transform: rotate(45deg) translate(30%); }
+        .bio-line:hover::before {
+            opacity: 1;
+            animation: glitch-scan 1.2s infinite linear;
         }
 
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
+        .bio-line:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
         }
 
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--crt-green) }
+        .bio-line:nth-child(odd) {
+            background: linear-gradient(
+                95deg,
+                rgba(26,30,44,0.95) 0%,
+                rgba(255,45,158,0.2) 100%
+            );
+            border-left-color: var(--plasma-pink);
         }
 
-        @keyframes scanline {
-            0% { transform: translateY(-100%); }
-            100% { transform: translateY(100%); }
+        .bio-text {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 1rem;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 0 10px rgba(0,247,214,0.4);
+            width: 100%;
         }
 
-        @keyframes crtFlicker {
-            0% { opacity: 0.9; }
-            50% { opacity: 1; }
-            100% { opacity: 0.9; }
+        .bio-text i {
+            font-size: 1.5rem;
+            min-width: 30px;
+            text-align: center;
         }
 
-        @keyframes vhsShift {
-            0% { transform: translate(0); }
-            20% { transform: translate(2px, 1px); }
-            40% { transform: translate(-1px, 3px); }
-            60% { transform: translate(3px, -2px); }
-            80% { transform: translate(-2px, 1px); }
-            100% { transform: translate(0); }
-        }
-
-        /* Mobile Optimization */
+        /* Mobile Singularity */
         @media (max-width: 768px) {
-            .main-frame {
-                margin: 1rem;
-                padding: 1rem;
+            body {
+                width: 100vw;
+                overflow-x: hidden;
             }
 
-            .username {
-                font-size: 2.5rem;
-            }
-
-            .tagline {
-                font-size: 1.5rem;
+            .hero-title {
+                font-size: 4.5rem;
+                word-break: keep-all;
                 white-space: normal;
-                animation: none;
-                border-right: 0;
+                padding: 0 1rem;
             }
 
-            .skill-grid {
+            .skills-matrix {
                 grid-template-columns: 1fr;
             }
 
-            .terminal-header {
-                bottom: 0.5rem;
-                right: 0.5rem;
-                padding: 0.3rem;
+            .reality-marker {
+                width: 90%;
+                margin: 3rem auto;
             }
 
-            .terminal-header a {
-                font-size: 1.8rem;
-                padding: 0.5rem;
+            .matrix-node {
+                width: 60px;
+                height: 60px;
             }
 
-            .pixel-list li {
-                font-size: 1rem;
+            .chrono-flow {
+                padding: 4rem 0;
+            }
+
+            .timeline-beam {
+                left: 20px;
+            }
+
+            .reality-marker {
+                width: calc(100% - 40px);
+                margin-left: 40px;
+            }
+
+            .reality-marker:nth-child(even) {
+                margin-left: 40px;
+            }
+
+            .hyper-portal {
+                transform: translateZ(0); /* Contain blur effect */
+            }
+
+            /* Section constraints */
+            .reality-section,
+            .comm-portal {
+                max-width: 100vw;
+                overflow: hidden;
+            }
+
+            .social-matrix {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+                gap: 1rem;
+                max-width: 90%;
+            }
+
+            .matrix-node {
+                width: 55px;
+                height: 55px;
+                border-radius: 15px;
+            }
+
+            .bio-line {
+                margin-left: 0;
+            }
+
+            .hero-subtitle {
+                font-size: 1.1rem;
+                padding: 0 1rem;
+            }
+
+            .timeline-beam {
+                left: 50% !important;
+            }
+
+            .reality-marker {
+                width: 85%;
+                margin-left: 7.5% !important;
             }
         }
 
         @media (max-width: 480px) {
-            .username {
-                font-size: 2rem;
+            .hero-title {
+                font-size: 3.5rem;
             }
 
-            .tagline {
-                font-size: 1.2rem;
+            .quantum-card {
+                padding: 1.5rem;
             }
 
-            .section-title {
-                font-size: 1.5rem;
+            .comm-portal {
+                padding: 2rem;
+            }
+
+            .social-matrix {
+                grid-template-columns: repeat(3, 50px);
+                justify-content: center;
+                gap: 0.8rem;
+            }
+
+            .matrix-node {
+                width: 50px;
+                height: 50px;
+                border-radius: 12px;
+            }
+
+            .hero-title {
+                font-size: 3.2rem;
+                padding: 0.5rem;
+            }
+
+            .bio-text {
+                font-size: 0.82rem;
+                gap: 0.7rem;
+            }
+
+            .comm-portal {
+                padding: 1.5rem !important;
             }
         }
 
-        /* Touch Optimization */
-        @media (pointer: coarse) {
-            .skill-card {
-                min-height: 120px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            a {
-                min-width: 44px;
-                min-height: 44px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
+        @keyframes glitch-scan {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100%); }
         }
     </style>
 </head>
-<body class="crt">
-    <nav class="terminal-header">
-        <ul>
-            <li><a href="#about" aria-label="About"><i class="fas fa-user"></i></a></li>
-            <li><a href="#skills" aria-label="Skills"><i class="fas fa-code"></i></a></li>
-            <li><a href="#music" aria-label="Music"><i class="fas fa-music"></i></a></li>
-            <li><a href="#contact" aria-label="Contact"><i class="fas fa-terminal"></i></a></li>
-        </ul>
+<body>
+    <div class="quantum-loader">
+        <div class="hyper-sphere"></div>
+    </div>
+
+    <div class="scroll-progress" id="scroll-progress"></div>
+    <div class="quantum-float" onclick="scrollToTop()">↑</div>
+
+    <nav class="multiverse-nav">
+        <div class="nav-logo">YUUKII</div>
     </nav>
 
-    <main class="main-frame pixel-border">
-        <section class="title-card">
-            <h1 class="username">YUU<span style="color: var(--crt-green)">KII</span></h1>
-            <div class="tagline">Omniverse Savant • C-137 Groove Architect • Pixel Alchemist</div>
+    <section class="quantum-hero">
+        <div class="hyper-portal"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">YUUKII</h1>
+            <p class="hero-subtitle">Omniverse Savant • C-137 Groove Architect • Pixel Alchemis</p>
+            <div class="portal-button" onclick="smoothScroll('#about')">[ INITIALIZE_PORTAL ]</div>
+        </div>
+    </section>
 
+    <main>
+        <!-- Bio Fragment -->
+        <section id="about" class="reality-section">
+            <h2 class="section-header">BIO_CRYPT.exe</h2>
+            <div class="bio-matrix">
+                <div class="bio-line">
+                    <p class="bio-text">
+                        <i class="fas fa-microchip"></i>
+                        <span class="glitch-text">[CITADEL_OS]</span> v5.7R 
+                        <span class="neon-divider">//</span> 
+                        Beat Shaman certified by RSL-137
+                    </p>
+                </div>
+                
+                <div class="bio-line">
+                    <p class="bio-text">
+                        <i class="fas fa-coffee"></i>
+                        <span class="glitch-text">[FUEL_SYSTEM]</span> 
+                        <span class="neon-divider">//</span> 
+                        Quantum Espresso IV drip
+                    </p>
+                </div>
+        
+                <div class="bio-line">
+                    <p class="bio-text">
+                        <i class="fas fa-gamepad"></i>
+                        <span class="glitch-text">[SIMULATION_RIG]</span> 
+                        <span class="neon-divider">//</span> 
+                        Anime/Gaming singularity achieved
+                    </p>
+                </div>
+        
+                <div class="bio-line">
+                    <p class="bio-text">
+                        <i class="fas fa-brain"></i>
+                        <span class="glitch-text">[NEURAL_LACES]</span> 
+                        <span class="neon-divider">//</span> 
+                        Multiverse community architect
+                    </p>
+                </div>
+            </div>
         </section>
 
-        <section class="info-section" id="about">
-            <h2 class="section-title">[ ABOUT_ME.portal ]</h2>
-            <ul class="pixel-list">
-                <li>👾 Citadel of Ricks Grad • Percussion Warlord
-                    (Pickle Rick x Drums Edition! Wubba lubba BLAST BEATS)
-                </li>
-                <li>☕ Fueled by interdimensional coffee (probably brewed with portal fluid) and glitch-core mixtapes</li>
-                <li>🎮 Level 99 Anime/Gaming Warlock (Gotta burp grind those XP loops to unlock "Schwifty Mode")</li>
-                <li>💤 Quantum Nap Architect (Master of time-dilation sleep cycles across 5.7 realities)</li>
-            </ul>
-        </section>
-
-        <section class="info-section" id="skills">
-            <h2 class="section-title">[ SKILLS.plumbus ]</h2>
-            <div class="skill-grid">
-                <div class="skill-card">
-                    <div class="skill-icon">💻</div>
-                    <h3> Reality-Bending Pixel Alchemist</h3>
+        <!-- Skill Matrix -->
+        <section class="reality-section">
+            <h2 class="section-header">SKILL.MATRIX</h2>
+            <div class="skills-matrix">
+                <div class="skill-node">
+                    <i class="fas fa-laptop-code"></i>
+                    <h3>Reality-Bending Pixel Alchemist</h3>
                     <p>Python (not the snake, Morty!) | JavaScript | Wix (Jerry-proof interfaces) | Canva | DaVinci Resolve</p>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🥁</div>
-                    <h3> Beat Smith of the Central Finite Curve</h3>
+                
+                <div class="skill-node">
+                    <i class="fas fa-drum"></i>
+                    <h3>Beat Smith of the Central Finite Curve</h3>
                     <p>RSL Grade 5 Drum Shaman
                         (Drum solos so spicy, they collapsed a Schrödinger’s cat meme universe)</p>
                 </div>
-                <div class="skill-card">
-                    <div class="skill-icon">🌐</div>
-                    <h3> Interdimensional Community Overlord</h3>
+                
+                <div class="skill-node">
+                    <i class="fas fa-users"></i>
+                    <h3>Interdimensional Community Overlord</h3>
                     <p>70k+ Mortys (and Ricks) herded across the meta-multiverse
-                        (Yes, even the ones who tried to burp unionize with Evil Morty)
-                        
-                        </p>
+                        (Yes, even the ones who tried to burp unionize with Evil Morty)</p>
                 </div>
             </div>
         </section>
 
-        <section class="info-section" id="music">
-            <h2 class="section-title">[ SOUNDTRACK.wub ]</h2>
-            <div class="skill-grid">
-                <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="skill-card" target="_blank" rel="noopener noreferrer">
-                    <div class="skill-icon">🎧</div>
-                    <h3> Current Brain-Melter</h3>
-                    <p>Synthwave Ricksurrection Mixes (Guaranteed to melt your face… or your alternate face</p>
+        <!-- Communication Relay -->
+        <section class="comm-portal">
+            <h2 class="section-header">socials</h2>
+            <p class="quantum-cta">Wubba Lubba Dub-Dub!!!  </h2>
+                <p>   Let’s collab before Cronenbergs ruin the vibe </p>
+                <p>(Portal coordinates available upon request. No Jerrys, pls.)</p>
+            <div class="social-matrix">
+                <a href="https://discord.com/users/935827821329256459/" class="matrix-node">
+                    <i class="fab fa-discord"></i>
                 </a>
-                <a href="https://music.apple.com/in/playlist/cyan-generative/pl.u-76oNkmetqve8R7R" class="skill-card" target="_blank" rel="noopener noreferrer">
-                    <div class="skill-icon">📼</div>
-                    <h3> Citadel-Approved Mixtape</h3>
-                    <p>Apple Music Playlist (Now with 20% more existential dread!)</p>
+                <a href="mailto:adwaithkrishnakallingal@gmail.com" class="matrix-node">
+                    <i class="fas fa-envelope"></i>
                 </a>
-            </div>
-        </section>
-
-        <section class="info-section" id="contact">
-            <h2 class="section-title"> [ CONNECT.yuukii ]
-                Wubba Lubba Dub-Dub!!! (Let’s collab before Cronenbergs ruin the vibe) </h2>
-                <p>(Portal coordinates available upon request. No Jerrys, pls.)<p></p>
-            <div class="skill-grid">
-                <a href="https://discord.com/users/935827821329256459/" class="skill-card" target="_blank" rel="noopener noreferrer">
-                    <div class="skill-icon"><i class="fab fa-discord"></i></div>
-                    <h3>Discord</h3>
+                <a href="https://www.instagram.com/cozyyuukii/" class="matrix-node">
+                    <i class="fab fa-instagram"></i>
                 </a>
-                <a href="mailto:adwaithkrishnakallingal@gmail.com" class="skill-card">
-                    <div class="skill-icon"><i class="fas fa-envelope"></i></div>
-                    <h3>Email</h3>
-                </a>
-                <a href="https://www.instagram.com/cozyyuukii/" class="skill-card" target="_blank" rel="noopener noreferrer">
-                    <div class="skill-icon"><i class="fab fa-instagram"></i></div>
-                    <h3>Insta</h3>
-                </a>
-                
             </div>
         </section>
     </main>
+
+    <script>
+        class QuantumSystem {
+            constructor() {
+                this.initLoader();
+                this.initNav();
+                this.initObservers();
+                this.initParticles();
+                this.initMatrixEffect();
+                this.initScrollProgress();
+            }
+
+            initLoader() {
+                window.addEventListener('load', () => {
+                    setTimeout(() => {
+                        document.querySelector('.quantum-loader').style.display = 'none';
+                    }, 2800);
+                });
+            }
+
+            initNav() {
+                let lastScroll = 0;
+                window.addEventListener('scroll', () => {
+                    const currentScroll = window.scrollY;
+                    const nav = document.querySelector('.multiverse-nav');
+                    
+                    if (currentScroll > 200 && currentScroll > lastScroll) {
+                        nav.style.top = '-100px';
+                    } else {
+                        nav.style.top = currentScroll > 200 ? '0' : '-100px';
+                    }
+                    lastScroll = currentScroll;
+                });
+            }
+
+            initObservers() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if(entry.isIntersecting) {
+                            entry.target.style.opacity = 1;
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.quantum-card, .skill-node, .reality-marker').forEach(el => {
+                    el.style.opacity = 0;
+                    el.style.transform = 'translateY(30px)';
+                    observer.observe(el);
+                });
+            }
+
+            initParticles() {
+                const particleCount = 100;
+                for(let i = 0; i < particleCount; i++) {
+                    const particle = document.createElement('div');
+                    particle.style.cssText = `
+                        position: fixed;
+                        width: ${Math.random() * 6 + 2}px;
+                        height: ${Math.random() * 6 + 2}px;
+                        background: radial-gradient(
+                            ${Math.random() > 0.5 ? 'var(--quantum-teal)' : 'var(--neutron-blue)'}, 
+                            transparent
+                        );
+                        border-radius: 50%;
+                        left: ${Math.random() * 100}%;
+                        top: ${Math.random() * 100}%;
+                        pointer-events: none;
+                        z-index: -1;
+                        animation: particle-drift ${Math.random() * 8 + 4}s infinite linear;
+                    `;
+                    document.body.appendChild(particle);
+                }
+            }
+
+            initMatrixEffect() {
+                const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+                document.querySelectorAll('.quantum-card').forEach(card => {
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = `
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: linear-gradient(transparent 95%, rgba(0,199,255,0.1) 100%);
+                        background-size: 100% 2px;
+                        animation: matrix-scan 20s linear infinite;
+                        pointer-events: none;
+                        opacity: 0.1;
+                    `;
+                    card.appendChild(overlay);
+                });
+            }
+
+            initScrollProgress() {
+                window.addEventListener('scroll', () => {
+                    const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+                    const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrolled = (winScroll / height) * 100;
+                    document.getElementById('scroll-progress').style.width = `${scrolled}%`;
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            new QuantumSystem();
+        });
+
+        function smoothScroll(target) {
+            document.querySelector(target).scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
 </body>
 </html>
