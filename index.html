@@ -7,6 +7,72 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
     <style>
+        /* Add to existing CSS */
+body {
+    /* Add these lines to existing body styles */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+.quantum-footer {
+    text-align: center;
+    padding: 2rem 1.2rem;
+    font-family: 'Citadel Glyphs', cursive;
+    color: var(--plasma-pink);
+    text-shadow: 
+        0 0 15px var(--quantum-teal),
+        0 0 30px var(--void-purple);
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(107,31,255,0.2) 50%,
+        transparent 100%
+    );
+    animation: footer-glitch 2.5s infinite;
+    letter-spacing: 2px;
+    margin-top: auto;
+    border-top: var(--hyper-border);
+    position: relative;
+}
+
+/* Keep existing animations */
+.citadel-glitch {
+    animation: text-glitch 1.5s infinite;
+    position: relative;
+}
+
+@keyframes footer-glitch {
+    0% { opacity: 0.8; }
+    25% { transform: translateX(2px); }
+    50% { 
+        opacity: 1;
+        text-shadow: 
+            0 0 25px var(--neutron-blue),
+            0 0 40px var(--plasma-pink);
+    }
+    75% { transform: translateX(-2px); }
+    100% { opacity: 0.8; }
+}
+
+@keyframes text-glitch {
+    0% { text-shadow: 2px 0 var(--quantum-teal); }
+    25% { text-shadow: -2px 0 var(--plasma-pink); }
+    50% { text-shadow: 0 2px var(--neutron-blue); }
+    75% { text-shadow: 0 -2px var(--void-purple); }
+    100% { text-shadow: 2px 0 var(--quantum-teal); }
+}
+
+@media (max-width: 768px) {
+    .quantum-footer {
+        font-size: 0.9rem;
+        padding: 1.5rem 0.8rem;
+        background-size: 200% auto;
+    }
+}
         /* Quantum Design System */
         :root {
             --quantum-teal: #00F7D6;
@@ -967,5 +1033,8 @@
             });
         }
     </script>
+    <footer class="quantum-footer">
+        CREATED BY <span class="citadel-glitch">YUUKII </span>
+    </footer>
 </body>
 </html>
