@@ -2,7 +2,7 @@
 <html lang="en" data-theme="citadel-v4">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>YUUKII | Omniverse Architect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
@@ -800,6 +800,46 @@ main {
             0% { transform: translateY(-100%); }
             100% { transform: translateY(100%); }
         }
+@media (max-width: 768px) {
+    /* Mobile rendering optimizations */
+    body {
+        -webkit-overflow-scrolling: touch;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+    }
+
+    .hyper-portal,
+    .multiverse-nav,
+    .quantum-footer,
+    .quantum-card {
+        transform: translate3d(0,0,0);
+        -webkit-transform-style: preserve-3d;
+        transform-style: preserve-3d;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+    }
+
+    /* Reduce animation intensity */
+    .quantum-footer {
+        animation: none;
+        background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(107,31,255,0.15) 50%,
+            transparent 100%
+        );
+    }
+
+    /* Disable blur effects on mobile */
+    .hyper-portal {
+        filter: blur(40px);
+    }
+
+    .multiverse-nav {
+        backdrop-filter: none;
+        background: var(--dark-energy);
+    }
+}
     </style>
 </head>
 <body>
