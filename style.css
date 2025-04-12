@@ -18,6 +18,7 @@
     --clr-focus-ring: rgba(160, 196, 255, 0.6);
     --clr-error: #d9534f;
     --clr-wave-darker: #7895C0; /* Adjusted darker blue for waves */
+    --clr-ripple-about: rgba(160, 196, 255, 0.3); /* Ripple color for about section */
 
     /* Typography */
     --font-main: 'Quicksand', sans-serif; /* Smooth, rounded */
@@ -471,7 +472,7 @@ code {
     overflow: hidden;
     background: transparent;
     padding-top: var(--navbar-height);
-    padding-bottom: 100px; /* Space for waves */
+    padding-bottom: 150px; /* Increased bottom padding for taller waves */
 }
 .hero-content {
     max-width: 800px;
@@ -513,7 +514,7 @@ code {
     bottom: 0;
     left: 0;
     width: 100%;
-    height: clamp(100px, 20vh, 150px); /* Responsive height */
+    height: clamp(150px, 25vh, 200px); /* Increased wave height */
     opacity: 0.3;
     z-index: 1;
     pointer-events: none;
@@ -569,46 +570,60 @@ code {
 .about-visual {
     flex: 1;
     position: relative;
-    min-height: 350px;
+    min-height: 350px; /* Keep min-height */
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1000px;
+    overflow: hidden; /* Hide parts of ripples extending outside */
 }
-.abstract-shape {
+
+/* MODIFIED: Added Ripple Container styles */
+.ripple-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-width: 250px; /* Ensure minimum size */
+    min-height: 250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* MODIFIED: Added Ripple Circle styles */
+.ripple-circle {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 10px; /* Start small */
+    height: 10px;
     border-radius: 50%;
-    opacity: 0.15;
-    background: radial-gradient(circle, var(--clr-primary), var(--clr-secondary));
-    transition: transform 15s ease-in-out, opacity 1s ease;
-    will-change: transform;
-    filter: blur(10px);
-    animation: float 18s ease-in-out infinite alternate;
+    border: 2px solid var(--clr-ripple-about);
+    opacity: 1;
+    animation: ripple-effect 4s ease-out infinite;
+    will-change: transform, opacity;
 }
-.shape-1 {
-    width: clamp(150px, 25vw, 250px); height: clamp(150px, 25vw, 250px);
-    top: 5%; left: 10%;
+
+/* MODIFIED: Stagger ripple animations */
+.ripple-circle:nth-child(1) { animation-delay: 0s; }
+.ripple-circle:nth-child(2) { animation-delay: 1s; }
+.ripple-circle:nth-child(3) { animation-delay: 2s; }
+.ripple-circle:nth-child(4) { animation-delay: 3s; }
+
+/* MODIFIED: Added ripple animation */
+@keyframes ripple-effect {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(25); /* Scale determines max size */
+        opacity: 0;
+    }
 }
-.shape-2 {
-    width: clamp(100px, 18vw, 180px); height: clamp(100px, 18vw, 180px);
-    bottom: 10%; right: 15%;
-    opacity: 0.2;
-    animation-delay: 1s;
-    animation-direction: alternate-reverse;
-    background: radial-gradient(circle, var(--clr-secondary), var(--clr-tertiary));
-}
-.shape-3 {
-    width: clamp(80px, 15vw, 120px); height: clamp(80px, 15vw, 120px);
-    top: 30%; left: 40%;
-    opacity: 0.1;
-    animation-delay: 0.5s;
-    background: radial-gradient(circle, var(--clr-tertiary), var(--clr-primary));
-}
-@keyframes float {
-    0% { transform: translate(0px, 0px) rotate(0deg) scale(1); }
-    50% { transform: translate(15px, -20px) rotate(15deg) scale(1.05); } /* Increased movement */
-    100% { transform: translate(-10px, 10px) rotate(-10deg) scale(0.95); }
-}
+
+/* REMOVED: Abstract shape styles and float animation */
+/* .abstract-shape, .shape-1, .shape-2, .shape-3, @keyframes float */
 
 
 /* --- Skills Section --- */
@@ -1044,13 +1059,22 @@ code {
     .about-visual {
         order: 1;
         margin-bottom: 3rem;
-        min-height: 250px;
+        min-height: 250px; /* Adjusted min-height */
         width: 100%;
         max-width: 400px; /* Limit visual width */
+    }
+     .ripple-container { /* Adjust ripple container size */
+        min-width: 200px;
+        min-height: 200px;
     }
     .skills-grid { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
     .contact-container { max-width: 85%; } /* Allow slightly more width */
     .site-footer-bottom { text-align: center; }
+
+    /* Adjust wave height for tablet */
+    .hero-background-shape {
+        height: clamp(120px, 22vh, 180px);
+    }
 }
 
 /* Mobile */
@@ -1169,12 +1193,32 @@ code {
 
     .back-to-top { width: 40px; height: 40px; bottom: 20px; right: 20px; }
     .back-to-top i { font-size: 20px; }
+
+    /* Adjust wave height for mobile */
+     .hero-background-shape {
+        height: clamp(100px, 20vh, 150px); /* Slightly taller minimum, same max */
+    }
+     .hero-section {
+        padding-bottom: 100px; /* Adjust padding if wave height changes drastically */
+     }
+    .about-visual {
+        min-height: 200px; /* Further reduce min-height */
+    }
+    .ripple-container {
+         min-width: 150px;
+         min-height: 150px;
+     }
+     @keyframes ripple-effect { /* Smaller max ripple on mobile */
+        0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+        100% { transform: translate(-50%, -50%) scale(15); opacity: 0; }
+    }
+
 }
 
 /* --- Print Styles --- */
 @media print {
     body { background: #fff; color: #000; font-size: 10pt; }
-    .site-header, .hamburger, .back-to-top, .hero-background-shape, .abstract-shape, .sound-wave-container, .background-gradient, .background-texture, #contact-form button, .social-links, .header-social-links { display: none !important; }
+    .site-header, .hamburger, .back-to-top, .hero-background-shape, .about-visual, .sound-wave-container, .background-gradient, .background-texture, #contact-form button, .social-links, .header-social-links { display: none !important; }
     .container { max-width: 100%; padding: 0; }
     a { color: #000; text-decoration: underline; }
     h1, h2, h3, h4, h5, h6 { color: #000; page-break-after: avoid; font-family: sans-serif; } /* Simpler font */
@@ -1208,7 +1252,7 @@ code {
   }
   .ripple-element { animation: none !important; display: none !important; }
   .btn:hover, .skill-card:hover, .back-to-top:hover, .social-icon:hover, .header-social-links .social-icon:hover { transform: none !important; }
-  .abstract-shape, .wave-path, .sound-wave.bar, .skill-card::before { animation: none !important; }
+  .sound-wave.bar, .skill-card::before, .ripple-circle { animation: none !important; } /* Added ripple-circle */
   .skill-card:hover .skill-icon { transform: none !important; }
   .hero-background-shape svg animate { display: none; } /* Attempt to disable SVG animation */
 }
