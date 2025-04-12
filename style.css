@@ -322,7 +322,7 @@ code { font-family: var(--font-code); background-color: rgba(179, 207, 255, 0.2)
     #social-links-section .social-icon { margin: 0 8px; width: 40px; height: 40px; font-size: 20px; }
     .back-to-top { width: 40px; height: 40px; bottom: 20px; right: 20px; }
     .back-to-top i { font-size: 20px; }
-    .hero-background-shape { height: clamp(120px, 25vh, 180px); }
+    .hero-background-shape { height: clamp(160px, 30vh, 220px); }
     .hero-section { padding-bottom: 120px; }
     .about-visual { min-height: 200px; }
     .passion-wave-container { height: clamp(40px, 7vh, 60px); }
