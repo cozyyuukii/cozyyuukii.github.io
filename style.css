@@ -233,103 +233,68 @@ button.button {
 .nav-logo { font-family: var(--title-font); font-size: 1.8rem; color: var(--first-color); font-weight: normal; }
 
 /* --- Mobile Navigation Menu --- */
+/* MODIFIED BASE .nav-menu */
 .nav-menu {
   position: fixed;
-  /* Keep original background/blur for the slide-in effect base */
+  /* Keep original background/blur for the slide-in effect base, or change if desired */
   background-color: hsla(var(--second-hue), 80%, 95%, 0.9);
   -webkit-backdrop-filter: blur(15px);
   backdrop-filter: blur(15px);
   top: 0;
   right: -100%; /* Start off-screen */
-  width: 70%; /* Keep original width for the base state */
-  max-width: 320px;
+  /* REMOVED original width and max-width */
+  width: 100%; /* Set width to 100% */
   height: 100%;
   box-shadow: -2px 0 10px hsla(var(--second-hue), 30%, 15%, 0.1);
-  padding: 4rem 2rem 0;
-  /* Add transition for background-color and backdrop-filter */
-  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
-              background-color 0.3s ease-in-out,
-              backdrop-filter 0.3s ease-in-out,
-              -webkit-backdrop-filter 0.3s ease-in-out; /* Add prefix for transition */
-  z-index: calc(var(--z-fixed) + 1); /* Ensure it's above header */
-}
-
-/* Styles specifically when the menu is shown (fullscreen override) */
-.nav-menu.show-menu {
-  right: 0; /* Bring it on screen */
-  width: 100%; /* Fullscreen width */
-  max-width: 100%; /* Override max-width */
-  height: 100vh; /* Fullscreen height */
-  /* Solid background when open */
-  background-color: var(--body-color); /* Or use --container-color (#fff) or another solid color */
-  /* Remove blur when fully open and solid */
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  /* Center content vertically and horizontally */
-  display: flex;
+  /* Padding will be handled by flex centering in .show-menu */
+  /* padding: 4rem 2rem 0; */
+  display: flex; /* Prepare for flex centering */
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding: 0; /* Reset padding, use flex alignment */
-  overflow-y: auto; /* Allow scrolling if content overflows on small heights */
+  justify-content: center; /* Center content vertically */
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Keep transition */
+  z-index: calc(var(--z-fixed) + 1); /* Ensure it's above header */
+  overflow-y: auto; /* Add overflow auto for safety */
 }
 
-.nav-menu.show-menu .nav-list {
-  display: flex;
-  flex-direction: column;
-  row-gap: 2.5rem; /* Increase gap */
-  text-align: center; /* Center text */
-  width: 100%; /* Ensure list takes width */
-  padding: 2rem 0; /* Add some padding */
+/* Original mobile styles for nav list/links/close (WHEN CLOSED or animating) */
+/* These are mostly overridden by .show-menu below when open */
+.nav-list {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+    /* Remove desktop-specific properties if they were here */
 }
-
-.nav-menu.show-menu .nav-link {
-  font-size: var(--h2-font-size); /* Make links larger */
-  color: var(--title-color); /* Ensure link color contrasts with new bg */
-  padding-bottom: 10px; /* Adjust padding */
+.nav-link {
+    color: var(--title-color);
+    font-weight: var(--font-medium);
+    transition: color var(--transition-snap);
+    position: relative;
+    padding-bottom: 8px; /* Keep original padding */
 }
-.nav-menu.show-menu .nav-link:hover {
-   color: var(--first-color);
+.nav-link:hover {
+    color: var(--first-color);
 }
-
-/* Ensure the active link underline style works on the new background */
-.nav-menu.show-menu .nav-link::after {
-    content: '';
+.nav-close {
     position: absolute;
-    width: 80%; /* Adjust width for centered underline */
-    height: 2px;
-    background-color: var(--first-color); /* Ensure underline color is correct */
-    /* Reset positioning if needed, center it */
-    left: 50%;
-    transform: translateX(-50%) scaleX(0);
-    transform-origin: center;
-    bottom: 0;
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+    top: 1rem;
+    right: 1.25rem;
+    font-size: 1.8rem;
+    color: var(--title-color);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
 }
-.nav-menu.show-menu .nav-link.active-link::after {
-    transform: translateX(-50%) scaleX(0.8); /* Scale from center */
+.nav-toggle {
+    font-size: 1.5rem;
+    color: var(--title-color);
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0.5rem;
+    display: block; /* Ensure toggle is always visible on mobile */
 }
-
-/* Reposition close button for fullscreen */
-.nav-menu.show-menu .nav-close {
-  position: absolute;
-  top: 1.5rem; /* Adjust position */
-  right: 1.5rem;
-  font-size: 2rem; /* Make it larger */
-  color: var(--title-color); /* Ensure visibility */
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-}
-
-/* Original mobile styles for nav list/links (when menu is closed or sliding) */
-.nav-list { display: flex; flex-direction: column; row-gap: 2rem; }
-.nav-link { color: var(--title-color); font-weight: var(--font-medium); transition: color var(--transition-snap); position: relative; padding-bottom: 8px; }
-.nav-link:hover { color: var(--first-color); }
-.nav-close { position: absolute; top: 1rem; right: 1.25rem; font-size: 1.8rem; color: var(--title-color); cursor: pointer; background: none; border: none; padding: 0.5rem;}
-.nav-toggle { font-size: 1.5rem; color: var(--title-color); cursor: pointer; background: none; border: none; padding: 0.5rem; display: block; /* Ensure toggle is always visible on mobile */ }
-
 .nav-link::after {
     content: '';
     position: absolute;
@@ -339,12 +304,95 @@ button.button {
     height: 2px;
     background-color: var(--first-color);
     transform: scaleX(0);
-    transform-origin: left; /* Adjusted for mobile slide-in */
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); /* Smoother transition */
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
-.nav-link.active-link { color: var(--first-color); }
-.nav-link.active-link::after { transform: scaleX(1); }
+.nav-link.active-link {
+    color: var(--first-color);
+}
+.nav-link.active-link::after {
+    transform: scaleX(1);
+}
 
+
+/* MODIFIED .nav-menu.show-menu Styles for FULLSCREEN */
+.nav-menu.show-menu {
+  right: 0; /* Bring it on screen */
+  /* Ensure width/height are full screen */
+  width: 100%;
+  height: 100vh; /* Use viewport height */
+
+  /* Change background to solid */
+  background-color: var(--body-color); /* Or var(--container-color) for white */
+  /* Remove blur when solid */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+
+  /* Use flex properties defined in the base .nav-menu for centering */
+  padding: 0; /* Remove padding, rely on justify-content */
+}
+
+/* Adjustments needed for the centered list inside the fullscreen menu */
+.nav-menu.show-menu .nav-list {
+  display: flex; /* Ensure flex properties */
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+  justify-content: center; /* Center vertically */
+  row-gap: 2.5rem; /* Increase gap */
+  text-align: center; /* Center text */
+  width: auto; /* Let content determine width */
+  padding: 2rem 0; /* Add some vertical padding */
+  margin: 0; /* Reset margin */
+}
+
+.nav-menu.show-menu .nav-link {
+  font-size: var(--h2-font-size); /* Make links larger */
+  color: var(--title-color); /* Ensure link color contrasts with new bg */
+  padding-bottom: 10px; /* Adjust padding */
+  font-weight: var(--font-medium); /* Ensure font weight is set */
+  /* Ensure no desktop styles are leaking */
+  position: relative; /* Needed for ::after */
+}
+.nav-menu.show-menu .nav-link:hover {
+   color: var(--first-color);
+}
+.nav-menu.show-menu .nav-link.active-link {
+   color: var(--first-color); /* Ensure active color */
+}
+
+/* Adjust underline position/style for larger centered links */
+.nav-menu.show-menu .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 80%; /* Underline width relative to link */
+    height: 2px;
+    background-color: var(--first-color);
+    left: 50%; /* Center the underline */
+    bottom: 0; /* Position at the bottom */
+    transform: translateX(-50%) scaleX(0); /* Start scaled down and centered */
+    transform-origin: center; /* Scale from center */
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.nav-menu.show-menu .nav-link.active-link::after {
+    transform: translateX(-50%) scaleX(1); /* Scale up from center */
+}
+.nav-menu.show-menu .nav-link:not(.active-link):hover::after {
+     transform: translateX(-50%) scaleX(0.6); /* Hover effect */
+}
+
+/* Reposition close button for fullscreen */
+.nav-menu.show-menu .nav-close {
+  position: absolute; /* Position relative to .nav-menu */
+  top: 1.5rem; /* Adjust position */
+  right: 1.5rem;
+  font-size: 2rem; /* Make it larger */
+  color: var(--title-color); /* Ensure visibility */
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  z-index: 10; /* Ensure it's above links */
+}
 /* --- End Mobile Navigation Menu --- */
 
 
@@ -790,8 +838,29 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
   .nav-toggle, .nav-close { display: none; } /* Hide mobile menu controls */
 
   /* --- Desktop Navigation Menu Styles --- */
+  /* Reset mobile styles completely */
   .nav-menu {
-      position: static; /* Reset position */
+      position: static;
+      background-color: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
+      width: auto; /* Crucial Reset */
+      height: auto; /* Crucial Reset */
+      padding: 0;
+      transition: none;
+      right: auto; /* Crucial Reset */
+      display: block;
+      overflow-y: visible; /* Crucial Reset */
+      flex-direction: row; /* Reset flex direction */
+      justify-content: flex-end; /* Reset justification */
+      align-items: center; /* Reset alignment */
+      max-width: none; /* Reset max-width */
+  }
+
+  /* Also explicitly reset .show-menu state for desktop */
+  .nav-menu.show-menu {
+      position: static;
       background-color: transparent;
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
@@ -800,35 +869,17 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       height: auto;
       padding: 0;
       transition: none;
-      right: 0; /* Ensure reset */
-      display: block; /* Reset display */
-      overflow-y: visible; /* Reset overflow */
-      flex-direction: row; /* Ensure row direction */
-      justify-content: flex-end; /* Align items to the end */
-      align-items: center; /* Center items vertically */
-      max-width: none; /* Remove max-width */
-  }
-
-  /* Override mobile .show-menu styles back to desktop defaults */
-  /* This is important to ensure mobile styles don't leak */
-  .nav-menu.show-menu {
-      width: auto;
-      max-width: none;
-      height: auto;
-      background-color: transparent; /* Ensure transparent bg */
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      position: static; /* Ensure static position */
-      display: block; /* Back to default display */
+      right: auto;
+      display: block;
       overflow-y: visible;
-      padding: 0; /* Reset padding */
       flex-direction: row;
       justify-content: flex-end;
       align-items: center;
+      max-width: none;
   }
 
   /* Desktop Nav List */
-  .nav-list { /* Use .nav-list directly, not .nav-menu.show-menu .nav-list */
+  .nav-list {
       flex-direction: row;
       column-gap: 2.5rem;
       align-items: center;
@@ -837,38 +888,42 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       padding: 0; /* Reset padding */
       row-gap: 0; /* Reset row gap */
       margin: 0; /* Reset margin */
+      /* Ensure display is correct */
+      display: flex;
   }
 
   /* Desktop Nav Links */
-  .nav-link { /* Use .nav-link directly */
+  .nav-link {
       font-size: var(--normal-font-size); /* Reset font size */
       padding-bottom: 5px;
       color: var(--title-color); /* Ensure correct color */
+      font-weight: var(--font-medium); /* Ensure weight */
+      position: relative; /* Keep relative positioning */
   }
    .nav-link:hover {
       color: var(--first-color);
    }
 
   /* Desktop Nav Link Underlines */
-  .nav-link::after { /* Use .nav-link directly */
-      content: ''; /* Ensure content exists */
-      position: absolute; /* Ensure correct positioning */
+  .nav-link::after {
+      content: '';
+      position: absolute;
       transform-origin: center; /* Underline from center */
       bottom: -2px; /* Position underline below text */
-      left: 10%; /* Adjust width */
+      left: 10%; /* Adjust position/width */
       width: 80%;
-      height: 2px; /* Ensure height */
-      background-color: var(--first-color); /* Ensure color */
+      height: 2px;
+      background-color: var(--first-color);
       transform: scaleX(0); /* Reset transform */
-      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); /* Ensure transition */
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .nav-link.active-link { color: var(--first-color); } /* Active link color */
 
-  .nav-link.active-link::after { /* Use .nav-link directly */
+  .nav-link.active-link::after {
        transform: scaleX(1);
        transform-origin: center; /* Ensure origin is center */
   }
-   .nav-link:not(.active-link):hover::after { /* Use .nav-link directly */
+   .nav-link:not(.active-link):hover::after {
       transform: scaleX(0.6);
       transform-origin: center;
    }
