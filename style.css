@@ -930,3 +930,23 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
     max-height: 220px;
   }
 }
+
+@media screen and (max-width: 767px) {
+  .header {
+    display: none;
+  }
+
+  .full-page-section {
+    padding-top: 1rem;
+  }
+
+  .hero-container {
+    padding-top: 3rem;
+  }
+
+  .hero-svg-wave {
+    height: 320px !important;
+    max-height: none;
+  }
+}
+
