@@ -922,3 +922,27 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 @media screen and (min-width: 1200px) {
     .container { max-width: 1140px; }
 }
+/* ==================== Mobile Specific Adjustments ==================== */
+@media screen and (max-width: 767px) {
+  /* Hide the entire header on mobile */
+  .header {
+    display: none;
+  }
+
+  /* Adjust padding top for sections since header is hidden */
+  /* This prevents content from going under the status bar */
+  .full-page-section {
+      padding-top: 1rem; /* Adjust as needed */
+  }
+  /* Special adjustment for hero padding if needed */
+  .hero-container {
+      padding-top: 3rem; /* Add more top padding to compensate for header */
+  }
+
+
+  /* Make the hero wave taller on mobile */
+  .hero-svg-wave {
+    /* Increase max-height - adjust the value as desired */
+    max-height: 220px;
+  }
+}
