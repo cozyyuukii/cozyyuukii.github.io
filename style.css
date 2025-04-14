@@ -54,6 +54,11 @@
 
   --transition-smooth: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
   --transition-snap: all 0.2s ease-out;
+  /* Define menu transition duration */
+  --menu-transition-duration: 0.4s;
+  /* Define menu transition timing function */
+  --menu-timing-function: cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Original ease */
+  /* Or try a standard ease: cubic-bezier(0.25, 0.1, 0.25, 1.0); */
 }
 
 @media screen and (min-width: 968px) {
@@ -109,13 +114,11 @@ button { font-family: var(--body-font); cursor: pointer; border: none; outline: 
   outline-offset: 2px;
   border-radius: 3px;
 }
-/* Remove default outline when :focus-visible is supported */
 *:focus:not(:focus-visible) {
   outline: none;
 }
-/* Specific focus for inputs/textarea */
 input:focus-visible, textarea:focus-visible {
-  outline: 3px solid var(--first-color-alt) !important; /* Use important if needed to override other styles */
+  outline: 3px solid var(--first-color-alt) !important;
   outline-offset: 1px;
 }
 
@@ -133,7 +136,7 @@ input:focus-visible, textarea:focus-visible {
 .section {
   padding: 4.5rem 0 2rem;
   position: relative;
-  overflow-x: hidden; /* Prevent horizontal scrollbars from animations */
+  overflow-x: hidden;
 }
 
 .full-page-section {
@@ -153,7 +156,6 @@ input:focus-visible, textarea:focus-visible {
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    /* Removed max-width here to allow specific sections to control their content width */
 }
 
 .about-container,
@@ -191,11 +193,11 @@ input:focus-visible, textarea:focus-visible {
   font-weight: var(--font-medium);
   transition: var(--transition-smooth);
   box-shadow: 0 4px 10px hsla(var(--first-hue), var(--sat), var(--light), 0.3);
-  position: relative; /* Needed for ripple effect */
-  overflow: hidden; /* Needed for ripple effect */
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-  border: none; /* Ensure buttons don't have default borders */
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+  border: none;
+  -webkit-tap-highlight-color: transparent;
 }
 .button:hover {
    background-color: var(--first-color-alt);
@@ -204,9 +206,8 @@ input:focus-visible, textarea:focus-visible {
 }
 .button i { margin-left: var(--mb-0-5); vertical-align: middle; }
 
-/* Ensure buttons inside forms or other elements behave consistently */
 button.button {
-    appearance: none; /* Remove default system appearance */
+    appearance: none;
     -webkit-appearance: none;
 }
 
@@ -219,72 +220,101 @@ button.button {
   left: 0;
   z-index: var(--z-fixed);
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
-  /* Add backdrop-filter support */
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
 }
 .header.scrolled {
-   background-color: hsla(var(--second-hue), 30%, 98%, 0.9); /* Slightly less transparent */
+   background-color: hsla(var(--second-hue), 30%, 98%, 0.9);
    box-shadow: 0 2px 8px hsla(var(--second-hue), 30%, 15%, 0.1);
-   -webkit-backdrop-filter: blur(15px); /* Increase blur slightly on scroll */
+   -webkit-backdrop-filter: blur(15px);
    backdrop-filter: blur(15px);
 }
 .navbar { height: var(--header-height); display: flex; justify-content: space-between; align-items: center; }
 .nav-logo { font-family: var(--title-font); font-size: 1.8rem; color: var(--first-color); font-weight: normal; }
 
 /* --- Mobile Navigation Menu --- */
-/* MODIFIED BASE .nav-menu */
+/* OPTIMIZED BASE .nav-menu */
 .nav-menu {
   position: fixed;
-  /* Keep original background/blur for the slide-in effect base, or change if desired */
-  background-color: hsla(var(--second-hue), 80%, 95%, 0.9);
-  -webkit-backdrop-filter: blur(15px);
-  backdrop-filter: blur(15px);
   top: 0;
-  right: -100%; /* Start off-screen */
-  /* REMOVED original width and max-width */
-  width: 100%; /* Set width to 100% */
-  height: 100%;
+  /* Change positioning from right to transform */
+  right: 0; /* Keep right: 0 */
+  width: 100%;
+  height: 100vh; /* Use vh for fullscreen */
+
+  /* Initial state: Off-screen and invisible */
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+
+  /* Background (can be simple for closed state) */
+  background-color: var(--body-color); /* Start with solid */
+  /* Remove backdrop filter here if causing issues */
+  /* -webkit-backdrop-filter: blur(15px); */
+  /* backdrop-filter: blur(15px); */
+
   box-shadow: -2px 0 10px hsla(var(--second-hue), 30%, 15%, 0.1);
-  /* Padding will be handled by flex centering in .show-menu */
-  /* padding: 4rem 2rem 0; */
-  display: flex; /* Prepare for flex centering */
+  padding: 0; /* Reset padding, use flex centering */
+  display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; /* Center content vertically */
-  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55); /* Keep transition */
-  z-index: calc(var(--z-fixed) + 1); /* Ensure it's above header */
-  overflow-y: auto; /* Add overflow auto for safety */
+  justify-content: center;
+
+  /* Define transitions ON THE BASE ELEMENT for smooth open and close */
+  transition: transform var(--menu-transition-duration) var(--menu-timing-function),
+              opacity var(--menu-transition-duration) ease, /* Use standard ease for opacity */
+              visibility var(--menu-transition-duration) ease,
+              background-color var(--menu-transition-duration) ease; /* Optional: transition bg */
+              /* Add backdrop-filter here if you want to transition it */
+
+  z-index: calc(var(--z-fixed) + 1);
+  overflow-y: auto;
 }
 
-/* Original mobile styles for nav list/links/close (WHEN CLOSED or animating) */
-/* These are mostly overridden by .show-menu below when open */
+/* Add a delay to visibility transition when hiding */
+.nav-menu:not(.show-menu) {
+  transition: transform var(--menu-transition-duration) var(--menu-timing-function),
+              opacity var(--menu-transition-duration) ease,
+              /* Delay hiding visibility until transform/opacity are done */
+              visibility 0s ease var(--menu-transition-duration),
+              background-color var(--menu-transition-duration) ease;
+}
+
+/* Original mobile styles for nav list/links/close (apply when menu is visible) */
 .nav-list {
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
-    /* Remove desktop-specific properties if they were here */
+    align-items: center; /* Center list items */
+    width: 100%; /* Ensure list takes width for centering */
+    padding: 2rem 0; /* Vertical padding */
+    margin: 0;
+    text-align: center;
 }
 .nav-link {
     color: var(--title-color);
     font-weight: var(--font-medium);
     transition: color var(--transition-snap);
     position: relative;
-    padding-bottom: 8px; /* Keep original padding */
+    padding-bottom: 8px;
+    font-size: var(--h2-font-size); /* Larger font size from fullscreen */
 }
 .nav-link:hover {
     color: var(--first-color);
 }
+
+/* Reposition close button for fullscreen (relative to .nav-menu) */
 .nav-close {
     position: absolute;
-    top: 1rem;
-    right: 1.25rem;
-    font-size: 1.8rem;
+    top: 1.5rem;
+    right: 1.5rem;
+    font-size: 2rem;
     color: var(--title-color);
     cursor: pointer;
     background: none;
     border: none;
     padding: 0.5rem;
+    z-index: 10; /* Ensure above links */
 }
 .nav-toggle {
     font-size: 1.5rem;
@@ -293,111 +323,61 @@ button.button {
     background: none;
     border: none;
     padding: 0.5rem;
-    display: block; /* Ensure toggle is always visible on mobile */
+    display: block; /* Keep toggle visible */
 }
+
+/* Underline for centered links */
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
+    width: 80%;
     height: 2px;
     background-color: var(--first-color);
-    transform: scaleX(0);
-    transform-origin: left;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
     transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
 }
 .nav-link.active-link {
     color: var(--first-color);
 }
 .nav-link.active-link::after {
-    transform: scaleX(1);
+    transform: translateX(-50%) scaleX(1);
+}
+.nav-link:not(.active-link):hover::after {
+     transform: translateX(-50%) scaleX(0.6);
 }
 
 
-/* MODIFIED .nav-menu.show-menu Styles for FULLSCREEN */
+/* OPTIMIZED .nav-menu.show-menu State */
 .nav-menu.show-menu {
-  right: 0; /* Bring it on screen */
-  /* Ensure width/height are full screen */
-  width: 100%;
-  height: 100vh; /* Use viewport height */
+  /* Bring on screen and make visible */
+  transform: translateX(0%);
+  opacity: 1;
+  visibility: visible;
 
-  /* Change background to solid */
-  background-color: var(--body-color); /* Or var(--container-color) for white */
-  /* Remove blur when solid */
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  /* Ensure solid background when open */
+  background-color: var(--body-color);
+  /* Explicitly remove filter if it was on base */
+  /* -webkit-backdrop-filter: none; */
+  /* backdrop-filter: none; */
 
-  /* Use flex properties defined in the base .nav-menu for centering */
-  padding: 0; /* Remove padding, rely on justify-content */
-}
-
-/* Adjustments needed for the centered list inside the fullscreen menu */
-.nav-menu.show-menu .nav-list {
-  display: flex; /* Ensure flex properties */
-  flex-direction: column;
-  align-items: center; /* Center items horizontally */
-  justify-content: center; /* Center vertically */
-  row-gap: 2.5rem; /* Increase gap */
-  text-align: center; /* Center text */
-  width: auto; /* Let content determine width */
-  padding: 2rem 0; /* Add some vertical padding */
-  margin: 0; /* Reset margin */
+  /* Reset transition delay for visibility when opening */
+  transition: transform var(--menu-transition-duration) var(--menu-timing-function),
+              opacity var(--menu-transition-duration) ease,
+              visibility 0s ease 0s, /* No delay when showing */
+              background-color var(--menu-transition-duration) ease;
 }
 
-.nav-menu.show-menu .nav-link {
-  font-size: var(--h2-font-size); /* Make links larger */
-  color: var(--title-color); /* Ensure link color contrasts with new bg */
-  padding-bottom: 10px; /* Adjust padding */
-  font-weight: var(--font-medium); /* Ensure font weight is set */
-  /* Ensure no desktop styles are leaking */
-  position: relative; /* Needed for ::after */
-}
-.nav-menu.show-menu .nav-link:hover {
-   color: var(--first-color);
-}
-.nav-menu.show-menu .nav-link.active-link {
-   color: var(--first-color); /* Ensure active color */
-}
+/* No extra styles needed for .nav-menu.show-menu .nav-list or .nav-link */
+/* as they are now handled by the base styles when the menu is visible */
 
-/* Adjust underline position/style for larger centered links */
-.nav-menu.show-menu .nav-link::after {
-    content: '';
-    position: absolute;
-    width: 80%; /* Underline width relative to link */
-    height: 2px;
-    background-color: var(--first-color);
-    left: 50%; /* Center the underline */
-    bottom: 0; /* Position at the bottom */
-    transform: translateX(-50%) scaleX(0); /* Start scaled down and centered */
-    transform-origin: center; /* Scale from center */
-    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-}
-.nav-menu.show-menu .nav-link.active-link::after {
-    transform: translateX(-50%) scaleX(1); /* Scale up from center */
-}
-.nav-menu.show-menu .nav-link:not(.active-link):hover::after {
-     transform: translateX(-50%) scaleX(0.6); /* Hover effect */
-}
-
-/* Reposition close button for fullscreen */
-.nav-menu.show-menu .nav-close {
-  position: absolute; /* Position relative to .nav-menu */
-  top: 1.5rem; /* Adjust position */
-  right: 1.5rem;
-  font-size: 2rem; /* Make it larger */
-  color: var(--title-color); /* Ensure visibility */
-  cursor: pointer;
-  background: none;
-  border: none;
-  padding: 0.5rem;
-  z-index: 10; /* Ensure it's above links */
-}
 /* --- End Mobile Navigation Menu --- */
 
 
 .hero { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--hero-bg-start), var(--hero-bg-end)); text-align: center; }
-.hero-container { z-index: 2; position: relative; padding-top: 2rem; padding-bottom: 4rem; /* Add padding within container */}
+.hero-container { z-index: 2; position: relative; padding-top: 2rem; padding-bottom: 4rem; }
 .hero-content { max-width: 600px; margin: 0 auto; }
 .hero-title { font-family: var(--title-font); font-size: calc(var(--biggest-font-size) * 1.8); line-height: 1.1; color: var(--first-color-alt); margin-bottom: var(--mb-0-5); font-weight: normal; }
 .hero-subtitle { font-size: var(--h2-font-size); font-weight: var(--font-light); color: var(--title-color); margin-bottom: var(--mb-1); letter-spacing: 1px; }
@@ -406,21 +386,19 @@ button.button {
 
 .hero-wave-container {
   position: absolute;
-  bottom: -1px; /* Prevent gaps */
+  bottom: -1px;
   left: 0;
   width: 100%;
   z-index: 1;
   overflow: hidden;
-  line-height: 0; /* Prevent extra space below SVG */
+  line-height: 0;
 }
 
 .hero-svg-wave {
-  display: block; /* Remove potential inline spacing */
+  display: block;
   width: 100%;
   height: auto;
-  max-height: 150px; /* Control wave height */
-  /* Consider reducing animation intensity if it causes performance issues */
-  /* animation: svg-wave-bob 8s ease-in-out infinite alternate; */
+  max-height: 150px;
 }
 
 @keyframes svg-wave-bob {
@@ -434,23 +412,23 @@ button.button {
 
 #about {
     background: linear-gradient(-45deg,
-        hsla(var(--first-hue), var(--sat), var(--light), 0.3), /* Softer gradient */
+        hsla(var(--first-hue), var(--sat), var(--light), 0.3),
         hsla(var(--first-hue), var(--sat), 95%, 0.4),
         hsla(var(--second-hue), 100%, 99%, 0.5),
         hsla(var(--first-hue), 90%, 97%, 0.3)
     );
     background-size: 300% 300%;
-    animation: gradient-wave 15s ease infinite; /* Slower animation */
+    animation: gradient-wave 15s ease infinite;
     color: var(--text-color);
 }
-#about .container { /* Ensure container content is above background */
+#about .container {
     position: relative;
     z-index: 2;
 }
 #about .section-title,
 #about .section-subtitle,
 #about .about-text p {
-   color: var(--text-color); /* Ensure text color contrasts with background */
+   color: var(--text-color);
 }
 #about .section-title { color: var(--title-color); }
 
@@ -463,9 +441,9 @@ button.button {
 .skills-container {
    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
    gap: 2rem;
-   max-width: 800px; /* Constrain width */
+   max-width: 800px;
    margin: 0 auto;
-   width: 100%; /* Ensure it takes container width */
+   width: 100%;
 }
 .skill-card {
     background-color: var(--container-color);
@@ -473,11 +451,11 @@ button.button {
     border-radius: 1rem;
     text-align: center;
     border: 1px solid var(--border-color);
-    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Smoother transitions */
-    box-shadow: 0 4px 10px hsla(var(--second-hue), 20%, 80%, 0.2); /* Subtler shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    box-shadow: 0 4px 10px hsla(var(--second-hue), 20%, 80%, 0.2);
 }
 .skill-card:hover {
-    transform: translateY(-8px) scale(1.02); /* Add slight scale */
+    transform: translateY(-8px) scale(1.02);
     box-shadow: 0 10px 25px hsla(var(--first-hue), 30%, 70%, 0.3);
     border-color: var(--first-color);
 }
@@ -505,14 +483,13 @@ button.button {
 .music-bars span {
     display: inline-block;
     width: 5px;
-    height: 100%; /* Use height instead of scale for animation */
-    max-height: 60px; /* Match container height */
+    height: 100%;
+    max-height: 60px;
     background-color: var(--first-color);
     border-radius: 2px;
     animation: animate-bars 1.2s infinite ease-in-out alternate;
     transform-origin: bottom;
 }
-/* Apply background colors directly */
 .music-bars span:nth-child(1) { animation-delay: -1.1s; background-color: hsl(var(--first-hue), var(--sat), 75%); }
 .music-bars span:nth-child(2) { animation-delay: -0.9s; }
 .music-bars span:nth-child(3) { animation-delay: -0.7s; background-color: hsl(var(--first-hue), var(--sat), 65%); }
@@ -521,7 +498,6 @@ button.button {
 .music-bars span:nth-child(6) { animation-delay: -0.1s; }
 .music-bars span:nth-child(7) { animation-delay: -0.6s; background-color: hsl(var(--first-hue), var(--sat), 80%); }
 
-/* Animate height instead of scaleY for potentially smoother results */
 @keyframes animate-bars {
     0% { height: 10%; }
     25% { height: 100%; }
@@ -535,19 +511,18 @@ button.button {
    max-width: 550px;
    margin: 0 auto;
    width: 100%;
-   display: grid; /* Use grid layout for form */
-   gap: var(--mb-1-5); /* Spacing between elements */
+   display: grid;
+   gap: var(--mb-1-5);
 }
 
 .contact-group {
    position: relative;
-   /* Remove margin-bottom, use grid gap instead */
 }
 
 .contact-input {
   position: relative;
   width: 100%;
-  padding: 1rem 1rem 0.5rem 0; /* Adjust padding */
+  padding: 1rem 1rem 0.5rem 0;
   border: none;
   border-bottom: 1px solid var(--border-color);
   background: none;
@@ -556,25 +531,21 @@ button.button {
   font-family: var(--body-font);
   outline: none;
   transition: border-color 0.3s ease;
-  z-index: 1; /* Input above label initially */
+  z-index: 1;
 }
 
-/* Remove browser default appearance */
 .contact-input, textarea.contact-input {
     appearance: none;
     -webkit-appearance: none;
-    border-radius: 0; /* Remove default rounding on mobile */
+    border-radius: 0;
 }
 
-
-/* Make placeholder visible until focused or filled */
 .contact-input::placeholder {
   color: var(--text-color-light);
-  opacity: 0; /* Hide initially, fade in with label */
+  opacity: 0;
   transition: opacity 0.3s ease;
 }
 .contact-input:placeholder-shown + .contact-label {
-    /* Keep label in input position when placeholder is shown */
     top: 0.9rem;
     font-size: var(--normal-font-size);
     color: var(--text-color-light);
@@ -583,18 +554,17 @@ button.button {
 
 .contact-label {
   position: absolute;
-  top: -0.5rem; /* Start in the 'raised' position */
+  top: -0.5rem;
   left: 0;
-  color: var(--first-color); /* Start with focus color */
+  color: var(--first-color);
   font-size: var(--small-font-size);
   transition: all 0.3s ease;
   pointer-events: none;
-  z-index: 2; /* Label above input when raised */
-  background-color: var(--body-color); /* Match page background */
-  padding: 0 0.25rem; /* Create space around text */
+  z-index: 2;
+  background-color: var(--body-color);
+  padding: 0 0.25rem;
 }
 
-/* When input is focused OR not empty, keep label raised */
 .contact-input:focus + .contact-label,
 .contact-input:not(:placeholder-shown) + .contact-label {
   top: -0.5rem;
@@ -604,12 +574,10 @@ button.button {
   z-index: 2;
 }
 
-/* Fade in placeholder text only when label is raised */
 .contact-input:focus::placeholder,
 .contact-input:not(:placeholder-shown)::placeholder {
   opacity: 1;
 }
-
 
 .contact-input:focus {
   border-bottom-color: var(--first-color);
@@ -619,16 +587,15 @@ textarea.contact-input {
   height: 100px;
   resize: vertical;
   line-height: 1.5;
-  padding-top: 1.5rem; /* More padding for textarea */
+  padding-top: 1.5rem;
 }
 
-/* Adjust textarea label position */
 textarea.contact-input:placeholder-shown + .contact-label {
-    top: 1rem; /* Align with textarea text */
+    top: 1rem;
 }
 textarea.contact-input:focus + .contact-label,
 textarea.contact-input:not(:placeholder-shown) + .contact-label {
-  top: -0.5rem; /* Raise label like other inputs */
+  top: -0.5rem;
 }
 
 
@@ -636,61 +603,58 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
    display: block;
    font-size: var(--small-font-size);
    color: hsl(0, 70%, 60%);
-   margin-top: var(--mb-0-5); /* Space above error */
-   min-height: 1.2em; /* Prevent layout shifts */
+   margin-top: var(--mb-0-5);
+   min-height: 1.2em;
    text-align: left;
-   padding-left: 0; /* Align with input */
+   padding-left: 0;
 }
 .contact-input.invalid { border-bottom-color: hsl(0, 70%, 60%); }
-.contact-input.invalid + .contact-label { color: hsl(0, 70%, 60%); } /* Change label color on error */
+.contact-input.invalid + .contact-label { color: hsl(0, 70%, 60%); }
 
 .form-status-message {
-   /* Remove margin-bottom, use grid gap */
    font-size: var(--normal-font-size);
    font-weight: var(--font-medium);
-   min-height: 1.5em; /* Prevent layout shifts */
+   min-height: 1.5em;
    text-align: center;
-   grid-column: 1 / -1; /* Span full width in grid */
+   grid-column: 1 / -1;
 }
 .form-status-message.success { color: hsl(140, 70%, 45%); }
 .form-status-message.error { color: hsl(0, 70%, 60%); }
 
-/* Span textarea and button across grid if needed */
-.contact-area { grid-column: 1 / -1; } /* Span full width */
+.contact-area { grid-column: 1 / -1; }
 #form-status { grid-column: 1 / -1; }
-.contact-button { grid-column: 1 / -1; justify-self: center; /* Center button */ }
+.contact-button { grid-column: 1 / -1; justify-self: center; }
 
 
-.footer { background-color: var(--first-color-light); padding: 3rem 0 2rem; margin-top: auto; /* Push footer down if content is short */ text-align: center; }
+.footer { background-color: var(--first-color-light); padding: 3rem 0 2rem; margin-top: auto; text-align: center; }
 .footer-container { max-width: var(--container-max-width); margin: 0 auto; padding: 0 1.5rem; }
 .footer-title { font-size: var(--h3-font-size); color: var(--title-color); margin-bottom: var(--mb-1); }
 .footer-social { display: flex; justify-content: center; column-gap: 1.5rem; margin-bottom: var(--mb-2); }
 .footer-social-link {
    font-size: 1.5rem;
    color: var(--text-color);
-   transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition */
-   display: inline-flex; /* Use flex for alignment */
+   transition: transform 0.3s ease, color 0.3s ease;
+   display: inline-flex;
    align-items: center;
    justify-content: center;
    width: 40px;
    height: 40px;
    border-radius: 50%;
-   position: relative; /* For ripple */
-   overflow: hidden; /* For ripple */
-   -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+   position: relative;
+   overflow: hidden;
+   -webkit-tap-highlight-color: transparent;
 }
-.footer-social-link:hover { color: var(--first-color); transform: translateY(-3px) scale(1.1); } /* Add scale on hover */
+.footer-social-link:hover { color: var(--first-color); transform: translateY(-3px) scale(1.1); }
 .footer-copy { font-size: var(--small-font-size); color: var(--text-color-light); display: block; margin-top: var(--mb-1-5); line-height: 1.5; }
 
-/* Ripple effect styles */
 .ripple {
   position: absolute;
   border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.6);
   transform: scale(0);
   animation: ripple-animation 0.6s linear;
-  pointer-events: none; /* Important */
-  z-index: 1; /* Ensure ripple is visually inside the button */
+  pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes ripple-animation {
@@ -704,13 +668,13 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 .scroll-up {
     position: fixed;
     right: 1rem;
-    bottom: -20%; /* Start further down */
-    background-color: hsla(var(--first-hue), var(--sat), var(--light), 0.8); /* Slightly transparent */
-    opacity: 0; /* Start hidden */
+    bottom: -20%;
+    background-color: hsla(var(--first-hue), var(--sat), var(--light), 0.8);
+    opacity: 0;
     padding: .4rem .6rem;
     border-radius: .4rem;
     z-index: var(--z-tooltip);
-    transition: bottom .4s ease, opacity .4s ease, background-color .3s ease, transform .3s ease; /* Added transform */
+    transition: bottom .4s ease, opacity .4s ease, background-color .3s ease, transform .3s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -721,37 +685,29 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 .scroll-up:hover {
     background-color: var(--first-color-alt);
     opacity: 1;
-    transform: translateY(-3px); /* Add hover effect */
+    transform: translateY(-3px);
 }
-.scroll-up i { font-size: 1.2rem; color: #fff; display: block; /* Ensure icon is block */ }
-/* Show scroll button */
+.scroll-up i { font-size: 1.2rem; color: #fff; display: block; }
 .show-scroll {
     bottom: 3rem;
     opacity: 1;
 }
 
 
-/* Scrollbar Styles (Note: -webkit- only works in Chrome, Safari, new Edge, Opera) */
-/* For Firefox, consider using scrollbar-width and scrollbar-color if needed */
 ::-webkit-scrollbar {
    width: .60rem;
-   background-color: hsl(var(--second-hue), 8%, 90%); /* Lighter track */
+   background-color: hsl(var(--second-hue), 8%, 90%);
    border-radius: .5rem;
 }
 ::-webkit-scrollbar-thumb {
    background-color: hsl(var(--second-hue), 8%, 65%);
    border-radius: .5rem;
-   border: 2px solid hsl(var(--second-hue), 8%, 90%); /* Match track color for border */
+   border: 2px solid hsl(var(--second-hue), 8%, 90%);
    transition: background-color 0.3s ease;
 }
 ::-webkit-scrollbar-thumb:hover {
    background-color: hsl(var(--second-hue), 8%, 55%);
 }
-/* Basic Firefox scrollbar styling (optional) */
-/* html {
-    scrollbar-width: thin;
-    scrollbar-color: hsl(var(--second-hue), 8%, 65%) hsl(var(--second-hue), 8%, 90%);
-} */
 
 
 /* Scroll Animation Base */
@@ -759,17 +715,15 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
    opacity: 0;
    transform: translateY(30px);
    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
-   will-change: opacity, transform; /* Optimize animation */
+   will-change: opacity, transform;
 }
 .animate-on-scroll.is-visible {
    opacity: 1;
    transform: translateY(0);
 }
-/* Stagger animations for skills cards */
 .skills-container .animate-on-scroll.stagger:nth-child(1) { transition-delay: 0.1s; }
 .skills-container .animate-on-scroll.stagger:nth-child(2) { transition-delay: 0.2s; }
 .skills-container .animate-on-scroll.stagger:nth-child(3) { transition-delay: 0.3s; }
-/* Add more if needed */
 
 
 /* Initial Load Animation */
@@ -793,73 +747,77 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 
 /* For very small devices */
 @media screen and (max-width: 370px) {
-  :root { /* Adjust font sizes */
+  :root {
       --biggest-font-size: 2rem;
       --h1-font-size: 1.5rem;
       --h2-font-size: 1.1rem;
       --normal-font-size: .875rem;
       --small-font-size: .75rem;
   }
-  .container { margin-left: var(--mb-1); margin-right: var(--mb-1); padding-left: 1rem; padding-right: 1rem; } /* Less padding */
-  /* Adjust nav-menu width/max-width if needed for very small screens */
-  /* .nav-menu { width: 90%; max-width: 260px; } */
+  .container { margin-left: var(--mb-1); margin-right: var(--mb-1); padding-left: 1rem; padding-right: 1rem; }
   .hero-title { font-size: calc(var(--biggest-font-size) * 1.5); }
-  .skills-container { grid-template-columns: 1fr; /* Stack skills vertically */ }
+  .skills-container { grid-template-columns: 1fr; }
   .footer-social { column-gap: 1rem; }
 }
 
 /* For small devices */
 @media screen and (min-width: 576px) {
-  .skills-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust minmax */}
-  .about-content { text-align: center; } /* Center align container */
-  .about-text { text-align: left; display: inline-block; max-width: 500px; /* Constrain width */}
+  .skills-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+  .about-content { text-align: center; }
+  .about-text { text-align: left; display: inline-block; max-width: 500px; }
   .passion-content { text-align: center; }
   .passion-content p { text-align: left; display: inline-block; max-width: 500px;}
 
-  /* Adjust contact form layout for wider small screens */
   .contact-form {
-      grid-template-columns: 1fr 1fr; /* Two columns */
+      grid-template-columns: 1fr 1fr;
       column-gap: 1.5rem;
-      row-gap: var(--mb-2); /* Consistent row gap */
-      max-width: 600px; /* Slightly wider form */
+      row-gap: var(--mb-2);
+      max-width: 600px;
   }
-  .contact-area { grid-column: 1 / -1; } /* Span full width */
+  .contact-area { grid-column: 1 / -1; }
   #form-status { grid-column: 1 / -1; }
-  .contact-button { grid-column: 1 / -1; justify-self: center; width: auto; } /* Center button */
+  .contact-button { grid-column: 1 / -1; justify-self: center; width: auto; }
 }
 
-/* For medium devices (Tablets) - THIS IS WHERE DESKTOP NAV STYLES BEGIN */
+/* For medium devices (Tablets) - DESKTOP NAV STYLES BEGIN */
 @media screen and (min-width: 768px) {
   /* Reset body overflow if window resized while menu was open */
   body.nav-open {
       overflow: auto;
   }
 
-  .nav-toggle, .nav-close { display: none; } /* Hide mobile menu controls */
+  .nav-toggle, .nav-close { display: none; }
 
   /* --- Desktop Navigation Menu Styles --- */
   /* Reset mobile styles completely */
   .nav-menu {
       position: static;
-      background-color: transparent;
+      background-color: transparent; /* Reset background */
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
       box-shadow: none;
-      width: auto; /* Crucial Reset */
-      height: auto; /* Crucial Reset */
+      width: auto;
+      height: auto;
       padding: 0;
+      /* Reset transform, opacity, visibility */
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      /* Reset transition */
       transition: none;
-      right: auto; /* Crucial Reset */
-      display: block;
-      overflow-y: visible; /* Crucial Reset */
-      flex-direction: row; /* Reset flex direction */
-      justify-content: flex-end; /* Reset justification */
-      align-items: center; /* Reset alignment */
-      max-width: none; /* Reset max-width */
+      right: auto; /* Ensure right is reset */
+      display: block; /* Keep display block? Might need flex depending on content */
+      overflow-y: visible;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      max-width: none;
   }
 
   /* Also explicitly reset .show-menu state for desktop */
   .nav-menu.show-menu {
+      /* Should inherit all the above resets */
+      /* Re-declare just in case, mirroring the .nav-menu reset */
       position: static;
       background-color: transparent;
       backdrop-filter: none;
@@ -868,6 +826,9 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       width: auto;
       height: auto;
       padding: 0;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
       transition: none;
       right: auto;
       display: block;
@@ -883,22 +844,21 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       flex-direction: row;
       column-gap: 2.5rem;
       align-items: center;
-      text-align: left; /* Reset text align */
-      width: auto; /* Reset width */
-      padding: 0; /* Reset padding */
-      row-gap: 0; /* Reset row gap */
-      margin: 0; /* Reset margin */
-      /* Ensure display is correct */
-      display: flex;
+      text-align: left;
+      width: auto;
+      padding: 0;
+      row-gap: 0;
+      margin: 0;
+      display: flex; /* Use flex for horizontal layout */
   }
 
   /* Desktop Nav Links */
   .nav-link {
       font-size: var(--normal-font-size); /* Reset font size */
       padding-bottom: 5px;
-      color: var(--title-color); /* Ensure correct color */
-      font-weight: var(--font-medium); /* Ensure weight */
-      position: relative; /* Keep relative positioning */
+      color: var(--title-color);
+      font-weight: var(--font-medium);
+      position: relative;
   }
    .nav-link:hover {
       color: var(--first-color);
@@ -908,20 +868,20 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
   .nav-link::after {
       content: '';
       position: absolute;
-      transform-origin: center; /* Underline from center */
-      bottom: -2px; /* Position underline below text */
-      left: 10%; /* Adjust position/width */
+      transform-origin: center;
+      bottom: -2px;
+      left: 10%;
       width: 80%;
       height: 2px;
       background-color: var(--first-color);
       transform: scaleX(0); /* Reset transform */
       transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   }
-  .nav-link.active-link { color: var(--first-color); } /* Active link color */
+  .nav-link.active-link { color: var(--first-color); }
 
   .nav-link.active-link::after {
        transform: scaleX(1);
-       transform-origin: center; /* Ensure origin is center */
+       transform-origin: center;
   }
    .nav-link:not(.active-link):hover::after {
       transform: scaleX(0.6);
@@ -929,37 +889,36 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
    }
   /* --- End Desktop Navigation --- */
 
-  body { font-size: var(--normal-font-size); } /* Restore base font size */
+  body { font-size: var(--normal-font-size); }
   .section { padding: 6rem 0 3rem; }
   .full-page-section { padding-top: calc(var(--header-height) + 2rem); padding-bottom: 4rem; }
   .section-subtitle { margin-bottom: var(--mb-2-5); }
 
   .hero-container { padding-top: 4rem; padding-bottom: 6rem; }
-  .hero-title { font-size: calc(var(--biggest-font-size) * 1.8); } /* Adjust hero title size */
+  .hero-title { font-size: calc(var(--biggest-font-size) * 1.8); }
 
   .skills-container { grid-template-columns: repeat(3, 1fr); max-width: 900px; }
   .skill-card { padding: 2.5rem 2rem; }
 
-  .scroll-up { right: 1.5rem; bottom: 4rem; } /* Adjust scroll-up position */
-  .show-scroll { bottom: 4rem; } /* Match show position */
+  .scroll-up { right: 1.5rem; bottom: 4rem; }
+  .show-scroll { bottom: 4rem; }
 }
 
 /* For large devices */
 @media screen and (min-width: 1024px) {
   .container {
-     max-width: 968px; /* Slightly constrain container */
-     padding-left: 0; /* Remove padding if max-width handles spacing */
+     max-width: 968px;
+     padding-left: 0;
      padding-right: 0;
   }
   .hero-description { max-width: 500px; }
-  .hero-title { font-size: calc(var(--biggest-font-size) * 2); } /* Larger hero title */
+  .hero-title { font-size: calc(var(--biggest-font-size) * 2); }
 
-  /* Adjust padding for larger screens */
    .section { padding: 7rem 0 4rem; }
    .full-page-section { padding-top: calc(var(--header-height) + 3rem); padding-bottom: 5rem; }
 }
 
 /* For extra large devices */
 @media screen and (min-width: 1200px) {
-    .container { max-width: 1140px; /* Restore wider container */ }
+    .container { max-width: 1140px; }
 }
