@@ -86,6 +86,12 @@ body {
   line-height: 1.6;
 }
 
+/* Style for the body when the nav menu is open to prevent scrolling */
+body.nav-open {
+  overflow: hidden;
+}
+
+
 h1, h2, h3 {
   color: var(--title-color);
   font-weight: var(--font-semi-bold);
@@ -226,27 +232,103 @@ button.button {
 .navbar { height: var(--header-height); display: flex; justify-content: space-between; align-items: center; }
 .nav-logo { font-family: var(--title-font); font-size: 1.8rem; color: var(--first-color); font-weight: normal; }
 
+/* --- Mobile Navigation Menu --- */
 .nav-menu {
-   position: fixed;
-   background-color: hsla(var(--second-hue), 80%, 95%, 0.9);
-   -webkit-backdrop-filter: blur(15px);
-   backdrop-filter: blur(15px);
-   top: 0;
-   right: -100%; /* Start off-screen */
-   width: 70%;
-   max-width: 320px; /* Add max-width */
-   height: 100%;
-   box-shadow: -2px 0 10px hsla(var(--second-hue), 30%, 15%, 0.1);
-   padding: 4rem 2rem 0;
-   transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
-   z-index: calc(var(--z-fixed) + 1); /* Ensure it's above header */
+  position: fixed;
+  /* Keep original background/blur for the slide-in effect base */
+  background-color: hsla(var(--second-hue), 80%, 95%, 0.9);
+  -webkit-backdrop-filter: blur(15px);
+  backdrop-filter: blur(15px);
+  top: 0;
+  right: -100%; /* Start off-screen */
+  width: 70%; /* Keep original width for the base state */
+  max-width: 320px;
+  height: 100%;
+  box-shadow: -2px 0 10px hsla(var(--second-hue), 30%, 15%, 0.1);
+  padding: 4rem 2rem 0;
+  /* Add transition for background-color and backdrop-filter */
+  transition: right 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+              background-color 0.3s ease-in-out,
+              backdrop-filter 0.3s ease-in-out,
+              -webkit-backdrop-filter 0.3s ease-in-out; /* Add prefix for transition */
+  z-index: calc(var(--z-fixed) + 1); /* Ensure it's above header */
 }
+
+/* Styles specifically when the menu is shown (fullscreen override) */
+.nav-menu.show-menu {
+  right: 0; /* Bring it on screen */
+  width: 100%; /* Fullscreen width */
+  max-width: 100%; /* Override max-width */
+  height: 100vh; /* Fullscreen height */
+  /* Solid background when open */
+  background-color: var(--body-color); /* Or use --container-color (#fff) or another solid color */
+  /* Remove blur when fully open and solid */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  /* Center content vertically and horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0; /* Reset padding, use flex alignment */
+  overflow-y: auto; /* Allow scrolling if content overflows on small heights */
+}
+
+.nav-menu.show-menu .nav-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2.5rem; /* Increase gap */
+  text-align: center; /* Center text */
+  width: 100%; /* Ensure list takes width */
+  padding: 2rem 0; /* Add some padding */
+}
+
+.nav-menu.show-menu .nav-link {
+  font-size: var(--h2-font-size); /* Make links larger */
+  color: var(--title-color); /* Ensure link color contrasts with new bg */
+  padding-bottom: 10px; /* Adjust padding */
+}
+.nav-menu.show-menu .nav-link:hover {
+   color: var(--first-color);
+}
+
+/* Ensure the active link underline style works on the new background */
+.nav-menu.show-menu .nav-link::after {
+    content: '';
+    position: absolute;
+    width: 80%; /* Adjust width for centered underline */
+    height: 2px;
+    background-color: var(--first-color); /* Ensure underline color is correct */
+    /* Reset positioning if needed, center it */
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    bottom: 0;
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+.nav-menu.show-menu .nav-link.active-link::after {
+    transform: translateX(-50%) scaleX(0.8); /* Scale from center */
+}
+
+/* Reposition close button for fullscreen */
+.nav-menu.show-menu .nav-close {
+  position: absolute;
+  top: 1.5rem; /* Adjust position */
+  right: 1.5rem;
+  font-size: 2rem; /* Make it larger */
+  color: var(--title-color); /* Ensure visibility */
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+}
+
+/* Original mobile styles for nav list/links (when menu is closed or sliding) */
 .nav-list { display: flex; flex-direction: column; row-gap: 2rem; }
 .nav-link { color: var(--title-color); font-weight: var(--font-medium); transition: color var(--transition-snap); position: relative; padding-bottom: 8px; }
 .nav-link:hover { color: var(--first-color); }
-.nav-close { position: absolute; top: 1rem; right: 1.25rem; font-size: 1.8rem; color: var(--title-color); cursor: pointer; background: none; border: none; padding: 0.5rem;} /* Make close button easier to tap */
+.nav-close { position: absolute; top: 1rem; right: 1.25rem; font-size: 1.8rem; color: var(--title-color); cursor: pointer; background: none; border: none; padding: 0.5rem;}
 .nav-toggle { font-size: 1.5rem; color: var(--title-color); cursor: pointer; background: none; border: none; padding: 0.5rem; display: block; /* Ensure toggle is always visible on mobile */ }
-.show-menu { right: 0; }
 
 .nav-link::after {
     content: '';
@@ -262,6 +344,9 @@ button.button {
 }
 .nav-link.active-link { color: var(--first-color); }
 .nav-link.active-link::after { transform: scaleX(1); }
+
+/* --- End Mobile Navigation Menu --- */
+
 
 .hero { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--hero-bg-start), var(--hero-bg-end)); text-align: center; }
 .hero-container { z-index: 2; position: relative; padding-top: 2rem; padding-bottom: 4rem; /* Add padding within container */}
@@ -668,7 +753,8 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       --small-font-size: .75rem;
   }
   .container { margin-left: var(--mb-1); margin-right: var(--mb-1); padding-left: 1rem; padding-right: 1rem; } /* Less padding */
-  .nav-menu { width: 85%; max-width: 280px;} /* Slightly wider menu */
+  /* Adjust nav-menu width/max-width if needed for very small screens */
+  /* .nav-menu { width: 90%; max-width: 260px; } */
   .hero-title { font-size: calc(var(--biggest-font-size) * 1.5); }
   .skills-container { grid-template-columns: 1fr; /* Stack skills vertically */ }
   .footer-social { column-gap: 1rem; }
@@ -694,11 +780,16 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
   .contact-button { grid-column: 1 / -1; justify-self: center; width: auto; } /* Center button */
 }
 
-/* For medium devices (Tablets) */
+/* For medium devices (Tablets) - THIS IS WHERE DESKTOP NAV STYLES BEGIN */
 @media screen and (min-width: 768px) {
-  body { font-size: var(--normal-font-size); } /* Restore base font size */
+  /* Reset body overflow if window resized while menu was open */
+  body.nav-open {
+      overflow: auto;
+  }
 
   .nav-toggle, .nav-close { display: none; } /* Hide mobile menu controls */
+
+  /* --- Desktop Navigation Menu Styles --- */
   .nav-menu {
       position: static; /* Reset position */
       background-color: transparent;
@@ -709,19 +800,81 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       height: auto;
       padding: 0;
       transition: none;
-      right: 0; /* Ensure it's visible */
+      right: 0; /* Ensure reset */
+      display: block; /* Reset display */
+      overflow-y: visible; /* Reset overflow */
+      flex-direction: row; /* Ensure row direction */
+      justify-content: flex-end; /* Align items to the end */
+      align-items: center; /* Center items vertically */
+      max-width: none; /* Remove max-width */
   }
-  .nav-list { flex-direction: row; column-gap: 2.5rem; align-items: center; }
-  .nav-link { padding-bottom: 5px; /* Adjust padding for underline */}
-  .nav-link::after {
+
+  /* Override mobile .show-menu styles back to desktop defaults */
+  /* This is important to ensure mobile styles don't leak */
+  .nav-menu.show-menu {
+      width: auto;
+      max-width: none;
+      height: auto;
+      background-color: transparent; /* Ensure transparent bg */
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      position: static; /* Ensure static position */
+      display: block; /* Back to default display */
+      overflow-y: visible;
+      padding: 0; /* Reset padding */
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+  }
+
+  /* Desktop Nav List */
+  .nav-list { /* Use .nav-list directly, not .nav-menu.show-menu .nav-list */
+      flex-direction: row;
+      column-gap: 2.5rem;
+      align-items: center;
+      text-align: left; /* Reset text align */
+      width: auto; /* Reset width */
+      padding: 0; /* Reset padding */
+      row-gap: 0; /* Reset row gap */
+      margin: 0; /* Reset margin */
+  }
+
+  /* Desktop Nav Links */
+  .nav-link { /* Use .nav-link directly */
+      font-size: var(--normal-font-size); /* Reset font size */
+      padding-bottom: 5px;
+      color: var(--title-color); /* Ensure correct color */
+  }
+   .nav-link:hover {
+      color: var(--first-color);
+   }
+
+  /* Desktop Nav Link Underlines */
+  .nav-link::after { /* Use .nav-link directly */
+      content: ''; /* Ensure content exists */
+      position: absolute; /* Ensure correct positioning */
       transform-origin: center; /* Underline from center */
       bottom: -2px; /* Position underline below text */
       left: 10%; /* Adjust width */
       width: 80%;
+      height: 2px; /* Ensure height */
+      background-color: var(--first-color); /* Ensure color */
+      transform: scaleX(0); /* Reset transform */
+      transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); /* Ensure transition */
   }
-  .nav-link.active-link::after { transform: scaleX(1); }
-  .nav-link:not(.active-link):hover::after { transform: scaleX(0.6); transform-origin: center; } /* Hover underline effect */
+  .nav-link.active-link { color: var(--first-color); } /* Active link color */
 
+  .nav-link.active-link::after { /* Use .nav-link directly */
+       transform: scaleX(1);
+       transform-origin: center; /* Ensure origin is center */
+  }
+   .nav-link:not(.active-link):hover::after { /* Use .nav-link directly */
+      transform: scaleX(0.6);
+      transform-origin: center;
+   }
+  /* --- End Desktop Navigation --- */
+
+  body { font-size: var(--normal-font-size); } /* Restore base font size */
   .section { padding: 6rem 0 3rem; }
   .full-page-section { padding-top: calc(var(--header-height) + 2rem); padding-bottom: 4rem; }
   .section-subtitle { margin-bottom: var(--mb-2-5); }
