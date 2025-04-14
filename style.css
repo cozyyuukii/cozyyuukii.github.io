@@ -924,7 +924,7 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 
   /* Make the hero wave taller on mobile */
   .hero-svg-wave {
-    /* Increase max-height - adjust the value as desired */
-    max-height: 300px;
+    height: 300px !important;
+    max-height: none;
   }
 }
