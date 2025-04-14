@@ -93,7 +93,9 @@ body {
 
 /* Style for the body when the nav menu is open to prevent scrolling */
 body.nav-open {
-  overflow: hidden;
+  /* NO overflow: hidden NEEDED if header is gone and menu is always hidden? */
+  /* Keep for now, but maybe removable if header is permanently display:none */
+   overflow: hidden;
 }
 
 
@@ -141,6 +143,7 @@ input:focus-visible, textarea:focus-visible {
 
 .full-page-section {
     min-height: 100vh;
+    /* Adjusted default padding - might be overridden by mobile query */
     padding-top: var(--header-height);
     padding-bottom: 2rem;
     display: flex;
@@ -222,6 +225,7 @@ button.button {
   transition: background-color 0.4s ease, box-shadow 0.4s ease;
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
+  /* Will be hidden by mobile media query below */
 }
 .header.scrolled {
    background-color: hsla(var(--second-hue), 30%, 98%, 0.9);
@@ -232,62 +236,44 @@ button.button {
 .navbar { height: var(--header-height); display: flex; justify-content: space-between; align-items: center; }
 .nav-logo { font-family: var(--title-font); font-size: 1.8rem; color: var(--first-color); font-weight: normal; }
 
-/* --- Mobile Navigation Menu --- */
-/* OPTIMIZED BASE .nav-menu */
+/* --- Mobile Navigation Menu (Functionally Hidden if Header is Hidden) --- */
 .nav-menu {
   position: fixed;
   top: 0;
-  /* Change positioning from right to transform */
-  right: 0; /* Keep right: 0 */
+  right: 0;
   width: 100%;
-  height: 100vh; /* Use vh for fullscreen */
-
-  /* Initial state: Off-screen and invisible */
+  height: 100vh;
   transform: translateX(100%);
   opacity: 0;
   visibility: hidden;
-
-  /* Background (can be simple for closed state) */
-  background-color: var(--body-color); /* Start with solid */
-  /* Remove backdrop filter here if causing issues */
-  /* -webkit-backdrop-filter: blur(15px); */
-  /* backdrop-filter: blur(15px); */
-
+  background-color: var(--body-color);
   box-shadow: -2px 0 10px hsla(var(--second-hue), 30%, 15%, 0.1);
-  padding: 0; /* Reset padding, use flex centering */
+  padding: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  /* Define transitions ON THE BASE ELEMENT for smooth open and close */
   transition: transform var(--menu-transition-duration) var(--menu-timing-function),
-              opacity var(--menu-transition-duration) ease, /* Use standard ease for opacity */
+              opacity var(--menu-transition-duration) ease,
               visibility var(--menu-transition-duration) ease,
-              background-color var(--menu-transition-duration) ease; /* Optional: transition bg */
-              /* Add backdrop-filter here if you want to transition it */
-
+              background-color var(--menu-transition-duration) ease;
   z-index: calc(var(--z-fixed) + 1);
   overflow-y: auto;
+  /* Note: This menu won't be openable via the toggle if the header is display:none */
 }
-
-/* Add a delay to visibility transition when hiding */
 .nav-menu:not(.show-menu) {
   transition: transform var(--menu-transition-duration) var(--menu-timing-function),
               opacity var(--menu-transition-duration) ease,
-              /* Delay hiding visibility until transform/opacity are done */
               visibility 0s ease var(--menu-transition-duration),
               background-color var(--menu-transition-duration) ease;
 }
-
-/* Original mobile styles for nav list/links/close (apply when menu is visible) */
 .nav-list {
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
-    align-items: center; /* Center list items */
-    width: 100%; /* Ensure list takes width for centering */
-    padding: 2rem 0; /* Vertical padding */
+    align-items: center;
+    width: 100%;
+    padding: 2rem 0;
     margin: 0;
     text-align: center;
 }
@@ -297,13 +283,11 @@ button.button {
     transition: color var(--transition-snap);
     position: relative;
     padding-bottom: 8px;
-    font-size: var(--h2-font-size); /* Larger font size from fullscreen */
+    font-size: var(--h2-font-size);
 }
 .nav-link:hover {
     color: var(--first-color);
 }
-
-/* Reposition close button for fullscreen (relative to .nav-menu) */
 .nav-close {
     position: absolute;
     top: 1.5rem;
@@ -314,7 +298,7 @@ button.button {
     background: none;
     border: none;
     padding: 0.5rem;
-    z-index: 10; /* Ensure above links */
+    z-index: 10;
 }
 .nav-toggle {
     font-size: 1.5rem;
@@ -323,10 +307,9 @@ button.button {
     background: none;
     border: none;
     padding: 0.5rem;
-    display: block; /* Keep toggle visible */
+    display: block; /* Original display */
+    /* Will be hidden if parent .header is hidden */
 }
-
-/* Underline for centered links */
 .nav-link::after {
     content: '';
     position: absolute;
@@ -348,36 +331,21 @@ button.button {
 .nav-link:not(.active-link):hover::after {
      transform: translateX(-50%) scaleX(0.6);
 }
-
-
-/* OPTIMIZED .nav-menu.show-menu State */
 .nav-menu.show-menu {
-  /* Bring on screen and make visible */
   transform: translateX(0%);
   opacity: 1;
   visibility: visible;
-
-  /* Ensure solid background when open */
   background-color: var(--body-color);
-  /* Explicitly remove filter if it was on base */
-  /* -webkit-backdrop-filter: none; */
-  /* backdrop-filter: none; */
-
-  /* Reset transition delay for visibility when opening */
   transition: transform var(--menu-transition-duration) var(--menu-timing-function),
               opacity var(--menu-transition-duration) ease,
-              visibility 0s ease 0s, /* No delay when showing */
+              visibility 0s ease 0s,
               background-color var(--menu-transition-duration) ease;
 }
-
-/* No extra styles needed for .nav-menu.show-menu .nav-list or .nav-link */
-/* as they are now handled by the base styles when the menu is visible */
-
 /* --- End Mobile Navigation Menu --- */
 
 
 .hero { position: relative; overflow: hidden; background: linear-gradient(160deg, var(--hero-bg-start), var(--hero-bg-end)); text-align: center; }
-.hero-container { z-index: 2; position: relative; padding-top: 2rem; padding-bottom: 4rem; }
+.hero-container { z-index: 2; position: relative; padding-top: 2rem; padding-bottom: 4rem; } /* Default padding */
 .hero-content { max-width: 600px; margin: 0 auto; }
 .hero-title { font-family: var(--title-font); font-size: calc(var(--biggest-font-size) * 1.8); line-height: 1.1; color: var(--first-color-alt); margin-bottom: var(--mb-0-5); font-weight: normal; }
 .hero-subtitle { font-size: var(--h2-font-size); font-weight: var(--font-light); color: var(--title-color); margin-bottom: var(--mb-1); letter-spacing: 1px; }
@@ -398,7 +366,8 @@ button.button {
   display: block;
   width: 100%;
   height: auto;
-  max-height: 150px;
+  max-height: 150px; /* Default max-height */
+  /* Will be overridden by mobile media query below */
 }
 
 @keyframes svg-wave-bob {
@@ -761,7 +730,7 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 }
 
 /* For small devices */
-@media screen and (min-width: 576px) {
+@media screen and (min-width: 576px) and (max-width: 767px) { /* Adjusted range */
   .skills-container { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
   .about-content { text-align: center; }
   .about-text { text-align: left; display: inline-block; max-width: 500px; }
@@ -781,43 +750,20 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 
 /* For medium devices (Tablets) - DESKTOP NAV STYLES BEGIN */
 @media screen and (min-width: 768px) {
-  /* Reset body overflow if window resized while menu was open */
+  /* Reset body overflow */
   body.nav-open {
       overflow: auto;
+  }
+
+  /* Show header again */
+  .header {
+      display: block; /* Or flex, depending on its default */
   }
 
   .nav-toggle, .nav-close { display: none; }
 
   /* --- Desktop Navigation Menu Styles --- */
-  /* Reset mobile styles completely */
   .nav-menu {
-      position: static;
-      background-color: transparent; /* Reset background */
-      backdrop-filter: none;
-      -webkit-backdrop-filter: none;
-      box-shadow: none;
-      width: auto;
-      height: auto;
-      padding: 0;
-      /* Reset transform, opacity, visibility */
-      transform: none;
-      opacity: 1;
-      visibility: visible;
-      /* Reset transition */
-      transition: none;
-      right: auto; /* Ensure right is reset */
-      display: block; /* Keep display block? Might need flex depending on content */
-      overflow-y: visible;
-      flex-direction: row;
-      justify-content: flex-end;
-      align-items: center;
-      max-width: none;
-  }
-
-  /* Also explicitly reset .show-menu state for desktop */
-  .nav-menu.show-menu {
-      /* Should inherit all the above resets */
-      /* Re-declare just in case, mirroring the .nav-menu reset */
       position: static;
       background-color: transparent;
       backdrop-filter: none;
@@ -838,8 +784,27 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       align-items: center;
       max-width: none;
   }
-
-  /* Desktop Nav List */
+  .nav-menu.show-menu {
+      position: static;
+      background-color: transparent;
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+      box-shadow: none;
+      width: auto;
+      height: auto;
+      padding: 0;
+      transform: none;
+      opacity: 1;
+      visibility: visible;
+      transition: none;
+      right: auto;
+      display: block;
+      overflow-y: visible;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      max-width: none;
+  }
   .nav-list {
       flex-direction: row;
       column-gap: 2.5rem;
@@ -849,12 +814,10 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       padding: 0;
       row-gap: 0;
       margin: 0;
-      display: flex; /* Use flex for horizontal layout */
+      display: flex;
   }
-
-  /* Desktop Nav Links */
   .nav-link {
-      font-size: var(--normal-font-size); /* Reset font size */
+      font-size: var(--normal-font-size);
       padding-bottom: 5px;
       color: var(--title-color);
       font-weight: var(--font-medium);
@@ -863,8 +826,6 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
    .nav-link:hover {
       color: var(--first-color);
    }
-
-  /* Desktop Nav Link Underlines */
   .nav-link::after {
       content: '';
       position: absolute;
@@ -874,11 +835,10 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
       width: 80%;
       height: 2px;
       background-color: var(--first-color);
-      transform: scaleX(0); /* Reset transform */
+      transform: scaleX(0);
       transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
   }
   .nav-link.active-link { color: var(--first-color); }
-
   .nav-link.active-link::after {
        transform: scaleX(1);
        transform-origin: center;
@@ -891,14 +851,26 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
 
   body { font-size: var(--normal-font-size); }
   .section { padding: 6rem 0 3rem; }
-  .full-page-section { padding-top: calc(var(--header-height) + 2rem); padding-bottom: 4rem; }
+  /* Reset section padding for desktop */
+  .full-page-section {
+      padding-top: var(--header-height); /* Restore default padding */
+      padding-bottom: 4rem;
+  }
+   /* Reset hero padding for desktop */
+  .hero-container {
+      padding-top: 4rem; /* Restore default padding */
+      padding-bottom: 6rem;
+  }
+
   .section-subtitle { margin-bottom: var(--mb-2-5); }
-
-  .hero-container { padding-top: 4rem; padding-bottom: 6rem; }
   .hero-title { font-size: calc(var(--biggest-font-size) * 1.8); }
-
   .skills-container { grid-template-columns: repeat(3, 1fr); max-width: 900px; }
   .skill-card { padding: 2.5rem 2rem; }
+
+  /* Reset wave height for desktop */
+   .hero-svg-wave {
+       max-height: 150px; /* Restore default height */
+   }
 
   .scroll-up { right: 1.5rem; bottom: 4rem; }
   .show-scroll { bottom: 4rem; }
@@ -915,14 +887,23 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
   .hero-title { font-size: calc(var(--biggest-font-size) * 2); }
 
    .section { padding: 7rem 0 4rem; }
-   .full-page-section { padding-top: calc(var(--header-height) + 3rem); padding-bottom: 5rem; }
+   /* Ensure padding is correct for large screens */
+   .full-page-section {
+       padding-top: calc(var(--header-height) + 3rem);
+       padding-bottom: 5rem;
+   }
+   .hero-container {
+       padding-top: calc(var(--header-height) + 3rem); /* Match section padding */
+   }
 }
 
 /* For extra large devices */
 @media screen and (min-width: 1200px) {
     .container { max-width: 1140px; }
 }
-/* ==================== Mobile Specific Adjustments ==================== */
+
+
+/* ==================== Mobile Specific Adjustments (End of File) ==================== */
 @media screen and (max-width: 767px) {
   /* Hide the entire header on mobile */
   .header {
@@ -933,16 +914,19 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
   /* This prevents content from going under the status bar */
   .full-page-section {
       padding-top: 1rem; /* Adjust as needed */
+      /* Ensure min-height still works correctly */
+      min-height: calc(100vh - 1rem); /* Account for padding */
   }
-  /* Special adjustment for hero padding if needed */
+  /* Special adjustment for hero padding */
   .hero-container {
       padding-top: 3rem; /* Add more top padding to compensate for header */
+      padding-bottom: 4rem; /* Keep bottom padding consistent */
   }
 
 
   /* Make the hero wave taller on mobile */
   .hero-svg-wave {
     /* Increase max-height - adjust the value as desired */
-    max-height: 320px;
+    max-height: 220px;
   }
 }
