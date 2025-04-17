@@ -922,9 +922,3 @@ textarea.contact-input:not(:placeholder-shown) + .contact-label {
   }
 
 
-  /* Make the hero wave taller on mobile */
-  .hero-svg-wave {
-    height: 230px !important;
-    max-height: none;
-  }
-}
