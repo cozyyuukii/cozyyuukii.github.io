@@ -176,7 +176,7 @@
             font-size: clamp(1rem, 2.2vw, 1.3rem);
             color: var(--color-text-muted);
             letter-spacing: 0.02em;
-            min-height: 1.5em;
+            min-height: 1.5em; /* Ensure space for cursor */
         }
         .typed-cursor-rm {
             opacity: 1;
@@ -320,7 +320,7 @@
         #journey .timeline-item::before {
             content: '';
             position: absolute;
-            left: 14px;
+            left: 14px; /* Adjusted for better alignment */
             top: 5px;
             width: 12px;
             height: 12px;
@@ -340,24 +340,24 @@
                 float: left;
                 clear: right;
                 text-align: right;
-                margin-right: 25px;
+                margin-right: 25px; /* Space from center line */
             }
              #journey .timeline-item:nth-child(odd)::before {
                 left: auto;
-                right: -31px;
+                right: -31px; /* (25px margin + 6px half-dot-width) */
                 transform: translateX(50%);
             }
             #journey .timeline-item:nth-child(even) {
                 float: right;
                 clear: left;
                 text-align: left;
-                margin-left: 25px;
+                margin-left: 25px; /* Space from center line */
             }
             #journey .timeline-item:nth-child(even)::before {
-                left: -31px;
+                left: -31px; /* (25px margin + 6px half-dot-width) */
                 transform: translateX(-50%);
             }
-            #journey .timeline-container-fp::after {
+            #journey .timeline-container-fp::after { /* clearfix */
                 content: "";
                 display: table;
                 clear: both;
@@ -377,17 +377,17 @@
 
 
         #terminal-window-fp {
-             background: #050505;
+             background: #050505; /* Slightly darker than bg-alt for depth */
              border: 1px solid var(--color-border);
              box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-             border-radius: 10px;
+             border-radius: 10px; /* Consistent rounding */
         }
         .terminal-bar-fp {
-            background-color: rgba(0,0,0,0.3);
+            background-color: rgba(0,0,0,0.3); /* Darker, distinct bar */
             border-bottom: 1px solid var(--color-border);
-            height: 2.5rem;
+            height: 2.5rem; /* Standardized height */
         }
-        .terminal-bar-fp span { width: 0.8rem; height: 0.8rem; }
+        .terminal-bar-fp span { width: 0.8rem; height: 0.8rem; } /* Mac-style buttons */
         #terminal-output { font-size: 0.875rem; }
         #terminal-output .help-command { color: var(--color-primary-accent); flex-basis: 30%;}
         #terminal-output .help-description { color: var(--color-text-muted); flex-basis: 70%;}
@@ -403,7 +403,7 @@
             color: var(--color-text-muted);
             border-radius: 8px;
             font-size: 0.9rem;
-            padding: 0.75rem;
+            padding: 0.75rem; /* Uniform padding */
         }
         .drum-pad-fp:hover {
             border-color: var(--color-primary-accent);
@@ -416,7 +416,7 @@
             box-shadow: 0 0 15px var(--key-color-glow, var(--color-portal-glow));
             color: var(--color-bg);
         }
-        .drum-pad-fp span {
+        .drum-pad-fp span { /* Key label styling */
             display: block;
             font-size: 0.65rem;
             margin-top: 0.2rem;
@@ -424,7 +424,7 @@
             letter-spacing: 0.05em;
         }
         #drum-machine-container-fp {
-            background-color: var(--color-bg);
+            background-color: var(--color-bg); /* Match section bg or slightly different */
             border: 1px solid var(--color-border);
             border-radius: 12px;
             padding: 1.5rem;
@@ -444,12 +444,12 @@
 
         #main-footer {
             border-top: 1px solid var(--color-border);
-            background-color: var(--color-bg);
+            background-color: var(--color-bg); /* Consistent with overall theme */
             padding-top: 3rem; padding-bottom: 3rem;
         }
         #main-footer a:hover i {
             transform: scale(1.1);
-            color: var(--color-primary-accent);
+            color: var(--color-primary-accent); /* Default hover color */
         }
         #main-footer a i { transition: transform 0.2s ease, color 0.2s ease; font-size: 1.6rem; }
         #main-footer p {
@@ -461,13 +461,13 @@
 
         .g-fade-in, .g-fade-in-up, .g-fade-in-down, .g-fade-in-left, .g-fade-in-right, .g-scale-in, .g-draw-in {
             opacity: 0;
-            will-change: transform, opacity;
+            will-change: transform, opacity; /* Performance hint for animations */
         }
 
         .decorative-line {
             height: 1.5px;
-            background-color: var(--color-primary-accent);
-            transform-origin: left;
+            background-color: var(--color-primary-accent); /* Default to primary, can be overridden */
+            transform-origin: left; /* For draw-in animation */
         }
 
         #back-to-top {
@@ -513,7 +513,8 @@
             </div>
         </div>
     </header>
-    <div id="mobile-menu" class=""> <nav class="flex flex-col items-center space-y-4"> <a href="#home" class="mobile-nav-link">Home</a>
+    <div id="mobile-menu" class=""> <nav class="flex flex-col items-center space-y-4">
+            <a href="#home" class="mobile-nav-link">Home</a>
             <a href="#about" class="mobile-nav-link">About</a>
             <a href="#stack" class="mobile-nav-link">Arsenal</a>
             <a href="#journey" class="mobile-nav-link">Journey</a>
@@ -527,8 +528,7 @@
 
     <main>
         <section id="home" class="text-center px-4 sm:px-6 lg:px-8">
-            <div id="hero-background-image-container"></div>
-            <div class="z-10 relative">
+            <div id="hero-background-image-container"></div> <div class="z-10 relative">
                 <h1 class="g-fade-in-up">
                     <span class="block">人間</span><span class="text-gradient-rm block">エラー</span>
                 </h1>
@@ -599,8 +599,7 @@
                 <h2 class="section-title mb-4 g-fade-in-up">My Descent into Madness (aka Career)</h2>
                 <p class="section-subtitle mb-16 md:mb-20 g-fade-in-up" style="animation-delay: 0.2s;">A brief, heavily redacted history of how I learned to repeatedly hit my head against the keyboard.</p>
                 <div class="timeline-container-fp">
-                    <div class="timeline-line hidden md:block"></div>
-                    <div class="timeline-item g-fade-in-left">
+                    <div class="timeline-line hidden md:block"></div> <div class="timeline-item g-fade-in-left">
                         <h3>The Ctrl+Z Epiphany (Ancient Times)</h3>
                         <p>Discovered the magic undo spell. Immediately abused its power and learned nothing.</p>
                     </div>
@@ -614,7 +613,7 @@
                         <h3>Achieved Google Fu Black Belt (The Not-So-Distant Past)</h3>
                         <p>Career trajectory went stonks. My ability to form original thoughts, however...</p>
                     </div>
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -636,7 +635,7 @@
                         <span class="tech-tag">Python</span>
                         <span class="tech-tag">Forbidden Magic</span>
                     </div>
-                </div>
+                    </div>
             </div>
         </section>
 
@@ -663,14 +662,12 @@
                 <p class="section-subtitle mb-12 md:mb-16 text-center g-fade-in-up" style="animation-delay: 0.2s;">It's not a bug, it's an undocumented feature. Mostly. Type 'help' if you dare.</p>
                 <div id="terminal-window-fp" class="rounded-lg shadow-xl overflow-hidden font-mono text-sm g-scale-in">
                     <div class="terminal-bar-fp flex items-center px-4">
-                        <div class="flex space-x-2">
-                            <span class="block bg-red-500 rounded-full"></span>
+                        <div class="flex space-x-2"> <span class="block bg-red-500 rounded-full"></span>
                             <span class="block bg-yellow-400 rounded-full"></span>
                             <span class="block bg-green-500 rounded-full"></span>
                         </div>
                         <div class="flex-grow text-center text-gray-500 text-xs font-medium">root@mostly-stable:~ $</div>
-                         <div class="w-3 h-3"></div>
-                    </div>
+                         <div class="w-3 h-3"></div> </div>
                     <div id="terminal-output" class="p-5 h-60 overflow-y-auto text-gray-300 leading-relaxed">
                         <div>Welcome to PanicOS v0.0.1-alpha-rc-final-final</div>
                         <div>Type "help" for a list of probably useless commands.</div>
@@ -704,8 +701,7 @@
                         Launch Message into the Void <i class="fas fa-paper-plane ml-2 text-sm opacity-90"></i>
                     </button>
                 </form>
-                 <p id="form-status" class="mt-6 text-sm"></p>
-            </div>
+                 <p id="form-status" class="mt-6 text-sm"></p> </div>
         </section>
     </main>
 
@@ -715,8 +711,8 @@
                 <a href="https://www.instagram.com/yuuk3i/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-secondary-accent"><i class="fab fa-instagram"></i></a>
                 <a href="https://discord.com/users/935827821329256459/" aria-label="Discord" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-400"><i class="fab fa-discord"></i></a>
                 <a href="https://github.com/cozyyuukii/" aria-label="GitHub" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
-                <a href="https://open.spotify.com/user/uj1ktltbkm0a4bm3hnz6saala/" aria-label="Spotify" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary-accent"><i class="fab fa-spotify"></i></a>
-                 <a href="https://music.apple.com/profile/cozyyuukii" aria-label="Apple Music" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-pink-400"><i class="fab fa-apple"></i></a>
+                <a href="https://open.spotify.com/user/your_spotify_id" aria-label="Spotify" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary-accent"><i class="fab fa-spotify"></i></a>
+                 <a href="https://music.apple.com/profile/cozyyuukii" aria-label="Apple Music" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-pink-400"><i class="fa-brands fa-itunes-note"></i></a>
             </div>
             <p class="mb-1">Crafted with <span class="text-primary-accent">100% organic, free-range pixels</span> & a dash of panic. GDPR compliant-ish*</p>
             <p class="text-xs">*My lawyer (a rubber duck) advised against full compliance. Don’t tell anyone.</p>
@@ -733,6 +729,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
     <script>
+        // Tailwind CSS JIT Configuration (Optional, if specific overrides are needed)
         tailwind.config = {
             theme: {
                 extend: {
@@ -741,7 +738,7 @@
                         'inter': ['Inter', 'sans-serif'],
                         'source-code': ['Source Code Pro', 'monospace'],
                     },
-                     colors: {
+                     colors: { // To make custom CSS vars available to Tailwind if needed
                         'primary-accent': 'var(--color-primary-accent)',
                         'secondary-accent': 'var(--color-secondary-accent)',
                     }
@@ -750,48 +747,53 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            // Initialize GSAP plugins
             gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
+            // DOM Element References
             const mainHeaderElement = document.getElementById('main-header');
             const mobileNavToggle = document.getElementById('mobile-nav-toggle');
             const mobileMenu = document.getElementById('mobile-menu');
-            const mobileNavLinks = document.querySelectorAll('#mobile-menu nav a.mobile-nav-link');
+            const mobileNavLinks = document.querySelectorAll('#mobile-menu nav a.mobile-nav-link'); // For closing menu on click
 
+            // Header blur effect on scroll
             ScrollTrigger.create({
-                start: "top -60",
+                start: "top -60", // Start when scrolled 60px down
                 end: 99999,
                 toggleClass: {className: 'header-blur', targets: mainHeaderElement}
             });
 
+            // Mobile navigation toggle
             if (mobileNavToggle && mobileMenu) {
                 mobileNavToggle.addEventListener('click', () => {
                     const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
                     mobileNavToggle.setAttribute('aria-expanded', String(!isExpanded));
                     mobileMenu.classList.toggle('menu-open');
-                    document.body.classList.toggle('mobile-menu-open', !isExpanded);
+                    document.body.classList.toggle('mobile-menu-open', !isExpanded); // Prevent body scroll
                 });
             }
 
-            // Helper function for scrolling
+            // Smooth scroll functionality for navigation links
             function performScroll(targetElement, targetId) {
-                const currentHeaderHeight = mainHeaderElement ? mainHeaderElement.offsetHeight : 80;
+                const currentHeaderHeight = mainHeaderElement ? mainHeaderElement.offsetHeight : 80; // Dynamic header height
                 let offset = currentHeaderHeight;
-                if (targetId === '#home') {
+                if (targetId === '#home') { // No offset for home section
                     offset = 0;
                 }
 
                 gsap.to(window, {
-                    duration: 0.8,
+                    duration: 0.8, // Animation duration
                     scrollTo: {
                         y: targetElement.offsetTop - offset,
-                        autoKill: true
+                        autoKill: true // Stop animation if user scrolls manually
                     },
-                    ease: "power2.inOut",
+                    ease: "power2.inOut", // Easing function
                     onComplete: () => console.log('GSAP scroll completed for target:', targetId),
                     onInterrupt: () => console.log('GSAP scroll interrupted for target:', targetId)
                 });
             }
 
+            // Attach click listeners to all navigation links (desktop and mobile)
             const navLinks = document.querySelectorAll('#main-header nav a:not(.btn-fp), #mobile-menu nav a.mobile-nav-link');
             navLinks.forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
@@ -807,7 +809,7 @@
                     // If a mobile menu link was clicked AND the mobile menu is currently open, close it.
                     if (this.classList.contains('mobile-nav-link') && mobileMenu && mobileMenu.classList.contains('menu-open')) {
                         if (mobileNavToggle) {
-                           mobileNavToggle.click(); // Close the menu
+                           mobileNavToggle.click(); // Simulate click to close the menu
                            // Use requestAnimationFrame to ensure DOM updates (like body overflow) are processed before scrolling
                            requestAnimationFrame(() => {
                                performScroll(targetElement, targetId);
@@ -824,10 +826,12 @@
             });
 
 
+            // Update active navigation link based on scroll position
             const sections = document.querySelectorAll('main section[id]');
             function updateActiveLink() {
-                let currentSectionId = 'home';
+                let currentSectionId = 'home'; // Default to home
                 const currentHeaderHeightForActiveLink = mainHeaderElement ? mainHeaderElement.offsetHeight : 80;
+                // Add a small buffer to the scrollY to make detection more robust near section tops
                 const scrollYWithOffset = window.scrollY + currentHeaderHeightForActiveLink + 20;
 
                 sections.forEach(section => {
@@ -836,12 +840,14 @@
                     }
                 });
 
+                // Update desktop nav links
                 document.querySelectorAll('#main-header nav a:not(.btn-fp)').forEach(link => {
                     link.classList.remove('active-link');
                     if (link.getAttribute('href') === `#${currentSectionId}`) {
                         link.classList.add('active-link');
                     }
                 });
+                // Update mobile nav links
                  mobileNavLinks.forEach(link => {
                     link.classList.remove('active-link');
                     if (link.getAttribute('href') === `#${currentSectionId}`) {
@@ -850,16 +856,18 @@
                 });
             }
             window.addEventListener('scroll', updateActiveLink);
-            updateActiveLink();
+            updateActiveLink(); // Initial call to set active link on page load
 
+            // Back to Top button functionality
             const backToTopButton = document.getElementById('back-to-top');
             if (backToTopButton) {
                 backToTopButton.addEventListener('click', (e) => {
                     e.preventDefault();
                     gsap.to(window, { duration: 1, scrollTo: { y: '#home', offsetY: 0 }, ease: "power2.inOut" });
                 });
+                // Show/hide button based on scroll position
                 window.addEventListener('scroll', () => {
-                    if (window.scrollY > 400) {
+                    if (window.scrollY > 400) { // Show after scrolling 400px
                         backToTopButton.classList.remove('opacity-0', 'invisible', 'transform', 'scale-90');
                         backToTopButton.classList.add('opacity-100', 'visible', 'transform', 'scale-100');
                     } else {
@@ -869,30 +877,35 @@
                 });
             }
 
+            // GSAP Animation Helper Function
             const createAnimation = (selector, fromVars, toVarsBase, stagger = 0.08) => {
                 gsap.utils.toArray(selector).forEach((el, i) => {
-                    const delay = el.style.animationDelay ? parseFloat(el.style.animationDelay) : 0;
+                    const delay = el.style.animationDelay ? parseFloat(el.style.animationDelay) : 0; // Respect existing CSS delays
                     gsap.fromTo(el, fromVars, {
                         ...toVarsBase,
-                        delay: delay + (i * stagger),
+                        delay: delay + (i * stagger), // Apply stagger if multiple elements
                         scrollTrigger: {
                             trigger: el,
-                            start: "top 90%",
-                            end: "bottom 10%",
-                            toggleActions: "play reverse play reverse",
+                            start: "top 90%", // Animation starts when 90% of element is visible
+                            end: "bottom 10%", // For reversing animation if needed
+                            toggleActions: "play reverse play reverse", // Behavior on scroll
+                            // markers: true, // Uncomment for debugging ScrollTrigger
                         }
                     });
                 });
             };
 
+            // Hero Section Animations (immediate, no ScrollTrigger needed here as they are entry animations)
             gsap.fromTo("#home h1.g-fade-in-up", { opacity: 0, y: 50, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: "expo.out", delay: 0.2 });
             gsap.fromTo("#home #tagline", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.5 });
             gsap.fromTo("#home .hero-subtext", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.8 });
             gsap.fromTo("#home .btn-fp", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.5)", stagger: 0.15, delay: 1.1 });
             gsap.fromTo("#main-header .g-fade-in-down", {opacity:0, y:-20}, {opacity:1, y:0, duration:0.7, ease:"power2.out", stagger:0.1, delay:1.5});
 
+
+            // General Scroll-Triggered Animations
             createAnimation(".section-title.g-fade-in-up", { opacity: 0, y: 50, scale:0.98 }, { opacity: 1, y: 0, scale:1, duration: 0.8, ease: "expo.out" });
-            createAnimation(".section-subtitle.g-fade-in-up", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0);
+            createAnimation(".section-subtitle.g-fade-in-up", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0); // No stagger for single subtitle
             createAnimation(".decorative-line.g-draw-in", { opacity:0, scaleX: 0 }, { opacity:1, scaleX: 1, duration: 0.7, ease: "power2.out"}, 0);
             createAnimation(".card-fp.g-scale-in, .card-fp.g-fade-in-up", { opacity: 0, scale: 0.95, y:20 }, { opacity: 1, scale: 1, y:0, duration: 0.7, ease: "back.out(1.1)" }, 0.1);
             createAnimation("#journey .timeline-item.g-fade-in-left", { opacity: 0, x: -50, scale:0.98 }, { opacity: 1, x: 0, scale:1, duration: 0.8, ease: "expo.out" }, 0.15);
@@ -901,27 +914,29 @@
             createAnimation("#terminal-window-fp.g-scale-in", { opacity: 0, scale: 0.9, y:40 }, { opacity: 1, scale: 1, y:0, duration: 0.8, ease: "expo.out" });
             createAnimation("#contact-form.g-fade-in-up", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
 
+            // Specific animation for About section card content (staggered)
             gsap.utils.toArray('#about .card-fp p, #about .card-fp div[class*="font-mono"]').forEach((el, i) => {
                 gsap.fromTo(el, {opacity: 0, y: 20}, {
                     opacity: 1, y: 0, duration: 0.7, ease: "power2.out",
-                    delay: (i * 0.1) + 0.1,
+                    delay: (i * 0.1) + 0.1, // Staggered delay
                     scrollTrigger: { trigger: el.closest('.card-fp'), start: "top 85%", toggleActions: "play reverse play reverse" }
                 });
             });
 
+            // Dynamic Tagline Typing Effect
             const taglineEl = document.getElementById('tagline');
             if (taglineEl) {
                 const dynamicTaglines = ["Master of Ctrl+C, Ctrl+V...", "Professional Bug Creator...", "Fluent in Sarcasm & JavaScript...", "World's Okayest Coder..."];
                 let currentTaglineIndex = 0;
                 let charIndex = 0;
                 let isDeleting = false;
-                const typeSpeed = 90;
-                const deleteSpeed = 60;
-                const delayBetweenTaglines = 2000;
+                const typeSpeed = 90; // Milliseconds per character
+                const deleteSpeed = 60; // Milliseconds per character
+                const delayBetweenTaglines = 2000; // Milliseconds
                 const typedCursor = document.createElement('span');
                 typedCursor.className = 'typed-cursor-rm';
                 typedCursor.textContent = '|';
-                taglineEl.appendChild(typedCursor);
+                taglineEl.appendChild(typedCursor); // Add cursor to the tagline element
 
                 function typeDynamicTagline() {
                     const currentText = dynamicTaglines[currentTaglineIndex];
@@ -933,25 +948,27 @@
                         textToDisplay = currentText.substring(0, charIndex + 1);
                         charIndex++;
                     }
-                    taglineEl.firstChild.textContent = textToDisplay;
+                    taglineEl.firstChild.textContent = textToDisplay; // Update text node
 
-                    if(!isDeleting && charIndex === currentText.length) {
+                    if(!isDeleting && charIndex === currentText.length) { // Finished typing
                         isDeleting = true;
                         setTimeout(typeDynamicTagline, delayBetweenTaglines);
-                    } else if (isDeleting && charIndex === 0) {
+                    } else if (isDeleting && charIndex === 0) { // Finished deleting
                         isDeleting = false;
-                        currentTaglineIndex = (currentTaglineIndex + 1) % dynamicTaglines.length;
-                        setTimeout(typeDynamicTagline, typeSpeed / 1.5);
-                    } else {
+                        currentTaglineIndex = (currentTaglineIndex + 1) % dynamicTaglines.length; // Move to next tagline
+                        setTimeout(typeDynamicTagline, typeSpeed / 1.5); // Short pause before typing new one
+                    } else { // Continue typing or deleting
                         setTimeout(typeDynamicTagline, isDeleting ? deleteSpeed : typeSpeed);
                     }
                 }
-                 if(dynamicTaglines.length > 0) gsap.delayedCall(1.8, typeDynamicTagline);
+                 if(dynamicTaglines.length > 0) gsap.delayedCall(1.8, typeDynamicTagline); // Start after initial hero animations
             }
 
+            // Terminal Functionality
             const terminalOutput = document.getElementById('terminal-output');
             const terminalInput = document.getElementById('terminal-input');
             if (terminalInput && terminalOutput) {
+                // Focus input when clicking anywhere in the terminal window (except on the input itself)
                 terminalInput.closest('#terminal-window-fp').addEventListener('click', (e) => {
                      if (e.target.id !== 'terminal-input' && !terminalInput.contains(e.target)) {
                         terminalInput.focus();
@@ -962,25 +979,25 @@
                         e.preventDefault();
                         const command = terminalInput.value.trim();
                         if (command) {
-                            const echoedCmd = command.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Sanitize for HTML
+                            const echoedCmd = command.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Sanitize for HTML display
                             appendTerminalOutput(`<span class="terminal-prompt">root@mostly-stable:~$</span> ${echoedCmd}`);
                             executeTerminalCommand(command.toLowerCase());
                         } else {
-                             appendTerminalOutput(`<span class="terminal-prompt">root@mostly-stable:~$</span>`);
+                             appendTerminalOutput(`<span class="terminal-prompt">root@mostly-stable:~$</span>`); // Echo prompt even if empty
                         }
-                        terminalInput.value = '';
+                        terminalInput.value = ''; // Clear input
                     }
                 });
             }
             function appendTerminalOutput(htmlContent) {
                 const outputLine = document.createElement('div');
-                outputLine.innerHTML = htmlContent;
+                outputLine.innerHTML = htmlContent; // Assumes htmlContent is safe or sanitized
                 terminalOutput.appendChild(outputLine);
-                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                terminalOutput.scrollTop = terminalOutput.scrollHeight; // Auto-scroll to bottom
             }
             function executeTerminalCommand(command) {
                 let result = '';
-                const sanitizedCommand = command.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                const sanitizedCommand = command.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Sanitize for display in messages
                 if (command.startsWith('askgemini ')) {
                     const query = command.substring('askgemini '.length).trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
                     if (query) {
@@ -1028,85 +1045,109 @@
                 const sounds = {
                     'A': { name: '404 Brain Not Found', synthName: 'Kick', color: 'var(--color-primary-accent)', glow: 'var(--color-portal-glow)' },
                     'S': { name: 'Compiler\'s Fury', synthName: 'Snare', color: 'var(--color-secondary-accent)', glow: 'rgba(var(--color-secondary-accent-rgb),0.7)' },
+                    // Add more sounds here if desired
                 };
 
+                // Define Tone.js synths
                 const synths = {
                     'Kick': new Tone.MembraneSynth({ pitchDecay: 0.02, octaves: 7, envelope: { attack: 0.001, decay: 0.25, sustain: 0.01, release: 0.7 }}).toDestination(),
                     'Snare': new Tone.NoiseSynth({ noise: { type: "pink", playbackRate: 1 }, envelope: { attack: 0.001, decay: 0.1, sustain: 0, release: 0.12 }}).toDestination(),
+                    // Define other synths if needed
                 };
 
                 function playSound(soundKeyChar) {
                     const soundInfo = sounds[soundKeyChar];
                     if (!soundInfo) return;
                     const synth = synths[soundInfo.synthName];
-                    if (synth && Tone.context.state === 'running') {
+                    if (synth && Tone.context.state === 'running') { // Check if audio context is running
                          if (['Kick'].includes(soundInfo.synthName)) synth.triggerAttackRelease("C2", "8n", Tone.now());
-                         else synth.triggerAttackRelease("8n", Tone.now());
+                         else synth.triggerAttackRelease("8n", Tone.now()); // Default for snare-like sounds
 
+                        // Visual feedback for the pad
                         const padElement = document.querySelector(`.drum-pad-fp[data-key-char="${soundKeyChar}"]`);
                         if (padElement) {
                             padElement.classList.add('playing');
-                            padElement.style.setProperty('--key-color', soundInfo.color);
-                            padElement.style.setProperty('--key-color-glow', soundInfo.glow);
-                            setTimeout(() => padElement.classList.remove('playing'), 100);
+                            padElement.style.setProperty('--key-color', soundInfo.color); // Custom color for playing state
+                            padElement.style.setProperty('--key-color-glow', soundInfo.glow); // Custom glow for playing state
+                            setTimeout(() => padElement.classList.remove('playing'), 100); // Remove class after a short delay
                         }
                     } else if (Tone.context.state !== 'running') {
                         console.warn("Tone.js audio context not running. Click page or press a key to start.");
+                        // Optionally, display a message to the user to interact with the page
                     }
                 }
+                // Function to start Tone.js audio context (required by browsers)
                 async function startAudioContext() {
                     if (Tone.context.state !== 'running') {
                         await Tone.start();
                         console.log("Audio context started.");
                     }
                 }
+                // Add event listeners to start audio context on user interaction
                 document.body.addEventListener('click', startAudioContext, { once: true });
                 document.body.addEventListener('keydown', startAudioContext, { once: true });
 
 
+                // Setup drum pads from HTML
                 document.querySelectorAll('#drum-machine .drum-pad-fp').forEach(pad => {
-                    const keyChar = pad.textContent.charAt(0).toUpperCase();
+                    const keyChar = pad.textContent.charAt(0).toUpperCase(); // Get key from first char of pad text
                     if (sounds[keyChar]) {
-                        pad.dataset.keyChar = keyChar;
+                        pad.dataset.keyChar = keyChar; // Store key char for keyboard events
                         pad.addEventListener('click', () => {
                             playSound(keyChar);
                         });
                     }
                 });
 
+                // Keyboard listeners for drum pads
                 window.addEventListener('keydown', (e) => {
                     const keyChar = e.key.toUpperCase();
+                     // Check if the pressed key corresponds to a sound and not in an input field
                      if (sounds[keyChar] && !e.metaKey && !e.ctrlKey && !e.altKey && !(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) {
                          playSound(keyChar);
                     }
                 });
             }
 
+            // Contact Form Submission
             const contactForm = document.getElementById('contact-form');
             const formStatus = document.getElementById('form-status');
-            if (contactForm && formStatus) {
+            const emailInput = document.getElementById('email'); // Get email input
+
+            if (contactForm && formStatus && emailInput) {
                 contactForm.addEventListener('submit', (e) => {
                     e.preventDefault();
+
+                    // Check if email field is blank
+                    if (emailInput.value.trim() === '') {
+                        formStatus.textContent = 'Whoops! Looks like the email field is feeling a bit empty. Pigeons need coordinates, you know!';
+                        formStatus.className = 'mt-6 text-sm text-orange-400'; // Humorous fail color
+                        return; // Stop further processing
+                    }
+
                     formStatus.textContent = 'Attempting to launch pigeon... Stand by...';
-                    formStatus.className = 'mt-6 text-sm text-yellow-400';
+                    formStatus.className = 'mt-6 text-sm text-yellow-400'; // Pending color
+                    
+                    // Simulate form submission (replace with actual submission logic if needed)
                     setTimeout(() => {
-                        const isSuccess = Math.random() > 0.3;
+                        const isSuccess = Math.random() > 0.3; // Simulate success/failure
                         if (isSuccess) {
                             formStatus.textContent = 'Pigeon successfully launched! It might reach its destination. Or get eaten. Good luck!';
-                            formStatus.className = 'mt-6 text-sm text-primary-accent';
-                            contactForm.reset();
+                            formStatus.className = 'mt-6 text-sm text-primary-accent'; // Success color
+                            contactForm.reset(); // Clear the form
                         } else {
                             formStatus.textContent = 'Pigeon deployment failed. It seems to be staging a protest. Try smoke signals?';
-                            formStatus.className = 'mt-6 text-sm text-red-400';
+                            formStatus.className = 'mt-6 text-sm text-red-400'; // Failure color
                         }
                     }, 1500);
                 });
             }
 
+            // Set current year in footer
             const currentYearEl = document.getElementById('current-year');
             if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
 
-            console.log("Yuukii's Elegantly Chaotic Portfolio v2.2 (Now with mobile scroll fix & conceptual AI) Initialized.");
+            console.log("Yuukii's Elegantly Chaotic Portfolio v2.3 (Humorous email validation & Apple Music icon update) Initialized.");
         });
     </script>
 </body>
