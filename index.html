@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yuukii - Elegantly Chaotic Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 md:h-24">
+                <a href="#home" class="text-3xl md:text-4xl font-heading-style font-bold g-fade-in-down" style="animation-delay: 0.8s;">
+                    Yuukii<span class="text-primary-accent">.</span>
+                </a>
+                <nav class="hidden md:flex space-x-1 items-center g-fade-in-down" style="animation-delay: 1s;">
+                    <a href="#home" class="nav-link active-link">Home</a>
+                    <a href="#about" class="nav-link">About</a>
+                    <a href="#stack" class="nav-link">Arsenal</a>
+                    <a href="#journey" class="nav-link">Journey</a>
+                    <a href="#portfolio" class="nav-link">Creations</a>
+                    <a href="#passion" class="nav-link">Beats</a>
+                    <a href="#terminal-section" class="nav-link">Console</a>
+                    <a href="#contact" class="btn-fp btn-fp-secondary !text-xs !px-4 !py-2 ml-2">Contact</a>
+                </nav>
+                <button id="mobile-nav-toggle" class="md:hidden z-[60] mobile-nav-toggle g-fade-in-down" style="animation-delay: 1s;" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu">
+                    <div class="space-y-1.5">
+                        <span class="block w-6 h-0.5 hamburger-line hamburger-top"></span>
+                        <span class="block w-6 h-0.5 hamburger-line hamburger-middle"></span>
+                        <span class="block w-6 h-0.5 hamburger-line hamburger-bottom"></span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </header>
+    <div id="mobile-menu" class="" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
+        <span id="mobile-menu-title" class="sr-only">Mobile Navigation Menu</span>
+        <nav class="flex flex-col items-center space-y-4">
+            <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#stack" class="mobile-nav-link">Arsenal</a>
+            <a href="#journey" class="mobile-nav-link">Journey</a>
+            <a href="#portfolio" class="mobile-nav-link">Creations</a>
+            <a href="#passion" class="mobile-nav-link">Beats</a>
+            <a href="#terminal-section" class="mobile-nav-link">Console</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+        </nav>
+    </div>
+
+
+    <main>
+        <section id="home" class="text-center px-4 sm:px-6 lg:px-8">
+            <div id="hero-background-image-container" role="presentation"></div>
+            <div class="z-10 relative">
+                <h1 class="g-fade-in-up">
+                    <span class="block">人間</span><span class="text-gradient-rm block">エラー</span>
+                </h1>
+                <p id="tagline" class="mt-6 md:mt-8 g-fade-in-up" style="animation-delay: 0.3s;"></p>
+                <p class="mt-4 md:mt-6 hero-subtext max-w-lg mx-auto g-fade-in-up" style="animation-delay: 0.6s;">
+                    Turning caffeine into code since the dial-up era. Occasionally coherent.
+                </p>
+                <div class="mt-10 md:mt-12 space-x-3 sm:space-x-4 g-fade-in-up" style="animation-delay: 0.9s;">
+                    <a href="#portfolio" class="btn-fp btn-fp-primary text-sm md:text-base px-6 md:px-8 py-2.5 md:py-3">
+                        Behold My Questionable Work
+                    </a>
+                    <a href="#contact" class="btn-fp btn-fp-secondary text-sm md:text-base px-6 md:px-8 py-2.5 md:py-3">
+                        Send Memes <i class="fas fa-arrow-right ml-2 text-xs opacity-80" aria-hidden="true"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-secondary-accent mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">About This Glitch in the Matrix</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">A sentient pile of coffee beans and existential dread, masquerading as a developer. You found me.</p>
+                <div class="max-w-2xl mx-auto text-left card-fp g-scale-in">
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg mb-6 g-fade-in-up" style="animation-delay: 0.1s;">I started coding when "Web 2.0" was the hot new buzzword and my F5 key was my most loyal companion. Now, it's just a faint legend whispered by aging hardware.</p>
+                    <div class="font-mono text-sm p-4 bg-black bg-opacity-20 rounded-md border border-[var(--color-border)] g-fade-in-up" style="animation-delay: 0.2s;" aria-label="Code snippet illustrating life's loop">
+                        <p><span class="comment">// Life's Infinite Loop (of suffering?)</span></p>
+                        <p><span class="keyword">while</span> (stillBreathing) {</p>
+                        <p class="pl-4">  coffee.<span class="function">inject</span>(IV_DRIP);</p>
+                        <p class="pl-4">  code.<span class="function">write</span>(moreBugsThanFeatures);</p>
+                        <p class="pl-4">  <span class="keyword">if</span> (deadlineApproaching) <span class="function">internalScream</span>();</p>
+                        <p class="pl-4">  <span class="keyword">else</span> <span class="function">procrastinate</span>(socialMedia);</p>
+                        <p>}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stack" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                 <div class="g-draw-in decorative-line w-16 h-0.5 bg-primary-accent mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">My Bag of Holding (Tech Edition)</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">The slightly cursed artifacts I use to occasionally make computers do things.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+                    <div class="card-fp text-left g-fade-in-up">
+                        <h3>Frontend Sorcery & Wishful Thinking</h3>
+                        <ul>
+                            <li>React (Yes, I use hooks. Mostly.)</li>
+                            <li>CSS (My therapist says it's a love-hate relationship)</li>
+                            <li>JavaScript (The duct tape of the internet)</li>
+                        </ul>
+                    </div>
+                    <div class="card-fp text-left g-fade-in-up" style="animation-delay: 0.1s;">
+                        <h3>Backend Alchemy & Questionable Choices</h3>
+                        <ul>
+                            <li>Node.js (Callback hell veteran)</li>
+                            <li>Python (It's not just for snakes and ladders)</li>
+                            <li>Databases (Where data goes to be forgotten)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-green-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">My Descent into Madness (aka Career)</h2>
+                <p class="section-subtitle mb-16 md:mb-20 g-fade-in-up" style="animation-delay: 0.2s;">A brief, heavily redacted history of how I learned to repeatedly hit my head against the keyboard.</p>
+                <div class="timeline-container-fp">
+                    <div class="timeline-line hidden md:block" aria-hidden="true"></div>
+                    <div class="timeline-item g-fade-in-left">
+                        <h3>The Ctrl+Z Epiphany (Ancient Times)</h3>
+                        <p>Discovered the magic undo spell. Immediately abused its power and learned nothing.</p>
+                    </div>
+                    <div class="timeline-item g-fade-in-right">
+                        <h3>The "Hello World" Marathon (Circa First Internet War)</h3>
+                        <p>Took 17 hours, 3 mental breakdowns, and a sacrifice to the modem gods. Stack Overflow was but a dream.</p>
+                    </div>
+                    <div class="timeline-item g-fade-in-left">
+                        <h3>Achieved Google Fu Black Belt (The Not-So-Distant Past)</h3>
+                        <p>Career trajectory went stonks. My ability to form original thoughts, however...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-pink-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">My Questionable Inventions</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">Behold! Things I cobbled together. Some are less on fire than others.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+                    <div class="card-fp text-left g-scale-in">
+                        <h3>ProcrastiBlocker Omega Supreme</h3>
+                        <p class="text-gray-300 text-sm mb-3">Blocks all distractions. Ironically, I'm too distracted to finish it.</p>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Pure Hopeium</span>
+                    </div>
+                     <div class="card-fp text-left g-scale-in" style="animation-delay: 0.1s;">
+                        <h3>Caffeine-to-Code Transpiler v0.1 (Alpha)</h3>
+                        <p class="text-gray-300 text-sm mb-3">Input: Triple Espresso. Output: Code that *might* compile. No guarantees.</p>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Forbidden Magic</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="passion" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-red-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">Noise Complaints & Code Commits</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">Banging on drums when the code bangs on my sanity. It's a vibe (a loud one).</p>
+                <div id="drum-machine-container-fp" class="max-w-sm mx-auto g-fade-in-right">
+                     <h3 class="text-xl font-semibold mb-6 text-white">Soundboard of Impending Doom</h3>
+                    <div id="drum-machine" class="grid grid-cols-2 gap-3" aria-label="Interactive drum pads">
+                        </div>
+                    <p id="drum-machine-status" class="text-xs text-gray-500 mt-4">Click or press keys A, S. (Headphones recommended for your neighbors' sake).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="terminal-section" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto max-w-2xl">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-teal-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 text-center g-fade-in-up">The Panic Room OS</h2>
+                <p class="section-subtitle mb-12 md:mb-16 text-center g-fade-in-up" style="animation-delay: 0.2s;">It's not a bug, it's an undocumented feature. Mostly. Type 'help' if you dare.</p>
+                <div id="terminal-window-fp" class="rounded-lg shadow-xl overflow-hidden font-mono text-sm g-scale-in">
+                    <div class="terminal-bar-fp flex items-center px-4" aria-hidden="true">
+                        <div class="flex space-x-2"> <span class="block bg-red-500 rounded-full"></span>
+                            <span class="block bg-yellow-400 rounded-full"></span>
+                            <span class="block bg-green-500 rounded-full"></span>
+                        </div>
+                        <div class="flex-grow text-center text-gray-500 text-xs font-medium">root@mostly-stable:~ $</div>
+                         <div class="w-3 h-3"></div> </div>
+                    <div id="terminal-output" class="p-5 text-gray-300 leading-relaxed" role="log" aria-live="polite">
+                        <div>Welcome to PanicOS v0.0.1-alpha-rc-final-final</div>
+                        <div>Type "help" for a list of probably useless commands.</div>
+                        <div class="mt-2 text-gray-400">> coffee.status() <span class="text-gray-500">=> "Critically low. Send help (and beans)."</span></div>
+                        <div class="text-gray-400">> motivation.exe <span class="text-gray-500">=> "Segmentation fault (core dumped)"</span></div>
+                    </div>
+                    <div class="terminal-input-line flex items-center p-3 bg-black/20 border-t border-[var(--color-border)]">
+                        <label for="terminal-input" class="terminal-prompt mr-2">root@mostly-stable:~$</label>
+                        <input type="text" id="terminal-input" class="flex-grow bg-transparent text-gray-200 focus:outline-none placeholder-gray-500" autocomplete="off" spellcheck="false" autocapitalize="none" placeholder="Type 'doomscroll' to simulate productivity..." aria-label="Terminal input">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center max-w-lg">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-indigo-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">Send Carrier Pigeons (or Emails)</h2>
+                <p class="section-subtitle mb-10 md:mb-12 g-fade-in-up" style="animation-delay: 0.2s;">For proposals involving free food, interesting bugs, or existential chats. Pizza is a plus.</p>
+                <form id="contact-form" class="space-y-5 g-fade-in-up" style="animation-delay: 0.4s;" novalidate>
+                    <div>
+                        <label for="name" class="sr-only">Your Alias</label>
+                        <input type="text" id="name" name="name" class="input-fp" placeholder="Your Alias (optional, be creative)">
+                    </div>
+                    <div>
+                        <label for="email" class="sr-only">Email</label>
+                        <input type="email" id="email" name="email" class="input-fp" placeholder="Email (for pizza delivery coordinates)" required aria-required="true">
+                    </div>
+                    <div>
+                        <label for="message" class="sr-only">Your message</label>
+                        <textarea id="message" name="message" rows="4" class="input-fp resize-none" placeholder="Your brilliant/terrifying message..." required aria-required="true"></textarea>
+                    </div>
+                    <button type="submit" class="btn-fp btn-fp-primary w-full text-base py-2.5">
+                        Launch Message into the Void <i class="fas fa-paper-plane ml-2 text-sm opacity-90" aria-hidden="true"></i>
+                    </button>
+                </form>
+                 <p id="form-status" class="mt-6 text-sm" role="status" aria-live="polite"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer id="main-footer">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+            <div class="flex justify-center space-x-6 md:space-x-8 mb-6">
+                <a href="https://www.instagram.com/yuuk3i/" aria-label="Instagram profile of Yuukii" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-secondary-accent"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://discord.com/users/935827821329256459/" aria-label="Discord profile of Yuukii" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-400"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                <a href="https://github.com/cozyyuukii/" aria-label="GitHub profile of Yuukii" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><i class="fab fa-github" aria-hidden="true"></i></a>
+                <a href="https://open.spotify.com/user/your_spotify_id" aria-label="Spotify profile of Yuukii" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary-accent"><i class="fab fa-spotify" aria-hidden="true"></i></a> <a href="https://music.apple.com/profile/cozyyuukii" aria-label="Apple Music profile of Yuukii" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-pink-400"><i class="fa-brands fa-itunes-note" aria-hidden="true"></i></a>
+            </div>
+            <p class="mb-1">Crafted with <span class="text-primary-accent">100% organic, free-range pixels</span> & a dash of panic. GDPR compliant-ish*</p>
+            <p class="text-xs">*My lawyer (a rubber duck) advised against full compliance. Don’t tell anyone.</p>
+            <p class="text-xs mt-3">Yuukii <span class="text-primary-accent">©</span> <span id="current-year"></span> - Still not sure how any of this works.</p>
+        </div>
+    </footer>
+
+    <button id="back-to-top" aria-label="Back to top" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 flex items-center justify-center opacity-0 invisible transition-all duration-300 transform hover:scale-105 active:scale-95 z-40">
+        <i class="fas fa-arrow-up" aria-hidden="true"></i>
+    </button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+
+    <script src="script.js" defer></script>
+</body>
+</html>
