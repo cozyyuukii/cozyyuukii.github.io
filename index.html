@@ -1,197 +1,1113 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yuukii - Coder | Drummer | Probably Fueled by Coffee</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Yuukii - Elegantly Chaotic Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        :root {
+            --font-heading: 'Montserrat', sans-serif;
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'Source Code Pro', monospace;
+
+            --color-text: #E5E7EB;
+            --color-text-muted: #9CA3AF;
+            --color-bg: #000000;
+            --color-bg-alt: #0A0A0A;
+            --color-bg-alt-rgb: 10, 10, 10;
+
+
+            --color-primary-accent: #60D394;
+            --color-primary-accent-rgb: 96, 211, 148;
+            --color-secondary-accent: #5E548E;
+            --color-secondary-accent-rgb: 94, 84, 142;
+
+            --color-border: rgba(var(--color-primary-accent-rgb), 0.2);
+            --color-border-strong: rgba(var(--color-primary-accent-rgb), 0.4);
+            --color-portal-glow: rgba(var(--color-primary-accent-rgb), 0.5);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body.mobile-menu-open {
+            overflow-y: hidden; /* Prevent body scroll when mobile menu is open */
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--color-bg-alt); }
+        ::-webkit-scrollbar-thumb { background: var(--color-primary-accent); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: color-mix(in srgb, var(--color-primary-accent) 80%, white); }
+
+        h1, h2, h3, h4, h5, h6, .font-heading-style {
+            font-family: var(--font-heading);
+            color: #FFFFFF;
+            letter-spacing: -0.01em;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4.5vw, 3.25rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1.25rem;
+        }
+        .section-subtitle {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            color: var(--color-text-muted);
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+            margin-bottom: 3rem;
+        }
+
+        #main-header {
+            background-color: transparent;
+            transition: background-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out, border-bottom-color 0.3s ease-in-out;
+            border-bottom: 1px solid transparent;
+        }
+        .header-blur {
+            backdrop-filter: blur(12px) saturate(150%);
+            -webkit-backdrop-filter: blur(12px) saturate(150%);
+            background-color: rgba(0, 0, 0, 0.85);
+            border-bottom-color: var(--color-border);
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        #main-header nav a {
+            font-size: 0.875rem;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            transition: color 0.2s ease, background-color 0.2s ease;
+            color: var(--color-text-muted);
+            font-weight: 500;
+        }
+        #main-header nav a:hover, #main-header nav a.active-link {
+            color: var(--color-primary-accent);
+            background-color: rgba(var(--color-primary-accent-rgb), 0.1);
+        }
+        .hamburger-line { transition: all 0.3s ease; background-color: var(--color-text); }
+        .mobile-nav-toggle[aria-expanded="true"] .hamburger-top { transform: rotate(45deg) translate(5px, 5px); background-color: var(--color-primary-accent); }
+        .mobile-nav-toggle[aria-expanded="true"] .hamburger-middle { opacity: 0; }
+        .mobile-nav-toggle[aria-expanded="true"] .hamburger-bottom { transform: rotate(-45deg) translate(5px, -5px); background-color: var(--color-primary-accent); }
+
+        #mobile-menu {
+            background-color: rgba(var(--color-bg-alt-rgb, 10, 10, 10), 0.98);
+            backdrop-filter: blur(10px) saturate(180%);
+            border-top: 1px solid var(--color-border);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 40;
+            padding-top: 6rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-20px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+        }
+        #mobile-menu.menu-open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        #mobile-menu nav a {
+            color: var(--color-text);
+            font-size: 1.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            text-align: center;
+            border-radius: 8px;
+            transition: color 0.2s ease, background-color 0.2s ease;
+        }
+        #mobile-menu nav a:hover, #mobile-menu nav a.active-link {
+            color: var(--color-primary-accent);
+            background-color: rgba(var(--color-primary-accent-rgb), 0.1);
+        }
+
+
+        #home {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--color-bg);
+        }
+        #hero-background-image-container {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0.05;
+            z-index: 0;
+        }
+        #home h1.g-fade-in-up {
+            font-size: clamp(2.8rem, 7vw, 5.5rem);
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            text-transform: uppercase;
+        }
+        #home .text-gradient-rm {
+            background: linear-gradient(to right, var(--color-primary-accent), color-mix(in srgb, var(--color-primary-accent) 60%, var(--color-secondary-accent) 40%));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        #home #tagline {
+            font-weight: 400;
+            font-size: clamp(1rem, 2.2vw, 1.3rem);
+            color: var(--color-text-muted);
+            letter-spacing: 0.02em;
+            min-height: 1.5em;
+        }
+        .typed-cursor-rm {
+            opacity: 1;
+            animation: blink-rm 0.8s infinite;
+            color: var(--color-primary-accent);
+            font-weight: normal;
+        }
+        @keyframes blink-rm { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        #home .hero-subtext {
+            font-size: clamp(0.9rem, 1.7vw, 1.05rem);
+            max-width: 580px;
+            line-height: 1.7;
+            color: var(--color-text);
+        }
+
+        .btn-fp {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.75rem 1.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            text-align: center;
+            border: 1px solid transparent;
+            letter-spacing: 0.01em;
+        }
+        .btn-fp-primary {
+            background-color: var(--color-primary-accent);
+            color: var(--color-bg);
+            box-shadow: 0 3px 10px rgba(var(--color-primary-accent-rgb), 0.25);
+        }
+        .btn-fp-primary:hover {
+            background-color: color-mix(in srgb, var(--color-primary-accent) 85%, black);
+            box-shadow: 0 5px 18px rgba(var(--color-primary-accent-rgb), 0.35);
+            transform: translateY(-2px);
+        }
+        .btn-fp-secondary {
+            background-color: transparent;
+            color: var(--color-primary-accent);
+            border: 1.5px solid var(--color-primary-accent);
+        }
+        .btn-fp-secondary:hover {
+            background-color: rgba(var(--color-primary-accent-rgb), 0.1);
+            color: color-mix(in srgb, var(--color-primary-accent) 80%, white);
+        }
+
+        section { padding-top: 5rem; padding-bottom: 5rem; position: relative; overflow: hidden; }
+        @media (min-width: 768px) { section { padding-top: 7rem; padding-bottom: 7rem; } }
+        .section-border-t { border-top: 1px solid var(--color-border); }
+
+        .card-fp {
+            background-color: var(--color-bg-alt);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            overflow: hidden;
+            padding: 1.5rem;
+        }
+        .card-fp:hover {
+            transform: translateY(-5px);
+            border-color: var(--color-primary-accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), 0 0 15px rgba(var(--color-primary-accent-rgb),0.1);
+        }
+        .card-fp img.card-image-hover { transition: transform 0.4s ease; }
+        .card-fp:hover img.card-image-hover { transform: scale(1.05); }
+        .card-fp h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+        .card-fp ul {
+            list-style: none;
+            padding-left: 0;
+            color: var(--color-text-muted);
+        }
+        .card-fp ul li {
+            margin-bottom: 0.35rem;
+            font-size: 0.9rem;
+        }
+        .card-fp .font-mono p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--color-text-muted);
+        }
+        .card-fp .font-mono p span.comment { color: #6a9955; }
+        .card-fp .font-mono p span.keyword { color: #569cd6; }
+        .card-fp .font-mono p span.function { color: #dcdcaa; }
+        .card-fp .font-mono p span.string { color: #ce9178; }
+
+
+        .input-fp, textarea.input-fp {
+            background-color: var(--color-bg-alt);
+            border: 1px solid var(--color-border);
+            color: var(--color-text);
+            border-radius: 8px;
+            padding: 0.8rem 1.1rem;
+            transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+        .input-fp::placeholder, textarea.input-fp::placeholder { color: var(--color-text-muted); opacity: 0.8; }
+        .input-fp:focus, textarea.input-fp:focus {
+            outline: none;
+            border-color: var(--color-primary-accent);
+            background-color: var(--color-bg);
+            box-shadow: 0 0 0 2px rgba(var(--color-primary-accent-rgb), 0.2);
+        }
+        textarea.input-fp { min-height: 100px; }
+
+
+        #journey .timeline-container-fp {
+            position: relative;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        #journey .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            transform: translateX(-50%);
+            background-color: var(--color-border-strong);
+            width: 2px;
+        }
+        @media (max-width: 767px) {
+            #journey .timeline-line {
+                left: 20px;
+                transform: translateX(0);
+            }
+        }
+
+        #journey .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 2.5rem;
+        }
+        #journey .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 14px;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--color-primary-accent);
+            border: 2px solid var(--color-bg);
+            z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+            #journey .timeline-item {
+                width: calc(50% - 25px);
+                padding-left: 0;
+                margin-bottom: 3rem;
+            }
+            #journey .timeline-item:nth-child(odd) {
+                float: left;
+                clear: right;
+                text-align: right;
+                margin-right: 25px;
+            }
+             #journey .timeline-item:nth-child(odd)::before {
+                left: auto;
+                right: -31px;
+                transform: translateX(50%);
+            }
+            #journey .timeline-item:nth-child(even) {
+                float: right;
+                clear: left;
+                text-align: left;
+                margin-left: 25px;
+            }
+            #journey .timeline-item:nth-child(even)::before {
+                left: -31px;
+                transform: translateX(-50%);
+            }
+            #journey .timeline-container-fp::after {
+                content: "";
+                display: table;
+                clear: both;
+            }
+        }
+        #journey .timeline-item h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--color-text);
+            margin-bottom: 0.3rem;
+        }
+        #journey .timeline-item p {
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+        }
+
+
+        #terminal-window-fp {
+             background: #050505;
+             border: 1px solid var(--color-border);
+             box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+             border-radius: 10px;
+        }
+        .terminal-bar-fp {
+            background-color: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--color-border);
+            height: 2.5rem;
+        }
+        .terminal-bar-fp span { width: 0.8rem; height: 0.8rem; }
+        #terminal-output { font-size: 0.875rem; }
+        #terminal-output .help-command { color: var(--color-primary-accent); flex-basis: 30%;}
+        #terminal-output .help-description { color: var(--color-text-muted); flex-basis: 70%;}
+        .terminal-prompt { color: var(--color-primary-accent); font-weight: 500; }
+        #terminal-input { color: var(--color-text); font-size: 0.875rem; }
+        #terminal-output div { margin-bottom: 0.3rem; line-height: 1.5; }
+
+
+        .drum-pad-fp {
+            transition: all 0.1s ease;
+            background-color: var(--color-bg-alt);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-muted);
+            border-radius: 8px;
+            font-size: 0.9rem;
+            padding: 0.75rem;
+        }
+        .drum-pad-fp:hover {
+            border-color: var(--color-primary-accent);
+            color: var(--color-primary-accent);
+        }
+        .drum-pad-fp.playing {
+            transform: scale(0.95);
+            background-color: var(--key-color, var(--color-primary-accent));
+            border-color: var(--key-color, var(--color-primary-accent));
+            box-shadow: 0 0 15px var(--key-color-glow, var(--color-portal-glow));
+            color: var(--color-bg);
+        }
+        .drum-pad-fp span {
+            display: block;
+            font-size: 0.65rem;
+            margin-top: 0.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        #drum-machine-container-fp {
+            background-color: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        .tech-tag {
+            background-color: rgba(var(--color-primary-accent-rgb), 0.1);
+            color: var(--color-primary-accent);
+            font-size: 0.75rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+
+        #main-footer {
+            border-top: 1px solid var(--color-border);
+            background-color: var(--color-bg);
+            padding-top: 3rem; padding-bottom: 3rem;
+        }
+        #main-footer a:hover i {
+            transform: scale(1.1);
+            color: var(--color-primary-accent);
+        }
+        #main-footer a i { transition: transform 0.2s ease, color 0.2s ease; font-size: 1.6rem; }
+        #main-footer p {
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        #main-footer .text-primary-accent { color: var(--color-primary-accent); }
+
+
+        .g-fade-in, .g-fade-in-up, .g-fade-in-down, .g-fade-in-left, .g-fade-in-right, .g-scale-in, .g-draw-in {
+            opacity: 0;
+            will-change: transform, opacity;
+        }
+
+        .decorative-line {
+            height: 1.5px;
+            background-color: var(--color-primary-accent);
+            transform-origin: left;
+        }
+
+        #back-to-top {
+            background-color: rgba(var(--color-primary-accent-rgb), 0.85);
+            backdrop-filter: blur(5px);
+            color: var(--color-bg);
+            width: 3rem; height: 3rem;
+            border-radius: 50%;
+            box-shadow: 0 4px 15px rgba(var(--color-primary-accent-rgb),0.2);
+        }
+        #back-to-top:hover {
+             background-color: var(--color-primary-accent);
+        }
+        #back-to-top i { font-size: 1.125rem; }
+
+    </style>
 </head>
-<body>
+<body class="antialiased">
 
-    <div id="particles-js"></div>
-
-    <header id="main-header">
-        <div class="container header-container">
-            <a href="#home" class="logo">Yuukii<span class="dot">.</span></a>
-            <nav>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#skills">Skills</a></li>
-                    <li><a href="#portfolio">Portfolio</a></li>
-                    <li><a href="#passion">Passion</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </nav>
-            <button class="mobile-nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-                <span class="hamburger"></span>
-            </button>
-        </div>
-    </header>
-
-    <main>
-        <section id="home" class="section-block full-height">
-            <div class="container">
-                <h1 class="name-glow">Yuukii</h1>
-                <p class="tagline">Freelance Code Conjurer | Rhythm Renegade</p>
-                <p class="sub-tagline">Turning caffeine into code since 2007. Warning: May contain traces of sarcasm and unresolved merge conflicts.</p>
-                <button class="explore-btn" onclick="smoothScroll('#about')">
-                    Explore <i class="fas fa-atom fa-spin" style="--fa-animation-duration: 5s;"></i>
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20 md:h-24">
+                <a href="#home" class="text-3xl md:text-4xl font-heading-style font-bold g-fade-in-down" style="animation-delay: 0.8s;">
+                    Yuukii<span class="text-primary-accent">.</span>
+                </a>
+                <nav class="hidden md:flex space-x-1 items-center g-fade-in-down" style="animation-delay: 1s;">
+                    <a href="#home" class="active-link">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#stack">Arsenal</a>
+                    <a href="#journey">Journey</a>
+                    <a href="#portfolio">Creations</a>
+                    <a href="#passion">Beats</a>
+                    <a href="#terminal-section">Console</a>
+                    <a href="#contact" class="btn-fp btn-fp-secondary !text-xs !px-4 !py-2 ml-2">Contact</a>
+                </nav>
+                <button id="mobile-nav-toggle" class="md:hidden z-[60] mobile-nav-toggle g-fade-in-down" style="animation-delay: 1s;" aria-label="Toggle navigation" aria-expanded="false">
+                    <div class="space-y-1.5">
+                        <span class="block w-6 h-0.5 hamburger-line hamburger-top"></span>
+                        <span class="block w-6 h-0.5 hamburger-line hamburger-middle"></span>
+                        <span class="block w-6 h-0.5 hamburger-line hamburger-bottom"></span>
+                    </div>
                 </button>
             </div>
-        </section>
+        </div>
+    </header>
+    <div id="mobile-menu" class=""> <nav class="flex flex-col items-center space-y-4"> <a href="#home" class="mobile-nav-link">Home</a>
+            <a href="#about" class="mobile-nav-link">About</a>
+            <a href="#stack" class="mobile-nav-link">Arsenal</a>
+            <a href="#journey" class="mobile-nav-link">Journey</a>
+            <a href="#portfolio" class="mobile-nav-link">Creations</a>
+            <a href="#passion" class="mobile-nav-link">Beats</a>
+            <a href="#terminal-section" class="mobile-nav-link">Console</a>
+            <a href="#contact" class="mobile-nav-link">Contact</a>
+        </nav>
+    </div>
 
-        <section id="about" class="section-block">
-            <div class="container">
-                <h2 class="section-title neon-blue-underline">Mission Control: About Me</h2>
-                <div class="about-content-text-only">
-                    <div class="about-text">
-                        <p>Alright, buckle up! I'm Yuukii, currently orbiting Earth (allegedly) while debugging a CSS black hole. Survived 7,892 encounters with the dreaded `NaN` monster.</p>
-                        <p>My mission? To craft seamless digital stuff and bash some drums. I find weird joy in debugging tangled code and mastering tricky rhythms – it's all patterns and problem-solving, right? Think clean code, clean beats, maybe a bit of controlled chaos.</p>
-                        <p><strong>Status Report:</strong><br>
-                           Coffee intake: <span class="status-critical">Critical</span>.<br>
-                           Known weaknesses: Over-engineered solutions, cat videos, and 3am ‘quick fixes’.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <section id="skills" class="section-block">
-            <div class="container">
-                <h2 class="section-title neon-purple-underline">My Digital Spellbook</h2>
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Frontend Sorcery</h3>
-                        <ul>
-                            <li>HTML: Herding cats (divs) into responsive layouts.</li>
-                            <li>CSS: Convincing browsers to do my bidding (50% success rate).</li>
-                            <li>JavaScript: Making buttons go *bloop* and pretending it’s AI.</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Backend Alchemy</h3>
-                        <ul>
-                            <li>Python: Writing scripts to automate my laziness.</li>
-                            <li>Java: Ancient ritual to summon ‘Hello World’.</li>
-                            <li>MySQL: Forgetting `WHERE` clauses and crying softly.</li>
-                        </ul>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Adventurer's Gear</h3>
-                        <ul>
-                            <li>Git: Time-travel for people who hate admitting mistakes.</li>
-                            <li>VS Code: 47 open tabs. No, I don’t know which one is playing music.</li>
-                            <li>CLI: `sudo make me a sandwich` enthusiast.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="portfolio" class="section-block">
-            <div class="container">
-                <h2 class="section-title neon-blue-underline">Secret Lab: Portfolio</h2>
-                 <div class="portfolio-teasers">
-                    <div class="teaser-item">
-                        <strong>Project:</strong> Laser Dinosaur Taming Framework (LDTF)<br>
-                        <strong>Status:</strong> 90% complete, 300% over deadline. <span class="status-warning">[Warning: May bite]</span>
-                    </div>
-                     <div class="teaser-item">
-                        <strong>Project:</strong> Invisibility Cloak API<br>
-                        <strong>Status:</strong> Working perfectly (I think? Can’t see it). <span class="status-info">[Error: Object not found?]</span>
-                    </div>
-                 </div>
-                 <p class="portfolio-disclaimer">Disclaimer: All projects come with free existential dread and 3am ‘why is this a div?’ moments.</p>
-            </div>
-        </section>
-
-        <section id="passion" class="section-block">
-            <div class="container">
-                <h2 class="section-title neon-purple-underline">Rhythm & Code Fusion</h2>
-                <p class="rhythm-description">
-                    Drum solos = code comments. Both are loud, chaotic, and 80% unnecessary. Hitting drums isn't just noise (okay, sometimes it is). It's about rhythm, timing, and finding that perfect groove – surprisingly similar to coding! Both require discipline, creativity within structure, and knowing when to hit hard and when to lay back.
+    <main>
+        <section id="home" class="text-center px-4 sm:px-6 lg:px-8">
+            <div id="hero-background-image-container"></div>
+            <div class="z-10 relative">
+                <h1 class="g-fade-in-up">
+                    <span class="block">HUMAN</span><span class="text-gradient-rm block">ERROR</span>
+                </h1>
+                <p id="tagline" class="mt-6 md:mt-8 g-fade-in-up" style="animation-delay: 0.3s;"></p>
+                <p class="mt-4 md:mt-6 hero-subtext max-w-lg mx-auto g-fade-in-up" style="animation-delay: 0.6s;">
+                    Turning caffeine into code since the dial-up era. Occasionally coherent.
                 </p>
-                 <p class="rhythm-fun-fact">
-                    Fun fact: My drumsticks are just binary converters (<code>01001000 01101001</code>).
-                 </p>
+                <div class="mt-10 md:mt-12 space-x-3 sm:space-x-4 g-fade-in-up" style="animation-delay: 0.9s;">
+                    <a href="#portfolio" class="btn-fp btn-fp-primary text-sm md:text-base px-6 md:px-8 py-2.5 md:py-3">
+                        Behold My Questionable Work
+                    </a>
+                    <a href="#contact" class="btn-fp btn-fp-secondary text-sm md:text-base px-6 md:px-8 py-2.5 md:py-3">
+                        Send Memes <i class="fas fa-arrow-right ml-2 text-xs opacity-80"></i>
+                    </a>
+                </div>
             </div>
         </section>
 
-         <section id="terminal" class="section-block">
-            <div class="container terminal-container">
-                 <h2 class="section-title neon-blue-underline">Hack the Planet (Kinda)</h2>
-                 <div id="terminal-window">
-                     <div class="terminal-bar">
-                         <div class="terminal-buttons">
-                             <span class="term-btn close"></span>
-                             <span class="term-btn min"></span>
-                             <span class="term-btn max"></span>
-                         </div>
-                         <div class="terminal-title">yuukii@portfolio:~</div>
-                     </div>
-                     <div id="terminal-output">
-                         <div>Welcome to Yuukii's Terminal v0.42!</div>
-                         <div>Type 'help' for a list of highly questionable commands.</div>
-                         <div>------------------------------------------------------</div>
-                     </div>
-                     <div class="terminal-input-line">
-                         <span class="terminal-prompt">yuukii@portfolio:~$</span>
-                         
-                         <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
-                     </div>
-                 </div>
+        <section id="about" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-secondary-accent mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">About This Glitch in the Matrix</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">A sentient pile of coffee beans and existential dread, masquerading as a developer. You found me.</p>
+                <div class="max-w-2xl mx-auto text-left card-fp g-scale-in">
+                    <p class="text-gray-200 leading-relaxed text-base md:text-lg mb-6 g-fade-in-up" style="animation-delay: 0.1s;">I started coding when "Web 2.0" was the hot new buzzword and my F5 key was my most loyal companion. Now, it's just a faint legend whispered by aging hardware.</p>
+                    <div class="font-mono text-sm p-4 bg-black bg-opacity-20 rounded-md border border-[var(--color-border)] g-fade-in-up" style="animation-delay: 0.2s;">
+                        <p><span class="comment">// Life's Infinite Loop (of suffering?)</span></p>
+                        <p><span class="keyword">while</span> (stillBreathing) {</p>
+                        <p class="pl-4">  coffee.<span class="function">inject</span>(IV_DRIP);</p>
+                        <p class="pl-4">  code.<span class="function">write</span>(moreBugsThanFeatures);</p>
+                        <p class="pl-4">  <span class="keyword">if</span> (deadlineApproaching) <span class="function">internalScream</span>();</p>
+                        <p class="pl-4">  <span class="keyword">else</span> <span class="function">procrastinate</span>(socialMedia);</p>
+                        <p>}</p>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <section id="contact" class="section-block">
-            <div class="container">
-                <h2 class="section-title neon-purple-underline">Send a Signal</h2>
-                 <p class="contact-intro">Got a project, a question, or just want to debate the best drum solo ever? Drop me a line!</p>
-                <form id="contact-form" action="mailto:youremail@example.com" method="post" enctype="text/plain">
-                    <div class="form-group">
-                        <input type="text" id="name" name="name" required placeholder=" ">
-                        <label for="name">Your Secret Identity 🦹</label>
+        <section id="stack" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                 <div class="g-draw-in decorative-line w-16 h-0.5 bg-primary-accent mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">My Bag of Holding (Tech Edition)</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">The slightly cursed artifacts I use to occasionally make computers do things.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+                    <div class="card-fp text-left g-fade-in-up">
+                        <h3>Frontend Sorcery & Wishful Thinking</h3>
+                        <ul>
+                            <li>React (Yes, I use hooks. Mostly.)</li>
+                            <li>CSS (My therapist says it's a love-hate relationship)</li>
+                            <li>JavaScript (The duct tape of the internet)</li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <input type="email" id="email" name="email" required placeholder=" ">
-                         
-                        <label for="email">Comms Channel (Email)</label>
+                    <div class="card-fp text-left g-fade-in-up" style="animation-delay: 0.1s;">
+                        <h3>Backend Alchemy & Questionable Choices</h3>
+                        <ul>
+                            <li>Node.js (Callback hell veteran)</li>
+                            <li>Python (It's not just for snakes and ladders)</li>
+                            <li>Databases (Where data goes to be forgotten)</li>
+                        </ul>
                     </div>
-                    <div class="form-group">
-                        <textarea id="message" name="message" rows="5" required placeholder=" "></textarea>
-                        <label for="message">Distress Signal / Cat Meme Submission</label>
+                </div>
+            </div>
+        </section>
+
+        <section id="journey" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-green-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">My Descent into Madness (aka Career)</h2>
+                <p class="section-subtitle mb-16 md:mb-20 g-fade-in-up" style="animation-delay: 0.2s;">A brief, heavily redacted history of how I learned to repeatedly hit my head against the keyboard.</p>
+                <div class="timeline-container-fp">
+                    <div class="timeline-line hidden md:block"></div>
+                    <div class="timeline-item g-fade-in-left">
+                        <h3>The Ctrl+Z Epiphany (Ancient Times)</h3>
+                        <p>Discovered the magic undo spell. Immediately abused its power and learned nothing.</p>
                     </div>
-                    <button type="submit" class="submit-btn">Launch Message <i class="fas fa-rocket"></i></button>
+
+                    <div class="timeline-item g-fade-in-right">
+                        <h3>The "Hello World" Marathon (Circa First Internet War)</h3>
+                        <p>Took 17 hours, 3 mental breakdowns, and a sacrifice to the modem gods. Stack Overflow was but a dream.</p>
+                    </div>
+
+                    <div class="timeline-item g-fade-in-left">
+                        <h3>Achieved Google Fu Black Belt (The Not-So-Distant Past)</h3>
+                        <p>Career trajectory went stonks. My ability to form original thoughts, however...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="portfolio" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-pink-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">My Questionable Inventions</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">Behold! Things I cobbled together. Some are less on fire than others.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-3xl mx-auto">
+                    <div class="card-fp text-left g-scale-in">
+                        <h3>ProcrastiBlocker Omega Supreme</h3>
+                        <p class="text-gray-300 text-sm mb-3">Blocks all distractions. Ironically, I'm too distracted to finish it.</p>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Pure Hopeium</span>
+                    </div>
+                     <div class="card-fp text-left g-scale-in" style="animation-delay: 0.1s;">
+                        <h3>Caffeine-to-Code Transpiler v0.1 (Alpha)</h3>
+                        <p class="text-gray-300 text-sm mb-3">Input: Triple Espresso. Output: Code that *might* compile. No guarantees.</p>
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Forbidden Magic</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="passion" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-red-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">Noise Complaints & Code Commits</h2>
+                <p class="section-subtitle mb-12 md:mb-16 g-fade-in-up" style="animation-delay: 0.2s;">Banging on drums when the code bangs on my sanity. It's a vibe (a loud one).</p>
+                <div id="drum-machine-container-fp" class="max-w-sm mx-auto g-fade-in-right">
+                     <h3 class="text-xl font-semibold mb-6 text-white">Soundboard of Impending Doom</h3>
+                    <div id="drum-machine" class="grid grid-cols-2 gap-3">
+                        <button class="drum-pad-fp">A<span>404 Brain Not Found</span></button>
+                        <button class="drum-pad-fp">S<span>Compiler's Fury</span></button>
+                        </div>
+                    <p class="text-xs text-gray-500 mt-4">Click. Regret. Repeat. (Headphones recommended for your neighbors' sake).</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="terminal-section" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto max-w-2xl">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-teal-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 text-center g-fade-in-up">The Panic Room OS</h2>
+                <p class="section-subtitle mb-12 md:mb-16 text-center g-fade-in-up" style="animation-delay: 0.2s;">It's not a bug, it's an undocumented feature. Mostly. Type 'help' if you dare.</p>
+                <div id="terminal-window-fp" class="rounded-lg shadow-xl overflow-hidden font-mono text-sm g-scale-in">
+                    <div class="terminal-bar-fp flex items-center px-4">
+                        <div class="flex space-x-2">
+                            <span class="block bg-red-500 rounded-full"></span>
+                            <span class="block bg-yellow-400 rounded-full"></span>
+                            <span class="block bg-green-500 rounded-full"></span>
+                        </div>
+                        <div class="flex-grow text-center text-gray-500 text-xs font-medium">root@mostly-stable:~ $</div>
+                         <div class="w-3 h-3"></div>
+                    </div>
+                    <div id="terminal-output" class="p-5 h-60 overflow-y-auto text-gray-300 leading-relaxed">
+                        <div>Welcome to PanicOS v0.0.1-alpha-rc-final-final</div>
+                        <div>Type "help" for a list of probably useless commands.</div>
+                        <div class="mt-2 text-gray-400">> coffee.status() <span class="text-gray-500">=> "Critically low. Send help (and beans)."</span></div>
+                        <div class="text-gray-400">> motivation.exe <span class="text-gray-500">=> "Segmentation fault (core dumped)"</span></div>
+                    </div>
+                    <div class="terminal-input-line flex items-center p-3 bg-black/20 border-t border-[var(--color-border)]">
+                        <span class="terminal-prompt mr-2">root@mostly-stable:~$</span>
+                        <input type="text" id="terminal-input" class="flex-grow bg-transparent text-gray-200 focus:outline-none placeholder-gray-500" autocomplete="off" spellcheck="false" placeholder="Type 'doomscroll' to simulate productivity...">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="px-4 sm:px-6 lg:px-8 section-border-t">
+            <div class="container mx-auto text-center max-w-lg">
+                <div class="g-draw-in decorative-line w-16 h-0.5 bg-indigo-500 mx-auto mb-6"></div>
+                <h2 class="section-title mb-4 g-fade-in-up">Send Carrier Pigeons (or Emails)</h2>
+                <p class="section-subtitle mb-10 md:mb-12 g-fade-in-up" style="animation-delay: 0.2s;">For proposals involving free food, interesting bugs, or existential chats. Pizza is a plus.</p>
+                <form id="contact-form" class="space-y-5 g-fade-in-up" style="animation-delay: 0.4s;">
+                    <div>
+                        <input type="text" id="name" name="name" class="input-fp" placeholder="Your Alias (optional, be creative)">
+                    </div>
+                    <div>
+                        <input type="email" id="email" name="email" class="input-fp" placeholder="Email (for pizza delivery coordinates)">
+                    </div>
+                    <div>
+                        <textarea id="message" name="message" rows="4" class="input-fp resize-none" placeholder="Your brilliant/terrifying message..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-fp btn-fp-primary w-full text-base py-2.5">
+                        Launch Message into the Void <i class="fas fa-paper-plane ml-2 text-sm opacity-90"></i>
+                    </button>
                 </form>
-                <p class="form-note">Note: This might just open your email app. Engage thrusters!</p>
+                 <p id="form-status" class="mt-6 text-sm"></p>
             </div>
         </section>
     </main>
 
     <footer id="main-footer">
-        <div class="container footer-container">
-             <div class="social-icons-footer">
-                <a href="https://www.instagram.com/yuuk3i/" aria-label="Instagram" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i></a>
-                <a href="https://discord.com/users/935827821329256459/" aria-label="Discord" target="_blank" rel="noopener noreferrer"><i class="fab fa-discord"></i></a>
-                <a href="https://github.com/cozyyuukii/" aria-label="GitHub" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i></a>
-                <a href="https://open.spotify.com/user/uj1ktltbkm0a4bm3hnz6saala/" aria-label="Spotify" target="_blank" rel="noopener noreferrer"><i class="fab fa-spotify"></i></a>
-                <a href="https://music.apple.com/profile/cozyyuukii" aria-label="Apple Music" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-itunes-note"></i></a>
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-500">
+            <div class="flex justify-center space-x-6 md:space-x-8 mb-6">
+                <a href="https://www.instagram.com/yuuk3i/" aria-label="Instagram" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-secondary-accent"><i class="fab fa-instagram"></i></a>
+                <a href="https://discord.com/users/935827821329256459/" aria-label="Discord" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-blue-400"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/cozyyuukii/" aria-label="GitHub" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white"><i class="fab fa-github"></i></a>
+                <a href="https://open.spotify.com/user/your_spotify_id" aria-label="Spotify" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-primary-accent"><i class="fab fa-spotify"></i></a>
+                 <a href="https://music.apple.com/profile/cozyyuukii" aria-label="Apple Music" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-pink-400"><i class="fab fa-apple"></i></a>
             </div>
-            <p class="copyright">&copy; 2025 Yuukii // All rights reserved* unless the universe ends first.</p>
-            <p class="copyright-license">*Licensed under the "Do What the Heck You Want" Public License (DWTHYWL).</p>
+            <p class="mb-1">Crafted with <span class="text-primary-accent">100% organic, free-range pixels</span> & a dash of panic. GDPR compliant-ish*</p>
+            <p class="text-xs">*My lawyer (a rubber duck) advised against full compliance. Don’t tell anyone.</p>
+            <p class="text-xs mt-3">Yuukii <span class="text-primary-accent">©</span> <span id="current-year"></span> - Still not sure how any of this works.</p>
         </div>
     </footer>
 
-    <button id="back-to-top" aria-label="Back to top">
+    <button id="back-to-top" aria-label="Back to top" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 flex items-center justify-center opacity-0 invisible transition-all duration-300 transform hover:scale-105 active:scale-95 z-40">
         <i class="fas fa-arrow-up"></i>
     </button>
 
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-    <script src="script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollToPlugin.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'montserrat': ['Montserrat', 'sans-serif'],
+                        'inter': ['Inter', 'sans-serif'],
+                        'source-code': ['Source Code Pro', 'monospace'],
+                    },
+                     colors: {
+                        'primary-accent': 'var(--color-primary-accent)',
+                        'secondary-accent': 'var(--color-secondary-accent)',
+                    }
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+
+            const mainHeaderElement = document.getElementById('main-header');
+            const mobileNavToggle = document.getElementById('mobile-nav-toggle');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const mobileNavLinks = document.querySelectorAll('#mobile-menu nav a.mobile-nav-link');
+
+            ScrollTrigger.create({
+                start: "top -60",
+                end: 99999,
+                toggleClass: {className: 'header-blur', targets: mainHeaderElement}
+            });
+
+            if (mobileNavToggle && mobileMenu) {
+                mobileNavToggle.addEventListener('click', () => {
+                    const isExpanded = mobileNavToggle.getAttribute('aria-expanded') === 'true';
+                    mobileNavToggle.setAttribute('aria-expanded', String(!isExpanded));
+                    mobileMenu.classList.toggle('menu-open');
+                    document.body.classList.toggle('mobile-menu-open', !isExpanded);
+                });
+            }
+
+            // Helper function for scrolling
+            function performScroll(targetElement, targetId) {
+                const currentHeaderHeight = mainHeaderElement ? mainHeaderElement.offsetHeight : 80;
+                let offset = currentHeaderHeight;
+                if (targetId === '#home') {
+                    offset = 0;
+                }
+
+                gsap.to(window, {
+                    duration: 0.8,
+                    scrollTo: {
+                        y: targetElement.offsetTop - offset,
+                        autoKill: true
+                    },
+                    ease: "power2.inOut",
+                    onComplete: () => console.log('GSAP scroll completed for target:', targetId),
+                    onInterrupt: () => console.log('GSAP scroll interrupted for target:', targetId)
+                });
+            }
+
+            const navLinks = document.querySelectorAll('#main-header nav a:not(.btn-fp), #mobile-menu nav a.mobile-nav-link');
+            navLinks.forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+
+                    if (!targetElement) {
+                        console.error('Target element not found for ID:', targetId);
+                        return;
+                    }
+
+                    // If a mobile menu link was clicked AND the mobile menu is currently open, close it.
+                    if (this.classList.contains('mobile-nav-link') && mobileMenu && mobileMenu.classList.contains('menu-open')) {
+                        if (mobileNavToggle) {
+                           mobileNavToggle.click(); // Close the menu
+                           // Use requestAnimationFrame to ensure DOM updates (like body overflow) are processed before scrolling
+                           requestAnimationFrame(() => {
+                               performScroll(targetElement, targetId);
+                           });
+                        } else {
+                             // Fallback if toggle somehow doesn't exist, though unlikely
+                            performScroll(targetElement, targetId);
+                        }
+                    } else {
+                        // Scroll immediately for desktop or if menu already closed/not relevant
+                        performScroll(targetElement, targetId);
+                    }
+                });
+            });
+
+
+            const sections = document.querySelectorAll('main section[id]');
+            function updateActiveLink() {
+                let currentSectionId = 'home';
+                const currentHeaderHeightForActiveLink = mainHeaderElement ? mainHeaderElement.offsetHeight : 80;
+                const scrollYWithOffset = window.scrollY + currentHeaderHeightForActiveLink + 20;
+
+                sections.forEach(section => {
+                    if (section.offsetTop <= scrollYWithOffset && (section.offsetTop + section.offsetHeight) > scrollYWithOffset) {
+                        currentSectionId = section.getAttribute('id');
+                    }
+                });
+
+                document.querySelectorAll('#main-header nav a:not(.btn-fp)').forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active-link');
+                    }
+                });
+                 mobileNavLinks.forEach(link => {
+                    link.classList.remove('active-link');
+                    if (link.getAttribute('href') === `#${currentSectionId}`) {
+                        link.classList.add('active-link');
+                    }
+                });
+            }
+            window.addEventListener('scroll', updateActiveLink);
+            updateActiveLink();
+
+            const backToTopButton = document.getElementById('back-to-top');
+            if (backToTopButton) {
+                backToTopButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    gsap.to(window, { duration: 1, scrollTo: { y: '#home', offsetY: 0 }, ease: "power2.inOut" });
+                });
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 400) {
+                        backToTopButton.classList.remove('opacity-0', 'invisible', 'transform', 'scale-90');
+                        backToTopButton.classList.add('opacity-100', 'visible', 'transform', 'scale-100');
+                    } else {
+                        backToTopButton.classList.remove('opacity-100', 'visible', 'transform', 'scale-100');
+                        backToTopButton.classList.add('opacity-0', 'invisible', 'transform', 'scale-90');
+                    }
+                });
+            }
+
+            const createAnimation = (selector, fromVars, toVarsBase, stagger = 0.08) => {
+                gsap.utils.toArray(selector).forEach((el, i) => {
+                    const delay = el.style.animationDelay ? parseFloat(el.style.animationDelay) : 0;
+                    gsap.fromTo(el, fromVars, {
+                        ...toVarsBase,
+                        delay: delay + (i * stagger),
+                        scrollTrigger: {
+                            trigger: el,
+                            start: "top 90%",
+                            end: "bottom 10%",
+                            toggleActions: "play reverse play reverse",
+                        }
+                    });
+                });
+            };
+
+            gsap.fromTo("#home h1.g-fade-in-up", { opacity: 0, y: 50, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: "expo.out", delay: 0.2 });
+            gsap.fromTo("#home #tagline", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.5 });
+            gsap.fromTo("#home .hero-subtext", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out", delay: 0.8 });
+            gsap.fromTo("#home .btn-fp", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.7, ease: "back.out(1.5)", stagger: 0.15, delay: 1.1 });
+            gsap.fromTo("#main-header .g-fade-in-down", {opacity:0, y:-20}, {opacity:1, y:0, duration:0.7, ease:"power2.out", stagger:0.1, delay:1.5});
+
+            createAnimation(".section-title.g-fade-in-up", { opacity: 0, y: 50, scale:0.98 }, { opacity: 1, y: 0, scale:1, duration: 0.8, ease: "expo.out" });
+            createAnimation(".section-subtitle.g-fade-in-up", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, 0);
+            createAnimation(".decorative-line.g-draw-in", { opacity:0, scaleX: 0 }, { opacity:1, scaleX: 1, duration: 0.7, ease: "power2.out"}, 0);
+            createAnimation(".card-fp.g-scale-in, .card-fp.g-fade-in-up", { opacity: 0, scale: 0.95, y:20 }, { opacity: 1, scale: 1, y:0, duration: 0.7, ease: "back.out(1.1)" }, 0.1);
+            createAnimation("#journey .timeline-item.g-fade-in-left", { opacity: 0, x: -50, scale:0.98 }, { opacity: 1, x: 0, scale:1, duration: 0.8, ease: "expo.out" }, 0.15);
+            createAnimation("#journey .timeline-item.g-fade-in-right", { opacity: 0, x: 50, scale:0.98 }, { opacity: 1, x: 0, scale:1, duration: 0.8, ease: "expo.out" }, 0.15);
+            createAnimation("#passion .g-fade-in-right", { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" });
+            createAnimation("#terminal-window-fp.g-scale-in", { opacity: 0, scale: 0.9, y:40 }, { opacity: 1, scale: 1, y:0, duration: 0.8, ease: "expo.out" });
+            createAnimation("#contact-form.g-fade-in-up", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" });
+
+            gsap.utils.toArray('#about .card-fp p, #about .card-fp div[class*="font-mono"]').forEach((el, i) => {
+                gsap.fromTo(el, {opacity: 0, y: 20}, {
+                    opacity: 1, y: 0, duration: 0.7, ease: "power2.out",
+                    delay: (i * 0.1) + 0.1,
+                    scrollTrigger: { trigger: el.closest('.card-fp'), start: "top 85%", toggleActions: "play reverse play reverse" }
+                });
+            });
+
+            const taglineEl = document.getElementById('tagline');
+            if (taglineEl) {
+                const dynamicTaglines = ["Master of Ctrl+C, Ctrl+V...", "Professional Bug Creator...", "Fluent in Sarcasm & JavaScript...", "World's Okayest Coder..."];
+                let currentTaglineIndex = 0;
+                let charIndex = 0;
+                let isDeleting = false;
+                const typeSpeed = 90;
+                const deleteSpeed = 60;
+                const delayBetweenTaglines = 2000;
+                const typedCursor = document.createElement('span');
+                typedCursor.className = 'typed-cursor-rm';
+                typedCursor.textContent = '|';
+                taglineEl.appendChild(typedCursor);
+
+                function typeDynamicTagline() {
+                    const currentText = dynamicTaglines[currentTaglineIndex];
+                    let textToDisplay = '';
+                    if (isDeleting) {
+                        textToDisplay = currentText.substring(0, charIndex -1);
+                        charIndex--;
+                    } else {
+                        textToDisplay = currentText.substring(0, charIndex + 1);
+                        charIndex++;
+                    }
+                    taglineEl.firstChild.textContent = textToDisplay;
+
+                    if(!isDeleting && charIndex === currentText.length) {
+                        isDeleting = true;
+                        setTimeout(typeDynamicTagline, delayBetweenTaglines);
+                    } else if (isDeleting && charIndex === 0) {
+                        isDeleting = false;
+                        currentTaglineIndex = (currentTaglineIndex + 1) % dynamicTaglines.length;
+                        setTimeout(typeDynamicTagline, typeSpeed / 1.5);
+                    } else {
+                        setTimeout(typeDynamicTagline, isDeleting ? deleteSpeed : typeSpeed);
+                    }
+                }
+                 if(dynamicTaglines.length > 0) gsap.delayedCall(1.8, typeDynamicTagline);
+            }
+
+            const terminalOutput = document.getElementById('terminal-output');
+            const terminalInput = document.getElementById('terminal-input');
+            if (terminalInput && terminalOutput) {
+                terminalInput.closest('#terminal-window-fp').addEventListener('click', (e) => {
+                     if (e.target.id !== 'terminal-input' && !terminalInput.contains(e.target)) {
+                        terminalInput.focus();
+                     }
+                });
+                terminalInput.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        const command = terminalInput.value.trim();
+                        if (command) {
+                            const echoedCmd = command.replace(/</g, "&lt;").replace(/>/g, "&gt;"); // Sanitize for HTML
+                            appendTerminalOutput(`<span class="terminal-prompt">root@mostly-stable:~$</span> ${echoedCmd}`);
+                            executeTerminalCommand(command.toLowerCase());
+                        } else {
+                             appendTerminalOutput(`<span class="terminal-prompt">root@mostly-stable:~$</span>`);
+                        }
+                        terminalInput.value = '';
+                    }
+                });
+            }
+            function appendTerminalOutput(htmlContent) {
+                const outputLine = document.createElement('div');
+                outputLine.innerHTML = htmlContent;
+                terminalOutput.appendChild(outputLine);
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
+            function executeTerminalCommand(command) {
+                let result = '';
+                const sanitizedCommand = command.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                if (command.startsWith('askgemini ')) {
+                    const query = command.substring('askgemini '.length).trim().replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                    if (query) {
+                        result = `Querying conceptual Gemini with: "<span class="text-yellow-300">${query}</span>"...<br>`;
+                        // Simulate API call and response
+                        setTimeout(() => {
+                            let geminiResponse = `Gemini says: "Ah, '${query}'? That's a fascinating query! My current simulation suggests the answer might involve more coffee, less existential dread, or perhaps just rebooting the universe. For a real answer, you'd need to connect to my actual API endpoint, which is beyond this humble terminal's capabilities. Keep pondering the big questions!"`;
+                            appendTerminalOutput(geminiResponse);
+                        }, 1000); // Simulate network delay
+                    } else {
+                        result = "Usage: askgemini &lt;your profound question&gt;";
+                    }
+                } else {
+                    switch (command) {
+                        case 'help':
+                            result = `<span>Available commands (use at your own risk):</span><br>
+                                      <span class="text-primary-accent">panic</span> - Initiate existential crisis sequence.<br>
+                                      <span class="text-primary-accent">coffee</span> - Query caffeine levels (spoiler: always low).<br>
+                                      <span class="text-primary-accent">sudo make me a sandwich</span> - Results may vary.<br>
+                                      <span class="text-primary-accent">askgemini &lt;query&gt;</span> - Consult the digital oracle (conceptual).<br>
+                                      <span class="text-primary-accent">clear</span> - Pretend this never happened.`;
+                            break;
+                        case 'panic':
+                            result = "Initiating existential crisis... <span class='text-red-500'>Error: Already in progress. System stability critical.</span>";
+                            break;
+                        case 'coffee':
+                            result = "Querying... Result: <span class='text-yellow-400'>Dangerously low. Send reinforcements (and possibly a pastry).</span>";
+                            break;
+                        case 'sudo make me a sandwich':
+                            result = "Okay. <span class='text-gray-500'>*poof*</span> You are now a sandwich. Hope you enjoy being delicious and quickly consumed. This was not a good idea for your productivity.";
+                            break;
+                        case 'clear':
+                            terminalOutput.innerHTML = `<div>Welcome to PanicOS v0.0.1-alpha-rc-final-final (Now with simulated AI!)</div><div>Type "help" for a list of probably useless commands.</div><div class="mt-2 text-gray-400">> coffee.status() <span class="text-gray-500">=> "Critically low. Send help (and beans)."</span></div><div class="text-gray-400">> motivation.exe <span class="text-gray-500">=> "Segmentation fault (core dumped)"</span></div>`;
+                            return; // Return early as we've modified terminalOutput directly
+                        default:
+                            result = `Command not found: <span class="text-red-500">${sanitizedCommand}</span>. Did you try turning it off and on again? Or perhaps 'help'?`;
+                    }
+                }
+                if(result) appendTerminalOutput(result);
+            }
+
+            // Drum machine functionality
+            const drumMachineContainer = document.getElementById('drum-machine');
+            if (drumMachineContainer && typeof Tone !== 'undefined') {
+                const sounds = {
+                    'A': { name: '404 Brain Not Found', synthName: 'Kick', color: 'var(--color-primary-accent)', glow: 'var(--color-portal-glow)' },
+                    'S': { name: 'Compiler\'s Fury', synthName: 'Snare', color: 'var(--color-secondary-accent)', glow: 'rgba(var(--color-secondary-accent-rgb),0.7)' },
+                };
+
+                const synths = {
+                    'Kick': new Tone.MembraneSynth({ pitchDecay: 0.02, octaves: 7, envelope: { attack: 0.001, decay: 0.25, sustain: 0.01, release: 0.7 }}).toDestination(),
+                    'Snare': new Tone.NoiseSynth({ noise: { type: "pink", playbackRate: 1 }, envelope: { attack: 0.001, decay: 0.1, sustain: 0, release: 0.12 }}).toDestination(),
+                };
+
+                function playSound(soundKeyChar) {
+                    const soundInfo = sounds[soundKeyChar];
+                    if (!soundInfo) return;
+                    const synth = synths[soundInfo.synthName];
+                    if (synth && Tone.context.state === 'running') {
+                         if (['Kick'].includes(soundInfo.synthName)) synth.triggerAttackRelease("C2", "8n", Tone.now());
+                         else synth.triggerAttackRelease("8n", Tone.now());
+
+                        const padElement = document.querySelector(`.drum-pad-fp[data-key-char="${soundKeyChar}"]`);
+                        if (padElement) {
+                            padElement.classList.add('playing');
+                            padElement.style.setProperty('--key-color', soundInfo.color);
+                            padElement.style.setProperty('--key-color-glow', soundInfo.glow);
+                            setTimeout(() => padElement.classList.remove('playing'), 100);
+                        }
+                    } else if (Tone.context.state !== 'running') {
+                        console.warn("Tone.js audio context not running. Click page or press a key to start.");
+                    }
+                }
+                async function startAudioContext() {
+                    if (Tone.context.state !== 'running') {
+                        await Tone.start();
+                        console.log("Audio context started.");
+                    }
+                }
+                document.body.addEventListener('click', startAudioContext, { once: true });
+                document.body.addEventListener('keydown', startAudioContext, { once: true });
+
+
+                document.querySelectorAll('#drum-machine .drum-pad-fp').forEach(pad => {
+                    const keyChar = pad.textContent.charAt(0).toUpperCase();
+                    if (sounds[keyChar]) {
+                        pad.dataset.keyChar = keyChar;
+                        pad.addEventListener('click', () => {
+                            playSound(keyChar);
+                        });
+                    }
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    const keyChar = e.key.toUpperCase();
+                     if (sounds[keyChar] && !e.metaKey && !e.ctrlKey && !e.altKey && !(e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement)) {
+                         playSound(keyChar);
+                    }
+                });
+            }
+
+            const contactForm = document.getElementById('contact-form');
+            const formStatus = document.getElementById('form-status');
+            if (contactForm && formStatus) {
+                contactForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    formStatus.textContent = 'Attempting to launch pigeon... Stand by...';
+                    formStatus.className = 'mt-6 text-sm text-yellow-400';
+                    setTimeout(() => {
+                        const isSuccess = Math.random() > 0.3;
+                        if (isSuccess) {
+                            formStatus.textContent = 'Pigeon successfully launched! It might reach its destination. Or get eaten. Good luck!';
+                            formStatus.className = 'mt-6 text-sm text-primary-accent';
+                            contactForm.reset();
+                        } else {
+                            formStatus.textContent = 'Pigeon deployment failed. It seems to be staging a protest. Try smoke signals?';
+                            formStatus.className = 'mt-6 text-sm text-red-400';
+                        }
+                    }, 1500);
+                });
+            }
+
+            const currentYearEl = document.getElementById('current-year');
+            if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+            console.log("Yuukii's Elegantly Chaotic Portfolio v2.2 (Now with mobile scroll fix & conceptual AI) Initialized.");
+        });
+    </script>
 </body>
 </html>
