@@ -71,7 +71,7 @@
         ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
 
-        /* Card Spotlight Effect (Shared) */
+        /* Card Spotlight Effect */
         .spotlight-card {
             background-color: rgba(24, 24, 27, 0.4);
             position: relative;
@@ -80,7 +80,6 @@
             transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
         }
 
-        /* Spotlight Logic for Cards */
         .spotlight-card::before {
             content: "";
             position: absolute;
@@ -99,7 +98,9 @@
             opacity: 0;
             transition: opacity 0.3s;
         }
+
         .spotlight-card:hover::before { opacity: 1; }
+        
         .spotlight-card::after {
             content: "";
             position: absolute;
@@ -114,6 +115,7 @@
             transition: opacity 0.3s;
             z-index: 0;
         }
+
         .spotlight-card:hover::after { opacity: 1; }
 
         .card-content { position: relative; z-index: 1; }
@@ -123,65 +125,22 @@
         #song-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #song-modal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
         
-        /* === UPDATED GLASS PANEL (Menu) === */
+        /* UPDATED GLASS PANEL DESIGN 
+           "Apple Liquid Glass" Style
+        */
         .glass-panel {
-            /* Reduced transparency (More opaque): 0.75 alpha */
-            background: rgba(18, 18, 23, 0.75);
+            /* Low opacity dark background to let colors bleed through */
+            background: rgba(30, 30, 35, 0.4);
             
-            /* Frosted blur */
+            /* Heavy blur + Saturation boost for that "vibrant glass" look */
             backdrop-filter: blur(40px) saturate(180%);
             -webkit-backdrop-filter: blur(40px) saturate(180%);
             
+            /* Subtle border + Inner glow for 3D depth */
             border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 
-                0 25px 50px -12px rgba(0, 0, 0, 0.5),
-                inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
-            
-            /* Spotlight setup for Menu */
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* Menu Spotlight Animation - Gradient Border */
-        .glass-panel::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            padding: 1px;
-            background: radial-gradient(
-                600px circle at var(--mouse-x) var(--mouse-y),
-                rgba(255, 255, 255, 0.4),
-                transparent 40%
-            );
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            pointer-events: none;
-            opacity: 0; /* Hidden by default */
-            transition: opacity 0.3s;
-        }
-        
-        /* Menu Spotlight Animation - Inner Glow */
-        .glass-panel::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(
-                500px circle at var(--mouse-x) var(--mouse-y),
-                rgba(99, 102, 241, 0.1), /* Indigo Glow */
-                transparent 40%
-            );
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s;
-            z-index: 0;
-        }
-
-        /* Only show spotlight on hover */
-        .glass-panel:hover::before,
-        .glass-panel:hover::after {
-            opacity: 1;
+                0 25px 50px -12px rgba(0, 0, 0, 0.5), /* Deep drop shadow */
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.1); /* Top edge highlight */
         }
 
         /* Music Equalizer Animation */
@@ -319,22 +278,22 @@
         <!-- Backdrop -->
         <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px]" id="modal-backdrop"></div>
         
-        <!-- Modal Content (Added ID for Spotlight) -->
-        <div id="modal-panel" class="relative w-full max-w-2xl glass-panel rounded-3xl p-8 shadow-2xl transform transition-all scale-100 overflow-y-auto max-h-[90vh]">
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-2xl glass-panel rounded-3xl p-8 shadow-2xl transform transition-all scale-100 overflow-y-auto max-h-[90vh]">
             
             <!-- Close Button -->
-            <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-zinc-200 hover:text-white hover:bg-white/20 transition-colors backdrop-blur-md z-20">
+            <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-zinc-200 hover:text-white hover:bg-white/20 transition-colors backdrop-blur-md">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Header -->
-            <div class="mb-8 relative z-10">
+            <div class="mb-8">
                 <span id="modal-artist" class="block text-indigo-400 text-sm font-bold tracking-widest uppercase mb-2 drop-shadow-lg">Artist Name</span>
                 <h2 id="modal-title" class="text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight drop-shadow-lg">Song Title</h2>
             </div>
 
             <!-- Body -->
-            <div class="space-y-8 relative z-10">
+            <div class="space-y-8">
                 <!-- Description -->
                 <div>
                     <p id="modal-desc" class="text-zinc-100 text-lg leading-relaxed font-normal drop-shadow-md">
@@ -744,19 +703,6 @@
                 card.style.setProperty("--mouse-x", `${x}px`);
                 card.style.setProperty("--mouse-y", `${y}px`);
             };
-        }
-
-        // Spotlight for Modal Panel
-        const modalPanel = document.getElementById('modal-panel');
-        if (modalPanel) {
-            modalPanel.onmousemove = e => {
-                const rect = modalPanel.getBoundingClientRect(),
-                      x = e.clientX - rect.left,
-                      y = e.clientY - rect.top;
-
-                modalPanel.style.setProperty("--mouse-x", `${x}px`);
-                modalPanel.style.setProperty("--mouse-y", `${y}px`);
-            }
         }
 
     </script>
