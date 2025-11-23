@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stellaris | yuukii.</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23818cf8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5'/%3E%3C/svg%3E">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts (Matches index.html) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        zinc: {
+                            850: '#1f1f22',
+                            950: '#09090b', 
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                        'slide-up': 'slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        },
+                        slideUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Base Settings */
+        body {
+            background-color: #050505;
+            color: #e4e4e7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        ::selection {
+            background-color: rgba(99, 102, 241, 0.2);
+            color: #a5b4fc;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+
+        /* Card Spotlight Effect */
+        .spotlight-card {
+            background-color: rgba(24, 24, 27, 0.4);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
+        }
+
+        .spotlight-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            border-radius: inherit;
+            padding: 1px;
+            background: radial-gradient(
+                800px circle at var(--mouse-x) var(--mouse-y),
+                rgba(255, 255, 255, 0.3),
+                transparent 40%
+            );
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .spotlight-card:hover::before { opacity: 1; }
+        
+        .spotlight-card::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(
+                600px circle at var(--mouse-x) var(--mouse-y),
+                rgba(99, 102, 241, 0.06),
+                transparent 40%
+            );
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: 0;
+        }
+
+        .spotlight-card:hover::after { opacity: 1; }
+
+        .card-content { position: relative; z-index: 1; }
+
+        /* Modal Styles */
+        #song-modal { transition: opacity 0.2s ease, visibility 0.2s ease; }
+        #song-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+        #song-modal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
+        
+        .glass-panel {
+            background: rgba(10, 10, 12, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        /* Music Equalizer Animation */
+        .eq-bar {
+            width: 4px;
+            border-radius: 9999px;
+            animation: eq-bounce 1s ease-in-out infinite;
+        }
+        
+        @keyframes eq-bounce {
+            0%, 100% { height: 8px; }
+            50% { height: 20px; }
+        }
+
+        /* Staggered Animation */
+        .stagger-1 { animation-delay: 100ms; }
+        .stagger-2 { animation-delay: 200ms; }
+        .stagger-3 { animation-delay: 300ms; }
+    </style>
+</head>
+<body class="min-h-screen relative selection:bg-indigo-500/30">
+
+    <!-- Background FX -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.15] mix-blend-overlay"></div>
+        <div class="absolute -top-[20%] -right-[10%] w-[50%] h-[50%] rounded-full bg-indigo-900/10 blur-[120px]"></div>
+        <div class="absolute top-[40%] -left-[10%] w-[40%] h-[40%] rounded-full bg-rose-900/10 blur-[100px]"></div>
+    </div>
+
+    <div class="max-w-[1200px] mx-auto p-6 md:p-12 relative z-10">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-center mb-12 opacity-0 animate-fade-in">
+            <a href="blog.html" class="group flex items-center gap-2 text-zinc-400 hover:text-white transition-colors">
+                <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center border border-white/5 group-hover:border-indigo-500/30 transition-colors">
+                    <i class="fa-solid fa-arrow-left text-xs"></i>
+                </div>
+                <span class="text-sm font-medium">Back to Blog</span>
+            </a>
+            <div class="text-right">
+                <h1 class="text-2xl font-bold text-white tracking-tight">Stellaris</h1>
+                <p class="text-xs text-zinc-500 font-mono mt-1">THE COLLECTION</p>
+            </div>
+        </header>
+
+        <!-- Intro Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-8" id="intro-cards">
+
+            <!-- Intro Article (Full Width) -->
+            <article class="col-span-1 lg:col-span-12 spotlight-card rounded-3xl p-8 opacity-0 animate-fade-in stagger-1">
+                <div class="card-content">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-xs font-medium">
+                            Progressive Rock/Metal
+                        </span>
+                        <span class="text-zinc-500 text-xs font-mono">November 2025</span>
+                    </div>
+                    
+                    <h2 class="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight tracking-tight">
+                        Complexity, Atmosphere, and the Art of the Long Song
+                    </h2>
+                    
+                    <div class="prose prose-invert prose-zinc max-w-none">
+                        <p class="text-zinc-400 leading-relaxed mb-4 font-normal">
+                            Lately, I've been lost in the intricate rhythms of progressive metal. It's not just about the technicality; it's about the emotional journey these tracks take you on. From the mathematical precision of <strong class="text-zinc-200 font-medium">Tool</strong> to the melancholic atmosphere of <strong class="text-zinc-200 font-medium">Porcupine Tree</strong>, my current playlist is a testament to music that demands attention.
+                        </p>
+                        <p class="text-zinc-400 leading-relaxed font-normal">
+                            There's something profound about a 17-minute epic like <em>Anesthetize</em> or the philosophical depth of <em>Lateralus</em>. These aren't just songs; they are architectural marvels of sound.
+                        </p>
+                    </div>
+
+                    <!-- Bottom Bar: Heavy Rotation + Tags -->
+                    <div class="mt-8 border-t border-white/5 pt-6 flex flex-col md:flex-row gap-6 justify-between items-start md:items-center">
+                        
+                        <!-- Heavy Rotation (NEW VISUAL) -->
+                        <div class="flex items-center gap-4">
+                            <!-- Animated Equalizer -->
+                            <div class="flex items-end gap-1 h-6 pb-1">
+                                <div class="eq-bar bg-indigo-500" style="animation-delay: 0ms;"></div>
+                                <div class="eq-bar bg-purple-500" style="animation-delay: 150ms;"></div>
+                                <div class="eq-bar bg-emerald-500" style="animation-delay: 300ms;"></div>
+                                <div class="eq-bar bg-rose-500" style="animation-delay: 75ms;"></div>
+                            </div>
+                            <div class="text-xs flex flex-col justify-center">
+                                <span class="text-white font-medium">Heavy Rotation</span>
+                                <span class="text-zinc-500">Tool, Haken, Soen</span>
+                            </div>
+                        </div>
+
+                        <!-- Smooth Tags (Matches index.html style) -->
+                        <div class="flex flex-wrap gap-2">
+                            <div class="px-4 py-2 rounded-xl bg-zinc-900/80 border border-white/5 text-zinc-300 text-xs hover:border-zinc-700 transition-colors cursor-default">
+                                Odd Time Signatures
+                            </div>
+                            <div class="px-4 py-2 rounded-xl bg-zinc-900/80 border border-white/5 text-zinc-300 text-xs hover:border-zinc-700 transition-colors cursor-default">
+                                Melancholic
+                            </div>
+                            <div class="px-4 py-2 rounded-xl bg-zinc-900/80 border border-white/5 text-zinc-300 text-xs hover:border-zinc-700 transition-colors cursor-default">
+                                Djent
+                            </div>
+                            <div class="px-4 py-2 rounded-xl bg-zinc-900/80 border border-white/5 text-zinc-300 text-xs hover:border-zinc-700 transition-colors cursor-default">
+                                Atmospheric
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </article>
+
+        </div>
+
+        <!-- Playlist Embed -->
+        <div class="mb-12 opacity-0 animate-fade-in stagger-2">
+            <div class="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-indigo-900/20 bg-[#1c1c1e]"> 
+                <iframe allow="autoplay *; encrypted-media *; fullscreen *; clipboard-write" frameborder="0" height="450" style="width:100%;max-width:100%;overflow:hidden;background:transparent;" sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-storage-access-by-user-activation allow-top-navigation-by-user-activation" src="https://embed.music.apple.com/in/playlist/stellaris/pl.u-11zBBE3CKNP93R3?theme=dark"></iframe>
+            </div>
+        </div>
+
+        <!-- Song Grid Container -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-20" id="grid-container">
+            <!-- Items injected via JS -->
+        </div>
+
+        <!-- Footer -->
+        <footer class="text-center opacity-0 animate-fade-in border-t border-white/5 pt-8 stagger-3">
+            <p class="text-zinc-600 text-sm font-normal">
+                &copy; <span id="year"></span> cozyyuukii. Curated with <i class="fa-solid fa-heart text-indigo-500/50 mx-1"></i> for the audiophiles.
+            </p>
+        </footer>
+
+    </div>
+
+    <!-- MODAL POPUP -->
+    <div id="song-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" id="modal-backdrop"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-2xl glass-panel rounded-3xl p-8 shadow-2xl transform transition-all scale-100 overflow-y-auto max-h-[90vh]">
+            
+            <!-- Close Button -->
+            <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Header -->
+            <div class="mb-8">
+                <span id="modal-artist" class="block text-indigo-400 text-sm font-bold tracking-widest uppercase mb-2">Artist Name</span>
+                <h2 id="modal-title" class="text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight">Song Title</h2>
+            </div>
+
+            <!-- Body -->
+            <div class="space-y-8">
+                <!-- Description -->
+                <div>
+                    <p id="modal-desc" class="text-zinc-300 text-lg leading-relaxed font-normal">
+                        Description goes here...
+                    </p>
+                </div>
+
+                <!-- 2-Col Layout for Credits & Trivia -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-6">
+                    <div>
+                        <h4 class="text-white text-sm font-bold flex items-center gap-2 mb-3">
+                            <i class="fa-solid fa-users text-zinc-500"></i> Personnel
+                        </h4>
+                        <ul id="modal-credits" class="space-y-2 text-sm text-zinc-400 font-normal">
+                            <!-- Credits injected here -->
+                        </ul>
+                    </div>
+                    <div>
+                        <h4 class="text-white text-sm font-bold flex items-center gap-2 mb-3">
+                            <i class="fa-solid fa-lightbulb text-yellow-500/80"></i> Did You Know?
+                        </h4>
+                        <p id="modal-fact" class="text-sm text-zinc-400 leading-relaxed font-normal">
+                            Fun fact goes here.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Action -->
+                <div class="pt-4">
+                    <a id="modal-link" href="#" target="_blank" class="flex items-center justify-center gap-2 w-full py-4 rounded-xl bg-[#fa243c]/10 text-[#fa243c] border border-[#fa243c]/20 hover:bg-[#fa243c] hover:text-white transition-all font-medium group">
+                        <i class="fa-brands fa-apple text-xl group-hover:scale-110 transition-transform"></i>
+                        <span>Listen on Apple Music</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Data Source
+        const songs = [
+            {
+                title: "The Sound of Muzak",
+                artist: "Porcupine Tree",
+                icon: "fa-music",
+                color: "indigo",
+                desc: "A rhythmic protest against the commodification of music. Driven by Gavin Harrison's impeccable drumming in 7/4 time, it captures the melancholic beauty of Steven Wilson's songwriting while lamenting the loss of musical soul.",
+                credits: ["Steven Wilson: Vocals, Guitar", "Gavin Harrison: Drums", "Richard Barbieri: Keyboards", "Colin Edwin: Bass"],
+                fact: "The song is written in 7/4 time signature but flows so smoothly it feels like a standard 4/4 pop song, a trademark of Harrison's drumming genius."
+            },
+            {
+                title: "Vicarious",
+                artist: "TOOL",
+                icon: "fa-eye",
+                color: "purple",
+                desc: "A scathing commentary on society's addiction to tragedy viewed through screens. The track grinds forward with Adam Jones's mechanical riffs and Maynard's hypnotic delivery, building into a tribal frenzy.",
+                credits: ["Maynard James Keenan: Vocals", "Adam Jones: Guitar", "Justin Chancellor: Bass", "Danny Carey: Drums"],
+                fact: "The lyrics 'Vicariously I live while the whole world dies' critique the detachment of modern news consumption."
+            },
+            {
+                title: "Lateralus",
+                artist: "TOOL",
+                icon: "fa-dna",
+                color: "emerald",
+                desc: "More than a song, it is a mathematical spiral. The syllables of the verses follow the Fibonacci sequence, urging the listener to 'spiral out' and embrace the unknown. A philosophical masterpiece.",
+                credits: ["Maynard James Keenan: Vocals", "Adam Jones: Guitar", "Justin Chancellor: Bass", "Danny Carey: Drums"],
+                fact: "The time signatures in the chorus change from 9/8 to 8/8 to 7/8, symbolizing the spiral referenced in the lyrics."
+            },
+            {
+                title: "New Day",
+                artist: "Karnivool",
+                icon: "fa-sun",
+                color: "orange",
+                desc: "A crescendo of hope. Starting with a gentle, delayed guitar line, it explodes into a massive wall of sound. It's a journey about waking up to clarity after a long period of confusion.",
+                credits: ["Ian Kenny: Vocals", "Drew Goddard: Guitar", "Mark Hosking: Guitar", "Jon Stockman: Bass", "Steve Judd: Drums"],
+                fact: "Steve Judd's drumming on this track is often cited by modern prog drummers as a masterclass in polyrhythmic groove."
+            },
+            {
+                title: "Anesthetize",
+                artist: "Porcupine Tree",
+                icon: "fa-capsules",
+                color: "blue",
+                desc: "A 17-minute odyssey through apathy and modern alienation. It moves from a cold, sterile opening to a heavy metal mid-section (featuring Alex Lifeson) before dissolving into a serene, water-like outro.",
+                credits: ["Steven Wilson: Vocals, Guitar", "Gavin Harrison: Drums", "Alex Lifeson (Guest): Guitar Solo", "Colin Edwin: Bass"],
+                fact: "Rush guitarist Alex Lifeson provides the guitar solo in the middle section of this track."
+            },
+            {
+                title: "Monarch",
+                artist: "Soen",
+                icon: "fa-crown",
+                color: "red",
+                desc: "Punchy, aggressive, and deeply melodic. Martin Lopez (ex-Opeth) lays down a Latin-infused metal groove while Joel Ekelöf's vocals soar with a silky, haunting quality.",
+                credits: ["Joel Ekelöf: Vocals", "Martin Lopez: Drums", "Cody Ford: Guitar", "Oleksii 'Zlatoyar' Kobel: Bass"],
+                fact: "Soen was originally formed by Martin Lopez after he left Opeth, seeking a more rhythmic and melodic direction."
+            },
+            {
+                title: "The Perfect Element",
+                artist: "Pain of Salvation",
+                icon: "fa-water",
+                color: "cyan",
+                desc: "A raw, emotional outpour. Daniel Gildenlöw's vocal performance ranges from a whisper to a scream, exploring themes of broken childhood and healing. It is theatrical prog at its finest.",
+                credits: ["Daniel Gildenlöw: Vocals, Guitar", "Johan Hallgren: Guitar", "Fredrik Hermansson: Keys", "Johan Langell: Drums"],
+                fact: "This is the title track of a concept album focusing on the psychological development of individuals from broken homes."
+            },
+            {
+                title: "Of Matter - Retrospect",
+                artist: "TesseracT",
+                icon: "fa-cube",
+                color: "zinc",
+                desc: "Atmospheric Djent. The song floats in a space between heavy, syncopated rhythms and ethereal, ambient clean sections. Ashe O'Hara's vocals are angelic, providing a stark contrast to the low-tuned guitars.",
+                credits: ["Ashe O'Hara: Vocals", "Acle Kahney: Guitar", "James Monteith: Guitar", "Amos Williams: Bass", "Jay Postones: Drums"],
+                fact: "This track comes from the album 'Altered State', which is the only TesseracT album to feature Ashe O'Hara on vocals."
+            },
+            {
+                title: "The Cloak",
+                artist: "Leprous",
+                icon: "fa-user-secret",
+                color: "stone",
+                desc: "Hauntingly catchy. Einar Solberg's falsetto takes center stage over a brooding, electronic-infused beat. It’s a song about hiding one’s true self behind a facade.",
+                credits: ["Einar Solberg: Vocals, Keys", "Tor Oddmund Suhrke: Guitar", "Baard Kolstad: Drums"],
+                fact: "Einar Solberg is the brother-in-law of Ihsahn (Emperor), who acted as a mentor to the band in their early days."
+            },
+            {
+                title: "Language I: Intuition",
+                artist: "The Contortionist",
+                icon: "fa-leaf",
+                color: "green",
+                desc: "A lush, vibrant soundscape. It abandons the band's heavier deathcore roots for a sound that is meditative and spiritual, blending jazz fusion elements with metal.",
+                credits: ["Michael Lessard: Vocals", "Robby Baca: Guitar", "Cameron Maynard: Guitar", "Joey Baca: Drums"],
+                fact: "The album 'Language' deals with the concept of intuition as a form of communication that predates spoken language."
+            },
+            {
+                title: "Deathless",
+                artist: "Haken",
+                icon: "fa-skull",
+                color: "slate",
+                desc: "A cinematic tragedy. It builds like a film score, with Ross Jennings delivering a desperate, emotional performance. The climax is one of the most powerful moments in modern prog.",
+                credits: ["Ross Jennings: Vocals", "Richard Henshall: Guitar", "Charlie Griffiths: Guitar", "Diego Tejeida: Keys", "Raymond Hearne: Drums"],
+                fact: "This song is often compared to Muse due to its operatic vocal style and dramatic basslines."
+            },
+            {
+                title: "Octavarium",
+                artist: "Dream Theater",
+                icon: "fa-circle-nodes",
+                color: "yellow",
+                desc: "The 24-minute magnum opus. It traverses every style of progressive rock, paying homage to Pink Floyd, Genesis, and Yes. It is a musical circle, ending exactly where it began.",
+                credits: ["James LaBrie: Vocals", "John Petrucci: Guitar", "Jordan Rudess: Keys", "John Myung: Bass", "Mike Portnoy: Drums"],
+                fact: "The song is designed to complete the octave of the album; it starts in F and ends in F, completing the cycle."
+            },
+            {
+                title: "Forty Six & 2",
+                artist: "TOOL",
+                icon: "fa-brain",
+                color: "purple",
+                desc: "A study in evolution. Driven by one of the most iconic basslines in history, it explores the Jungian concept of the shadow self and chromosomal evolution.",
+                credits: ["Maynard James Keenan: Vocals", "Adam Jones: Guitar", "Justin Chancellor: Bass", "Danny Carey: Drums"],
+                fact: "The title refers to a theory that the next step in human evolution involves having 46 & 2 chromosomes."
+            },
+            {
+                title: "Arriving Somewhere...",
+                artist: "Porcupine Tree",
+                icon: "fa-road",
+                color: "gray",
+                desc: "A ghost story in sonic form. It feels nostalgic and eerie, exploding into a heavy metal riff that sounds like a car crash in slow motion.",
+                credits: ["Steven Wilson: Vocals, Guitar", "Gavin Harrison: Drums", "Mikael Åkerfeldt: Backing Vocals/Guitar Solo"],
+                fact: "Mikael Åkerfeldt of Opeth performs the second guitar solo on this track."
+            },
+            {
+                title: "Goliath",
+                artist: "Karnivool",
+                icon: "fa-mountain",
+                color: "orange",
+                desc: "A rhythm that shouldn't work, but does. It is heavy, disjointed, and undeniably groovy. The bass tone on this track is legendary among producers.",
+                credits: ["Ian Kenny: Vocals", "Jon Stockman: Bass", "Steve Judd: Drums", "Drew Goddard: Guitar"],
+                fact: "The song is in 7/4 and 5/4, yet maintains a groove that makes heads bang instinctively."
+            },
+            {
+                title: "Lotus",
+                artist: "Soen",
+                icon: "fa-spa",
+                color: "pink",
+                desc: "Pure elegance. A song about finding beauty in the mud. It features a soulful guitar solo that prioritizes emotion over speed.",
+                credits: ["Joel Ekelöf: Vocals", "Martin Lopez: Drums", "Cody Ford: Guitar", "Lars Åhlund: Keys"],
+                fact: "The album cover features a lotus growing from geometric shapes, symbolizing organic life emerging from structure."
+            },
+            {
+                title: "Conceiving You",
+                artist: "Riverside",
+                icon: "fa-heart-crack",
+                color: "rose",
+                desc: "A heartbreaking ballad. Mariusz Duda's voice is fragile and honest, accompanied by a simple piano melody that lingers long after the song ends.",
+                credits: ["Mariusz Duda: Vocals, Bass", "Piotr Grudziński: Guitar", "Michał Łapaj: Keys"],
+                fact: "Guitarist Piotr Grudziński passed away in 2016, making these earlier recordings incredibly poignant for fans."
+            },
+            {
+                title: "Atlas Stone",
+                artist: "Haken",
+                icon: "fa-gem",
+                color: "teal",
+                desc: "Joyful complexity. It sounds like a celebration of 80s pop fused with technical metal. The piano intro is instantly recognizable.",
+                credits: ["Ross Jennings: Vocals", "Richard Henshall: Keys/Guitar", "Charlie Griffiths: Guitar", "Raymond Hearne: Drums"],
+                fact: "The track was inspired by the film 'Cloud Atlas' and the idea of carrying the weight of the world."
+            },
+            {
+                title: "Dragonfly",
+                artist: "Caligula's Horse",
+                icon: "fa-dragon",
+                color: "lime",
+                desc: "Australian prog at its finest. Jim Grey's falsetto is unmatched, and the song transitions from delicate verses to crushing riffs seamlessly.",
+                credits: ["Jim Grey: Vocals", "Sam Vallen: Guitar", "Zac Sproule: Guitar", "Dave Couper: Bass"],
+                fact: "This was the song that broke Caligula's Horse into the international prog scene."
+            },
+            {
+                title: "Eden",
+                artist: "TesseracT",
+                icon: "fa-apple-whole",
+                color: "emerald",
+                desc: "A towering wall of sound. It captures the essence of the 'One' album—percussive guitar playing that acts more like a drum than a melodic instrument.",
+                credits: ["Daniel Tompkins: Vocals", "Acle Kahney: Guitar", "Amos Williams: Bass", "Jay Postones: Drums"],
+                fact: "The song was re-recorded for the 'Odyssey' live album/DVD with Daniel Tompkins returning to vocals."
+            },
+            {
+                title: "From the Flame",
+                artist: "Leprous",
+                icon: "fa-fire",
+                color: "orange",
+                desc: "An anthem of resilience. Hook-laden and synth-heavy, it represents the band's shift towards a more accessible, yet still complex, sound.",
+                credits: ["Einar Solberg: Vocals, Synth", "Tor Oddmund Suhrke: Guitar", "Baard Kolstad: Drums"],
+                fact: "The music video features the band performing in extremely cold conditions, contrasting the song's fiery title."
+            },
+            {
+                title: "Reimagined",
+                artist: "The Contortionist",
+                icon: "fa-cloud",
+                color: "sky",
+                desc: "Dreamlike and subdued. It feels like floating in water. The heavy guitars are gone, replaced by layers of reverb and subtle dynamics.",
+                credits: ["Michael Lessard: Vocals", "Robby Baca: Guitar", "Eric Guenther: Keys"],
+                fact: "This track exemplifies the 'clairvoyant' sound—focusing on texture rather than aggression."
+            },
+            {
+                title: "Sorceress",
+                artist: "Opeth",
+                icon: "fa-hat-wizard",
+                color: "yellow",
+                desc: "A fusion of jazz, folk, and doom. The bass intro is fuzzy and vintage, leading into a riff that sounds like it came straight from the 70s.",
+                credits: ["Mikael Åkerfeldt: Vocals, Guitar", "Fredrik Åkesson: Guitar", "Martin Mendez: Bass", "Martin Axenrot: Drums"],
+                fact: "The song was recorded at Rockfield Studios, the same studio where Queen recorded 'Bohemian Rhapsody'."
+            },
+            {
+                title: "Russia On Ice",
+                artist: "Porcupine Tree",
+                icon: "fa-snowflake",
+                color: "cyan",
+                desc: "Cold and expansive. It starts as a trip-hop influenced track and ends as a doom metal giant. It perfectly captures the feeling of isolation.",
+                credits: ["Steven Wilson: Vocals, Guitar", "Richard Barbieri: Soundscapes", "Colin Edwin: Bass", "Chris Maitland: Drums"],
+                fact: "The song was notably dropped from live sets for years until it was revived during the 'Fear of a Blank Planet' tour."
+            },
+            {
+                title: "Jambi",
+                artist: "TOOL",
+                icon: "fa-fire-flame-curved",
+                color: "orange",
+                desc: "A rhythmic juggernaut. Adam Jones uses a talk-box effect on the guitar solo, making the instrument sound like it is speaking in tongues.",
+                credits: ["Maynard James Keenan: Vocals", "Adam Jones: Guitar", "Justin Chancellor: Bass", "Danny Carey: Drums"],
+                fact: "The song is reportedly about Maynard balancing his life as a rock star with his family life."
+            },
+            {
+                title: "Meaningless",
+                artist: "Pain of Salvation",
+                icon: "fa-quote-right",
+                color: "zinc",
+                desc: "Dark, sultry, and intense. The syncopated rhythm in the verse creates a feeling of unease that explodes into a melodic chorus.",
+                credits: ["Daniel Gildenlöw: Vocals", "Ragnar Zolberg: Guitar/Vocals", "Gustaf Hielm: Bass"],
+                fact: "The main riff was actually written by Ragnar Zolberg, who briefly joined the band for this album."
+            },
+            {
+                title: "Deadhead",
+                artist: "Devin Townsend",
+                icon: "fa-skull-crossbones",
+                color: "slate",
+                desc: "A wall of sound. Devin's vocals here are superhuman, shifting from operatic cleans to terrifying screams. It is an emotional sledgehammer.",
+                credits: ["Devin Townsend: Vocals, Guitar", "Gene Hoglan: Drums", "Brian Waddell: Bass"],
+                fact: "Despite its heavy sound, the song is a vulnerable love song about Devin's relationship with his wife."
+            },
+            {
+                title: "Thin Air",
+                artist: "Anathema",
+                icon: "fa-wind",
+                color: "blue",
+                desc: "Uplifting and radiant. Vincent and Lee Douglas's dual vocals create a sense of euphoria. It is a song about life embracing life.",
+                credits: ["Vincent Cavanagh: Vocals, Guitar", "Lee Douglas: Vocals", "Daniel Cavanagh: Guitar"],
+                fact: "Anathema started as a doom metal band but evolved into an atmospheric rock band, with this song being a peak of that evolution."
+            },
+            {
+                title: "The Longest Year",
+                artist: "Katatonia",
+                icon: "fa-calendar",
+                color: "stone",
+                desc: "Gray and melancholic. Jonas Renkse's voice is like a warm blanket on a cold day, singing about regret and the passage of time.",
+                credits: ["Jonas Renkse: Vocals", "Anders Nyström: Guitar", "Daniel Liljekvist: Drums"],
+                fact: "Katatonia creates their signature sound by using complex chord voicings often found in jazz, but playing them with heavy distortion."
+            },
+            {
+                title: "The Frame",
+                artist: "Oceansize",
+                icon: "fa-image",
+                color: "red",
+                desc: "The perfect closer. It builds slowly, layer by layer, into a triumphant, tear-jerking finale. A cult classic among prog fans.",
+                credits: ["Mike Vennart: Vocals, Guitar", "Steve Durose: Guitar", "Gambler: Guitar", "Mark Heron: Drums"],
+                fact: "Oceansize unfortunately disbanded, but this song remains one of the most celebrated post-rock/prog tracks of the 2000s."
+            }
+        ];
+
+        // Grid Generation Logic
+        const grid = document.getElementById('grid-container');
+        const modal = document.getElementById('song-modal');
+        const modalBackdrop = document.getElementById('modal-backdrop');
+        const closeModal = document.getElementById('close-modal');
+        const spotlightCards = document.querySelectorAll('.spotlight-card');
+
+        // Modal Elements
+        const mTitle = document.getElementById('modal-title');
+        const mArtist = document.getElementById('modal-artist');
+        const mDesc = document.getElementById('modal-desc');
+        const mCredits = document.getElementById('modal-credits');
+        const mFact = document.getElementById('modal-fact');
+        const mLink = document.getElementById('modal-link');
+
+        // Populate Grid
+        songs.forEach((song, index) => {
+            const card = document.createElement('div');
+            card.className = `spotlight-card rounded-2xl p-5 group cursor-pointer opacity-0 animate-slide-up`;
+            card.style.animationDelay = `${(index + 3) * 50}ms`; // Stagger effect, starting after intro cards
+            
+            card.innerHTML = `
+                <div class="card-content flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center text-zinc-500 group-hover:text-${song.color}-400 group-hover:bg-${song.color}-500/10 transition-all duration-300 shadow-lg">
+                        <i class="fa-solid ${song.icon}"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <h4 class="text-sm font-bold text-white truncate group-hover:text-${song.color}-300 transition-colors">${song.title}</h4>
+                        <p class="text-xs text-zinc-500 truncate font-medium">${song.artist}</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity -translate-x-2 group-hover:translate-x-0 duration-300">
+                         <i class="fa-solid fa-expand text-xs text-zinc-400"></i>
+                    </div>
+                </div>
+            `;
+
+            // Click Event
+            card.addEventListener('click', () => openModal(song));
+            
+            // Mouse Move Event (Spotlight) - Add to new elements
+            card.onmousemove = e => {
+                const rect = card.getBoundingClientRect(),
+                      x = e.clientX - rect.left,
+                      y = e.clientY - rect.top;
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            };
+
+            grid.appendChild(card);
+        });
+
+        // Modal Functions
+        function openModal(song) {
+            mTitle.textContent = song.title;
+            mArtist.textContent = song.artist;
+            mDesc.textContent = song.desc;
+            mFact.textContent = song.fact;
+            
+            // Populate Credits
+            mCredits.innerHTML = song.credits.map(c => `<li class="flex items-start gap-2"><span class="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-1.5"></span><span>${c}</span></li>`).join('');
+            
+            // Link
+            mLink.href = `https://music.apple.com/search?term=${encodeURIComponent(`${song.title} ${song.artist}`)}`;
+
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeSongModal() {
+            modal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        closeModal.addEventListener('click', closeSongModal);
+        modalBackdrop.addEventListener('click', closeSongModal);
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSongModal();
+        });
+
+        // Spotlight for Static Elements
+        const introContainer = document.getElementById('intro-cards');
+        const staticCards = document.querySelectorAll('#intro-cards .spotlight-card');
+        introContainer.onmousemove = e => {
+            for(const card of staticCards) {
+                const rect = card.getBoundingClientRect(),
+                      x = e.clientX - rect.left,
+                      y = e.clientY - rect.top;
+
+                card.style.setProperty("--mouse-x", `${x}px`);
+                card.style.setProperty("--mouse-y", `${y}px`);
+            };
+        }
+
+    </script>
+</body>
+</html>
