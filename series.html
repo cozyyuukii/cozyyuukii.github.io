@@ -121,13 +121,26 @@
         .card-content { position: relative; z-index: 1; }
 
         /* Modal Styles */
-        #show-modal { transition: opacity 0.2s ease, visibility 0.2s ease; }
+        #show-modal { transition: opacity 0.3s ease, visibility 0.3s ease; }
         #show-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
         #show-modal:not(.hidden) { opacity: 1; visibility: visible; pointer-events: auto; }
         
+        /* UPDATED GLASS PANEL DESIGN 
+           "Apple Liquid Glass" Style for Series Page
+        */
         .glass-panel {
-            background: rgba(10, 10, 12, 0.95);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            /* Low opacity dark background to let colors bleed through */
+            background: rgba(30, 30, 35, 0.4);
+            
+            /* Heavy blur + Saturation boost for that "vibrant glass" look */
+            backdrop-filter: blur(40px) saturate(180%);
+            -webkit-backdrop-filter: blur(40px) saturate(180%);
+            
+            /* Subtle border + Inner glow for 3D depth */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 
+                0 25px 50px -12px rgba(0, 0, 0, 0.5), /* Deep drop shadow */
+                inset 0 1px 0 0 rgba(255, 255, 255, 0.1); /* Top edge highlight */
         }
 
         /* TV Static Animation for header */
@@ -253,27 +266,27 @@
     <!-- MODAL POPUP -->
     <div id="show-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
         <!-- Backdrop -->
-        <div class="absolute inset-0 bg-black/90 backdrop-blur-md" id="modal-backdrop"></div>
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-[2px]" id="modal-backdrop"></div>
         
         <!-- Modal Content -->
         <div class="relative w-full max-w-2xl glass-panel rounded-3xl p-8 shadow-2xl transform transition-all scale-100 overflow-y-auto max-h-[90vh]">
             
             <!-- Close Button -->
-            <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-colors">
+            <button id="close-modal" class="absolute top-4 right-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/10 text-zinc-200 hover:text-white hover:bg-white/20 transition-colors backdrop-blur-md">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Header -->
             <div class="mb-8">
-                <span id="modal-genre" class="block text-rose-400 text-sm font-bold tracking-widest uppercase mb-2">Genre</span>
-                <h2 id="modal-title" class="text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight">Show Title</h2>
+                <span id="modal-genre" class="block text-rose-400 text-sm font-bold tracking-widest uppercase mb-2 drop-shadow-lg">Genre</span>
+                <h2 id="modal-title" class="text-3xl md:text-4xl font-bold text-white leading-tight tracking-tight drop-shadow-lg">Show Title</h2>
             </div>
 
             <!-- Body -->
             <div class="space-y-8">
                 <!-- Description -->
                 <div>
-                    <p id="modal-desc" class="text-zinc-300 text-lg leading-relaxed font-normal">
+                    <p id="modal-desc" class="text-zinc-100 text-lg leading-relaxed font-normal drop-shadow-md">
                         Description goes here...
                     </p>
                 </div>
@@ -281,18 +294,18 @@
                 <!-- 2-Col Layout -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 border-t border-white/10 pt-6">
                     <div>
-                        <h4 class="text-white text-sm font-bold flex items-center gap-2 mb-3">
-                            <i class="fa-solid fa-star text-yellow-500/80"></i> The Vibe
+                        <h4 class="text-white text-sm font-bold flex items-center gap-2 mb-3 drop-shadow-md">
+                            <i class="fa-solid fa-star text-yellow-400"></i> The Vibe
                         </h4>
-                        <p id="modal-vibe" class="text-sm text-zinc-400 leading-relaxed font-normal">
+                        <p id="modal-vibe" class="text-sm text-zinc-200 leading-relaxed font-normal">
                             Vibe check text.
                         </p>
                     </div>
                     <div>
-                        <h4 class="text-white text-sm font-bold flex items-center gap-2 mb-3">
-                            <i class="fa-solid fa-quote-left text-zinc-500"></i> Fun Fact
+                        <h4 class="text-white text-sm font-bold flex items-center gap-2 mb-3 drop-shadow-md">
+                            <i class="fa-solid fa-quote-left text-zinc-300"></i> Fun Fact
                         </h4>
-                        <p id="modal-fact" class="text-sm text-zinc-400 leading-relaxed font-normal">
+                        <p id="modal-fact" class="text-sm text-zinc-200 leading-relaxed font-normal">
                             Fun fact goes here.
                         </p>
                     </div>
@@ -448,7 +461,7 @@
             
             // Color logic for modal accents could go here if we wanted to get fancy
             // but keeping it simple for now.
-            mGenre.className = `block text-${show.color}-400 text-sm font-bold tracking-widest uppercase mb-2`;
+            mGenre.className = `block text-${show.color}-400 text-sm font-bold tracking-widest uppercase mb-2 drop-shadow-lg`;
 
             modal.classList.remove('hidden');
             document.body.style.overflow = 'hidden'; 
