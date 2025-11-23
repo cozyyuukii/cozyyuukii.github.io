@@ -168,24 +168,22 @@
 
         /* ================================================================
            ADD NEW POSTS HERE
-        ================================================================
-           To add a new post, copy the format below and paste it 
-           at the TOP of the 'blogPosts' list.
-           
-           {
-               title: "Title of your post",
-               desc: "Short description...",
-               date: "Month Year",
-               tags: ["Tag1", "Tag2"],
-               link: "filename.html",  // OR null if it's coming soon
-               icon: "fa-solid fa-pen", // FontAwesome class
-               color: "indigo" // indigo, purple, rose, emerald, etc.
-           },
-        ================================================================
-        */
+        ================================================================ */
 
         const blogPosts = [
-            // --- 1. Stellaris (Existing Post) ---
+            // --- 1. Underrated Series (NEW) ---
+            {
+                title: "The Watchlist: Underrated Gems",
+                desc: "A collection of TV shows and anime that deserve way more hype. From British spies to absurd highwaymen.",
+                date: "November 2025",
+                tags: ["TV", "Anime", "Review"],
+                link: "series.html",
+                icon: "fa-solid fa-tv",
+                color: "rose", // Changed to Rose to stand out
+                featured: true
+            },
+            
+            // --- 2. Stellaris (Existing Post) ---
             {
                 title: "Stellaris: The Collection",
                 desc: "A curated journey through the intricate rhythms of progressive metal. Exploring complexity, atmosphere, and the art of the long song.",
@@ -193,11 +191,11 @@
                 tags: ["Music", "Prog Metal", "Collection"],
                 link: "stellaris.html",
                 icon: "fa-solid fa-music",
-                color: "indigo", // Primary accent color
-                featured: true   // Makes the card 2 columns wide
+                color: "indigo", 
+                featured: false // Moved featured to the new post
             },
 
-            // --- 2. Coming Soon Placeholder ---
+            // --- 3. Coming Soon Placeholder ---
             {
                 title: "Building Digital Spaces",
                 desc: "A deep dive into how I approach web design, from UI/UX principles to the final code. Coming soon.",
@@ -209,7 +207,7 @@
                 featured: false
             },
 
-            // --- 3. Coming Soon Placeholder ---
+            // --- 4. Coming Soon Placeholder ---
             {
                 title: "The Art of Community",
                 desc: "Reflections on 4+ years of managing communities for creators. What makes a server thrive?",
@@ -217,7 +215,7 @@
                 tags: ["Community", "Social"],
                 link: null,
                 icon: "fa-solid fa-users",
-                color: "rose",
+                color: "violet",
                 featured: false
             }
         ];
